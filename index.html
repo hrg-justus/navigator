@@ -1,0 +1,1908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AZ Eviction Navigator &mdash; JustUS Navigator &middot; Maricopa County</title>
+<style>
+
+:root {
+  --ink:#1c1f2e; --slate:#2e3a59; --teal:#0a7c6e; --teal-light:#0fa090;
+  --teal-bg:#edf7f5; --gold:#b8882a; --gold-bg:#fdf5e6; --cream:#f8f5f0;
+  --warm:#fdfaf6; --muted:#64748b; --border:#ddd8d0; --danger:#b03030;
+  --danger-bg:#fef2f2; --warn:#a06010; --warn-bg:#fffbeb;
+  --ok:#1a6b4a; --ok-bg:#f0fdf4; --white:#ffffff;
+  --shadow:0 2px 16px rgba(28,31,46,0.08); --shadow-lg:0 8px 40px rgba(28,31,46,0.13);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Georgia,sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;font-size:16px;line-height:1.6;}
+
+/* HEADER */
+header{background:var(--slate);padding:0.85rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,0.18);}
+.header-brand{display:flex;flex-direction:column;line-height:1.2;}
+.header-brand .name{font-family:Georgia,serif;font-size:1.1rem;font-weight:700;color:#fff;letter-spacing:-0.01em;}
+.header-brand .sub{font-family:'Courier New',monospace;font-size:0.6rem;color:rgba(255,255,255,0.5);letter-spacing:0.1em;text-transform:uppercase;}
+.header-right{display:flex;align-items:center;gap:0.75rem;}
+.header-badge{font-family:'Courier New',monospace;font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.65);padding:4px 10px;border-radius:3px;border:1px solid rgba(255,255,255,0.15);}
+.header-link{font-size:0.72rem;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;}
+.header-link:hover{color:rgba(255,255,255,0.85);}
+.disclaimer-bar{background:#fff3cd;border-bottom:2px solid #f0c040;padding:0.5rem 2rem;text-align:center;font-size:0.8rem;color:#7a5000;font-weight:500;line-height:1.4;}
+.disclaimer-bar a{color:#7a5000;}
+
+/* SCREEN SYSTEM */
+.screen{display:none;}
+.screen.active{display:block;}
+
+/* LANDING */
+.landing{min-height:calc(100vh - 90px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem 2rem;text-align:center;background:linear-gradient(160deg,var(--warm) 0%,#e6f3f0 100%);}
+.landing-eyebrow{font-family:'Courier New',monospace;font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);margin-bottom:0.9rem;display:flex;align-items:center;justify-content:center;gap:0.5rem;}
+.landing-eyebrow::before,.landing-eyebrow::after{content:'';display:block;width:20px;height:1px;background:var(--teal);}
+.landing h1{font-family:Georgia,serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;color:var(--ink);line-height:1.2;letter-spacing:-0.02em;margin-bottom:0.8rem;max-width:640px;}
+.landing h1 em{color:var(--teal);font-style:normal;}
+.landing .lead{font-size:1rem;color:#4b5563;max-width:520px;line-height:1.7;margin-bottom:0.75rem;}
+.stat-strip{display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;margin-bottom:2.5rem;padding:0.85rem 1.5rem;background:var(--white);border:1px solid var(--border);border-radius:10px;max-width:600px;}
+.stat-item{text-align:center;}
+.stat-num{font-family:Georgia,serif;font-size:1.4rem;font-weight:700;color:var(--danger);line-height:1;}
+.stat-label{font-size:0.72rem;color:var(--muted);font-weight:500;}
+.flow-cards{display:flex;gap:1.4rem;flex-wrap:wrap;justify-content:center;max-width:760px;}
+.flow-card{background:var(--white);border-radius:14px;padding:2rem 1.75rem;width:330px;border:2px solid var(--border);cursor:pointer;transition:all 0.25s;text-align:left;position:relative;overflow:hidden;}
+.flow-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;transform:scaleX(0);transition:transform 0.25s;transform-origin:left;}
+.advocate-card::after{background:var(--slate);}
+.tenant-card::after{background:var(--teal);}
+.flow-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:transparent;}
+.flow-card:hover::after{transform:scaleX(1);}
+.flow-icon{font-size:2rem;margin-bottom:0.85rem;}
+.flow-card h2{font-family:Georgia,serif;font-size:1.2rem;font-weight:700;color:var(--ink);margin-bottom:0.4rem;}
+.flow-card p{font-size:0.87rem;color:var(--muted);line-height:1.6;margin-bottom:1rem;}
+.flow-for{font-size:0.75rem;font-weight:600;color:var(--muted);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:0.3rem;}
+.flow-for-list{font-size:0.82rem;color:#374151;line-height:1.65;}
+.flow-start-btn{display:inline-flex;align-items:center;gap:0.4rem;margin-top:1.4rem;padding:0.6rem 1.3rem;border-radius:6px;font-size:0.86rem;font-weight:600;letter-spacing:0.02em;border:none;cursor:pointer;transition:all 0.2s;font-family:inherit;}
+.advocate-card .flow-start-btn{background:var(--slate);color:#fff;}
+.tenant-card .flow-start-btn{background:var(--teal);color:#fff;}
+
+/* NAVIGATOR LAYOUT */
+.nav-layout{display:grid;grid-template-columns:255px 1fr;min-height:calc(100vh - 90px);}
+.nav-sidebar{background:var(--white);border-right:1px solid var(--border);padding:1.4rem;position:sticky;top:90px;height:calc(100vh - 90px);overflow-y:auto;}
+.sidebar-mode{font-family:'Courier New',monospace;font-size:0.63rem;letter-spacing:0.12em;text-transform:uppercase;padding:3px 9px;border-radius:3px;display:inline-block;margin-bottom:1.1rem;}
+.mode-advocate{background:var(--slate);color:#fff;}
+.mode-tenant{background:var(--teal);color:#fff;}
+.sidebar-title{font-family:Georgia,serif;font-size:0.95rem;font-weight:700;color:var(--ink);margin-bottom:1.4rem;line-height:1.3;}
+.progress-steps{display:flex;flex-direction:column;}
+.progress-step{display:flex;align-items:flex-start;gap:0.7rem;padding:0.55rem 0;opacity:0.38;transition:opacity 0.2s;position:relative;}
+.progress-step.done,.progress-step.active{opacity:1;}
+.progress-step::before{content:'';position:absolute;left:10px;top:26px;bottom:-4px;width:2px;background:var(--border);}
+.progress-step:last-child::before{display:none;}
+.step-dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:0.67rem;font-weight:700;flex-shrink:0;transition:all 0.2s;z-index:1;position:relative;}
+.progress-step.done .step-dot{background:var(--teal);border-color:var(--teal);color:#fff;}
+.progress-step.active .step-dot{border-color:var(--teal);background:var(--teal-bg);color:var(--teal);}
+.step-info{padding-top:1px;}
+.step-info .step-name{font-size:0.81rem;font-weight:600;color:var(--ink);line-height:1.3;}
+.step-info .step-desc{font-size:0.73rem;color:var(--muted);line-height:1.4;margin-top:1px;}
+.sidebar-links{margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.5rem;}
+.sidebar-link{font-size:0.78rem;color:var(--teal);text-decoration:none;display:flex;align-items:center;gap:0.35rem;padding:0.35rem 0;}
+.sidebar-link:hover{text-decoration:underline;}
+.back-btn{background:none;border:1px solid var(--border);border-radius:6px;padding:0.45rem 0.9rem;font-size:0.8rem;color:var(--muted);cursor:pointer;width:100%;transition:all 0.2s;font-family:inherit;margin-top:0.75rem;}
+.back-btn:hover{border-color:var(--ink);color:var(--ink);}
+
+/* MAIN */
+.nav-main{padding:2.25rem 2.5rem 4rem;max-width:820px;}
+.step-header{margin-bottom:1.85rem;}
+.step-number{font-family:'Courier New',monospace;font-size:0.66rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);margin-bottom:0.35rem;}
+.step-header h2{font-family:Georgia,serif;font-size:1.6rem;font-weight:700;color:var(--ink);line-height:1.25;letter-spacing:-0.02em;}
+.step-header p{font-size:0.93rem;color:var(--muted);margin-top:0.45rem;line-height:1.65;}
+
+/* FORMS */
+.form-group{margin-bottom:1.4rem;}
+.form-label{display:block;font-size:0.87rem;font-weight:600;color:var(--ink);margin-bottom:0.45rem;}
+.form-label .req{color:var(--danger);margin-left:2px;}
+.form-hint{font-size:0.76rem;color:var(--muted);margin-top:0.22rem;line-height:1.4;}
+select,input[type="text"],input[type="date"],textarea{width:100%;padding:0.62rem 0.88rem;border:1.5px solid var(--border);border-radius:7px;font-family:inherit;font-size:0.9rem;color:var(--ink);background:var(--white);transition:border-color 0.2s;outline:none;-webkit-appearance:none;appearance:none;}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:2.4rem;}
+select:focus,input:focus,textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(10,124,110,0.1);}
+textarea{min-height:85px;resize:vertical;}
+.inline-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.radio-group,.checkbox-group{display:flex;flex-direction:column;gap:0.55rem;}
+.radio-item,.checkbox-item{display:flex;align-items:flex-start;gap:0.7rem;padding:0.8rem 0.95rem;border-radius:8px;border:1.5px solid var(--border);cursor:pointer;transition:all 0.15s;background:var(--white);}
+.radio-item:hover,.checkbox-item:hover{border-color:var(--teal);background:var(--teal-bg);}
+.radio-item.selected,.checkbox-item.selected{border-color:var(--teal);background:var(--teal-bg);}
+.radio-item input,.checkbox-item input{margin-top:3px;accent-color:var(--teal);flex-shrink:0;}
+.radio-label{font-size:0.88rem;font-weight:600;color:var(--ink);}
+.radio-sub{font-size:0.78rem;color:var(--muted);margin-top:2px;line-height:1.4;}
+
+/* ALERTS */
+.alert{border-radius:8px;padding:0.95rem 1.1rem;display:flex;gap:0.7rem;margin-bottom:1.1rem;font-size:0.87rem;line-height:1.6;}
+.alert-icon{font-size:1.05rem;flex-shrink:0;margin-top:1px;}
+.alert-danger{background:var(--danger-bg);border:1px solid #f5c0c0;color:#7a1f1f;}
+.alert-warn{background:var(--warn-bg);border:1px solid #f0d060;color:#7a4f00;}
+.alert-ok{background:var(--ok-bg);border:1px solid #a0dbb8;color:#145a35;}
+.alert-info{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af;}
+.alert strong{font-weight:700;display:block;margin-bottom:1px;}
+.alert a{color:inherit;}
+
+/* COURT INFO */
+.court-info-box{background:var(--cream);border:1px solid var(--border);border-radius:9px;padding:1rem 1.15rem;margin-top:0.75rem;}
+.court-info-box h4{font-size:0.87rem;font-weight:700;color:var(--ink);margin-bottom:0.45rem;}
+.court-detail{font-size:0.8rem;color:var(--muted);line-height:1.75;}
+.court-detail strong{color:var(--ink);font-weight:600;}
+.court-detail a{color:var(--teal);text-decoration:none;}
+
+/* STAGE */
+.stage-card{background:var(--white);border-radius:12px;border:2px solid var(--teal);overflow:hidden;margin-bottom:1.4rem;box-shadow:var(--shadow);}
+.stage-card-header{background:var(--teal);padding:0.95rem 1.35rem;display:flex;align-items:center;gap:0.7rem;flex-wrap:wrap;}
+.stage-card-header h3{font-size:1.05rem;font-weight:700;color:#fff;}
+.stage-badge{font-family:'Courier New',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.85);padding:2px 7px;border-radius:3px;margin-left:auto;}
+.stage-card-body{padding:1.35rem;}
+.stage-timeline{display:flex;gap:0;margin-bottom:1.1rem;overflow-x:auto;padding-bottom:0.4rem;}
+.timeline-step{display:flex;flex-direction:column;align-items:center;min-width:80px;text-align:center;position:relative;}
+.timeline-step:not(:last-child)::after{content:'';position:absolute;top:13px;left:55%;right:-45%;height:2px;background:var(--border);z-index:0;}
+.t-dot{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.67rem;font-weight:700;position:relative;z-index:1;margin-bottom:5px;}
+.t-dot.past{background:var(--teal);color:#fff;}
+.t-dot.current{background:var(--gold);color:#fff;box-shadow:0 0 0 4px rgba(184,136,42,0.2);}
+.t-dot.future{background:var(--border);color:var(--muted);}
+.t-label{font-size:0.67rem;color:var(--ink);font-weight:500;line-height:1.3;}
+
+/* SECTION LABEL */
+.section-label{font-family:'Courier New',monospace;font-size:0.66rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin:1.4rem 0 0.7rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border);}
+
+/* CHECKLIST */
+.checklist{display:flex;flex-direction:column;gap:0.45rem;margin-top:0.65rem;}
+.check-item{display:flex;align-items:flex-start;gap:0.6rem;padding:0.65rem 0.88rem;background:var(--cream);border-radius:7px;border:1px solid var(--border);cursor:pointer;transition:background 0.15s;}
+.check-item.checked{background:var(--ok-bg);border-color:#a0dbb8;}
+.check-item input{margin-top:2px;accent-color:var(--teal);flex-shrink:0;}
+.check-text{font-size:0.85rem;color:var(--ink);line-height:1.45;}
+.check-item.checked .check-text{color:#145a35;}
+.check-priority{font-family:'Courier New',monospace;font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;padding:2px 5px;border-radius:3px;flex-shrink:0;margin-top:2px;}
+.pri-urgent{background:var(--danger-bg);color:var(--danger);}
+.pri-important{background:var(--warn-bg);color:var(--warn);}
+.pri-helpful{background:var(--ok-bg);color:var(--ok);}
+
+/* DEFECT */
+.defect-section{background:var(--gold-bg);border:1px solid #e8c97a;border-radius:10px;padding:1.3rem;margin-top:0.9rem;}
+.defect-section h4{font-size:0.88rem;font-weight:700;color:var(--gold);margin-bottom:0.75rem;}
+
+/* RESOURCES */
+.resource-grid{display:flex;flex-direction:column;gap:0.7rem;margin-top:0.65rem;}
+.resource-card{background:var(--white);border:1px solid var(--border);border-radius:9px;padding:0.95rem 1.1rem;display:flex;align-items:flex-start;gap:0.8rem;}
+.res-icon{font-size:1.25rem;flex-shrink:0;}
+.res-info h4{font-size:0.88rem;font-weight:700;color:var(--ink);margin-bottom:1px;}
+.res-info p{font-size:0.78rem;color:var(--muted);line-height:1.5;}
+.res-info .res-contact{font-size:0.78rem;color:var(--teal);font-weight:600;margin-top:3px;}
+.res-info .res-contact a{color:var(--teal);text-decoration:none;}
+.res-tag{font-family:'Courier New',monospace;font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;background:var(--teal-bg);color:var(--teal);padding:2px 7px;border-radius:3px;margin-left:auto;flex-shrink:0;}
+
+/* TALKING POINTS */
+.talking-intro{font-size:0.82rem;color:var(--muted);font-style:italic;padding:0.6rem 0.88rem;background:#f8f8f8;border-left:3px solid var(--border);border-radius:0 6px 6px 0;margin-bottom:0.7rem;}
+.talking-point{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:0.95rem 1.1rem;margin-bottom:0.55rem;}
+.tp-label{font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.3rem;}
+.tp-text{font-size:0.88rem;color:var(--ink);line-height:1.62;}
+.tp-note{font-size:0.76rem;color:var(--muted);margin-top:0.3rem;font-style:italic;}
+
+/* OUTPUT */
+.output-card{background:var(--white);border:2px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1.4rem;}
+.output-header{background:var(--cream);padding:0.95rem 1.35rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:0.75rem;flex-wrap:wrap;}
+.output-header h3{font-family:Georgia,serif;font-size:1rem;font-weight:700;color:var(--ink);}
+.output-body{padding:1.35rem;}
+
+/* PLAIN BOX */
+.plain-box{background:var(--teal-bg);border-left:4px solid var(--teal);border-radius:0 8px 8px 0;padding:0.95rem 1.1rem;margin-bottom:1.1rem;}
+.plain-box p{font-size:0.93rem;color:#1a3a34;line-height:1.7;}
+.plain-box .term{font-weight:700;color:var(--teal);border-bottom:1px dotted var(--teal);cursor:help;}
+
+/* BUTTONS */
+.btn-row{display:flex;gap:0.8rem;flex-wrap:wrap;margin-top:1.85rem;}
+.btn{padding:0.72rem 1.65rem;border-radius:7px;font-family:inherit;font-size:0.88rem;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;letter-spacing:0.01em;display:inline-flex;align-items:center;gap:0.35rem;}
+.btn-primary{background:var(--teal);color:#fff;box-shadow:0 3px 12px rgba(10,124,110,0.2);}
+.btn-primary:hover{background:var(--teal-light);transform:translateY(-1px);}
+.btn-secondary{background:var(--white);color:var(--slate);border:1.5px solid var(--border);}
+.btn-secondary:hover{border-color:var(--slate);}
+.btn-slate{background:var(--slate);color:#fff;}
+.btn-slate:hover{background:#1e293b;}
+.btn-print{background:var(--gold-bg);color:var(--gold);border:1.5px solid #e8c97a;}
+.btn-print:hover{background:#fdefc0;}
+.info-pill{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.76rem;background:var(--teal-bg);color:var(--teal);padding:3px 9px;border-radius:20px;font-weight:600;border:1px solid rgba(10,124,110,0.2);}
+
+@media print{
+  header,.nav-sidebar,.btn-row,.disclaimer-bar,.flow-cards,.landing-eyebrow{display:none!important;}
+  .nav-layout{grid-template-columns:1fr;}
+  .nav-main{padding:1rem;max-width:100%;}
+  body{background:white;}
+  .output-card{break-inside:avoid;}
+  .screen.active{display:block!important;}
+}
+@media(max-width:768px){
+  .nav-layout{grid-template-columns:1fr;}
+  .nav-sidebar{position:static;height:auto;}
+  .nav-main{padding:1.5rem 1.25rem;}
+  .inline-grid{grid-template-columns:1fr;}
+  .flow-cards{flex-direction:column;align-items:center;}
+  .flow-card{width:100%;max-width:400px;}
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-brand">
+    <span class="name">JustUS Navigator</span>
+    <span class="sub">Arizona Eviction &amp; Justice Court Navigator &middot; Maricopa County</span>
+  </div>
+  <div class="header-right">
+    <a href="https://justicecourts.maricopa.gov/case-types/evictions" target="_blank" class="header-link">&#8599; MCJC Evictions</a>
+    <a href="https://justicecourts.maricopa.gov/app/courtrecords/casesearch" target="_blank" class="header-link">&#8599; Case Lookup</a>
+    <span class="header-badge">justicecourts.maricopa.gov</span>
+  </div>
+</header>
+
+<div class="disclaimer-bar">
+  <strong>Not Legal Advice.</strong> This navigator provides information and guidance only. It does not create an attorney-client relationship. For legal advice, contact <a href="https://clsaz.org" target="_blank">Community Legal Services</a> or visit <a href="https://www.azcourthelp.org" target="_blank">azcourthelp.org</a>.
+</div>
+
+<!-- LANDING -->
+<div id="screen-landing" class="screen active">
+  <div class="landing">
+    <div class="landing-eyebrow">Maricopa County &middot; Arizona Justice Court</div>
+    <h1>Navigate the eviction process with <em>clarity</em> and dignity.</h1>
+    <p class="lead">Step-by-step guidance through Arizona&apos;s eviction process &mdash; from first notice to post-judgment &mdash; built for advocates and tenants in Maricopa County&apos;s 26 Justice Court precincts.</p>
+    <div class="stat-strip">
+      <div class="stat-item"><div class="stat-num">84,833</div><div class="stat-label">Cases Filed 2025</div></div>
+      <div class="stat-item"><div class="stat-num">7,123</div><div class="stat-label">Filed Dec 2025</div></div>
+      <div class="stat-item"><div class="stat-num">$3,229</div><div class="stat-label">Avg Judgment 2025</div></div>
+      <div class="stat-item"><div class="stat-num">26</div><div class="stat-label">Justice Court Precincts</div></div>
+    </div>
+    <div class="flow-cards">
+      <div class="flow-card advocate-card">
+        <div class="flow-icon">&#9878;&#65039;</div>
+        <h2>Advocate Navigator</h2>
+        <p>Structured intake, notice defect analysis, stage assessment, and a full output package for case prep.</p>
+        <div class="flow-for">Designed for</div>
+        <div class="flow-for-list">Tenant advocates &middot; Court navigators &middot; Nonprofits &middot; Eviction diversion programs</div>
+        <button class="flow-start-btn" onclick="startFlow('advocate')">Start Advocate Flow &rarr;</button>
+      </div>
+      <div class="flow-card tenant-card">
+        <div class="flow-icon">&#127968;</div>
+        <h2>Tenant Navigator</h2>
+        <p>Plain-language guidance. Understand where you are in the process and what to do next.</p>
+        <div class="flow-for">Designed for</div>
+        <div class="flow-for-list">Tenants who received a notice &middot; Anyone facing eviction &middot; Families navigating housing court</div>
+        <button class="flow-start-btn" onclick="startFlow('tenant')">Start Tenant Flow &rarr;</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADVOCATE FLOW -->
+<div id="screen-advocate" class="screen">
+  <div class="nav-layout">
+    <div class="nav-sidebar">
+      <div class="sidebar-mode mode-advocate">Advocate Mode</div>
+      <div class="sidebar-title">AZ Eviction Navigator</div>
+      <div class="progress-steps" id="advocate-progress">
+        <div class="progress-step active" data-step="a1"><div class="step-dot">1</div><div class="step-info"><div class="step-name">Case Basics</div><div class="step-desc">Precinct, notice type, dates</div></div></div>
+        <div class="progress-step" data-step="a2"><div class="step-dot">2</div><div class="step-info"><div class="step-name">Notice Review</div><div class="step-desc">Validity &amp; defect check</div></div></div>
+        <div class="progress-step" data-step="a3"><div class="step-dot">3</div><div class="step-info"><div class="step-name">Tenant Situation</div><div class="step-desc">Defenses &amp; risk flags</div></div></div>
+        <div class="progress-step" data-step="a4"><div class="step-dot">4</div><div class="step-info"><div class="step-name">Stage Analysis</div><div class="step-desc">Timeline &amp; urgency</div></div></div>
+        <div class="progress-step" data-step="a5"><div class="step-dot">5</div><div class="step-info"><div class="step-name">Output Package</div><div class="step-desc">Checklist, prep, resources</div></div></div>
+      </div>
+      <div class="sidebar-links">
+        <a class="sidebar-link" href="https://justicecourts.maricopa.gov/case-types/evictions" target="_blank">&#8599; MCJC Evictions Page</a>
+        <a class="sidebar-link" href="https://justicecourts.maricopa.gov/app/courtrecords/casesearch" target="_blank">&#8599; Case Search</a>
+        <a class="sidebar-link" href="https://justicecourts.maricopa.gov/about-us/court-locations" target="_blank">&#8599; All Court Locations</a>
+        <a class="sidebar-link" href="https://justicecourts.maricopa.gov/find-a-form/court-forms" target="_blank">&#8599; Court Forms</a>
+        <button class="back-btn" onclick="goHome()">&#8592; Back to Home</button>
+      </div>
+    </div>
+    <div class="nav-main">
+      <!-- A1 -->
+      <div id="a-step-1">
+        <div class="step-header">
+          <div class="step-number">Step 1 of 5 &middot; Advocate Flow</div>
+          <h2>Case Basics</h2>
+          <p>Identify the precinct, notice type, and key dates. Eviction cases must be filed in the precinct where the tenant lives.</p>
+        </div>
+        <div class="alert alert-info">
+          <span class="alert-icon">&#8505;&#65039;</span>
+          <div><strong>26 Precincts in Maricopa County.</strong> Not sure which precinct? Use the <a href="https://maricopa.maps.arcgis.com/apps/webappviewer/index.html?id=e28b1463fcb84242ab5338b5a97d71b2" target="_blank">Maricopa County Interactive Elections Map</a> &mdash; enter the tenant&apos;s address.</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Justice Court Precinct <span class="req">*</span></label>
+          <select id="a-court" onchange="showCourtInfo()">
+            <option value="">— Select Justice Court Precinct —</option>
+            <optgroup label="620 W. Jackson St., Phoenix — Downtown Justice Center">
+              <option value="arcadia-biltmore">Arcadia Biltmore · Judge Leonore Driggs · (602) 372-6300</option>
+              <option value="el-centro">El Centro (formerly Downtown) · Judge Jennifer Hernandez Sama · (602) 372-6300</option>
+              <option value="encanto">Encanto · Judge Ken Cheuvront · (602) 372-6300</option>
+              <option value="south-mountain">South Mountain · Judge Rebecca Rios · (602) 372-6300</option>
+              <option value="west-mcdowell">West McDowell · Judge Teresa Lopez · (602) 372-6300</option>
+            </optgroup>
+            <optgroup label="18380 N. 40th St., Phoenix — Northeast Regional Court Center">
+              <option value="desert-ridge">Desert Ridge · Judge Cathy Riggs · (602) 372-7100</option>
+              <option value="dreamy-draw">Dreamy Draw · Judge Ashley Fitzwilliams · (602) 372-7000</option>
+              <option value="mcdowell-mountain">McDowell Mountain · Judge Michele Reagan · (602) 372-7000</option>
+              <option value="moon-valley">Moon Valley · Judge Mireya Arroyo · (602) 372-7000</option>
+            </optgroup>
+            <optgroup label="14264 W. Tierra Buena Ln., Surprise — Northwest Regional Court Center">
+              <option value="arrowhead">Arrowhead · Judge Craig Wismer · (602) 372-2000</option>
+              <option value="hassayampa">Hassayampa · Judge Chris Mueller · (602) 372-2000</option>
+              <option value="manistee">Manistee · Judge Donald Watts · (602) 372-2000</option>
+              <option value="north-valley">North Valley · Judge Gerald Williams · (602) 372-2000</option>
+            </optgroup>
+            <optgroup label="201 E. Chicago St., Chandler — Ocotillo Regional Court Center">
+              <option value="kyrene">Kyrene · Judge Sharron Sauls · (602) 372-3400</option>
+              <option value="san-marcos">San Marcos · Judge Jennifer Jermaine · (602) 372-3400</option>
+              <option value="san-tan">San Tan · Judge Blake King · (602) 372-3400</option>
+              <option value="university-lakes">University Lakes · Judge Tyler Kissell · (602) 372-3400</option>
+            </optgroup>
+            <optgroup label="222 E. Javelina Ave., Mesa — Southeast Justice Center">
+              <option value="east-mesa">East Mesa (Suite C) · Judge Fred Arnett · (602) 506-8117</option>
+              <option value="highland">Highland (Suite A) · Judge Jordan Ray · (602) 372-8300</option>
+              <option value="north-mesa">North Mesa (Suite B) · Judge Kyle Jones · (602) 372-4900</option>
+              <option value="west-mesa">West Mesa (Suite D) · Judge Elaissia Sears · (602) 506-8100</option>
+            </optgroup>
+            <optgroup label="10420 W. Van Buren St., Avondale — West Valley Regional Court Center">
+              <option value="agua-fria">Agua Fria · Judge Joe "Pep" Guzman · (602) 372-8001</option>
+              <option value="country-meadows">Country Meadows · Judge Anna Huberman · (602) 372-8000</option>
+              <option value="maryvale">Maryvale · Judge Andrew Gastelum · (602) 372-8002</option>
+              <option value="white-tank">White Tank · Judge Heidi Owens · (602) 372-8003</option>
+            </optgroup>
+            <optgroup label="Standalone / Rural">
+              <option value="ironwood">Ironwood · Judge Lori Burkhardt · 209 E. Pima St., Gila Bend · (928) 683-2651</option>
+            </optgroup>
+            <option value="">— Not sure / need to look up —</option>
+          </select>
+          <div class="form-hint">All courts open Mon&ndash;Fri 8am&ndash;5pm. <a href="https://justicecourts.maricopa.gov/about-us/court-locations" target="_blank">See all locations &rarr;</a></div>
+          <div id="court-info-box" class="court-info-box" style="display:none"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Notice / Case Stage <span class="req">*</span></label>
+          <div class="radio-group" id="a-notice-group">
+            <label class="radio-item"><input type="radio" name="notice" value="5day-pay"><div><div class="radio-label">5-Day Notice &mdash; Non-Payment of Rent</div><div class="radio-sub">Most common. A.R.S. &sect; 33-1368(B). Tenant can cure by paying all rent + fees before judgment.</div></div></label>
+            <label class="radio-item"><input type="radio" name="notice" value="5day-health"><div><div class="radio-label">5-Day Notice &mdash; Health &amp; Safety Breach</div><div class="radio-sub">Broken glass, debris, waste. A.R.S. &sect; 33-1368(A). 5 days to correct.</div></div></label>
+            <label class="radio-item"><input type="radio" name="notice" value="10day-material"><div><div class="radio-label">10-Day Notice &mdash; Material Non-Compliance</div><div class="radio-sub">Unauthorized pets, guests, rule violations. A.R.S. &sect; 33-1368(A). 10 days to cure.</div></div></label>
+            <label class="radio-item"><input type="radio" name="notice" value="immediate"><div><div class="radio-label">Immediate Termination &mdash; Irreparable / Criminal Breach</div><div class="radio-sub">No cure period. A.R.S. &sect; 33-1368(A)(2). Landlord may file next day.</div></div></label>
+            <label class="radio-item"><input type="radio" name="notice" value="30day"><div><div class="radio-label">30-Day Notice &mdash; No-Cause / Month-to-Month</div><div class="radio-sub">Ending month-to-month tenancy. A.R.S. &sect; 33-1375.</div></div></label>
+            <label class="radio-item"><input type="radio" name="notice" value="complaint"><div><div class="radio-label">Summons &amp; Complaint Filed &mdash; Hearing Pending</div><div class="radio-sub">Notice period passed. Tenant must appear. Hearing same day or within 3 business days.</div></div></label>
+            <label class="radio-item"><input type="radio" name="notice" value="judgment"><div><div class="radio-label">Judgment Already Entered</div><div class="radio-sub">Court ruled. Writ of Restitution may issue. Appeal: 5 calendar days from judgment.</div></div></label>
+            <label class="radio-item"><input type="radio" name="notice" value="writ"><div><div class="radio-label">Writ of Restitution Issued</div><div class="radio-sub">Constable ordered to enforce. Served by constable after 5-day post-judgment wait.</div></div></label>
+          </div>
+        </div>
+        <div class="inline-grid">
+          <div class="form-group">
+            <label class="form-label">Date Notice Was Served</label>
+            <input type="date" id="a-notice-date">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Today&apos;s Date</label>
+            <input type="date" id="a-today-date">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Amount Claimed (if applicable)</label>
+          <input type="text" id="a-amount" placeholder="e.g. $1,250.00">
+          <div class="form-hint">Justice courts have jurisdiction up to $10,000. Amounts over $10,000 belong in Superior Court.</div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="advStep(2)">Continue to Notice Review &rarr;</button>
+        </div>
+      </div>
+<!-- A2 -->
+      <div id="a-step-2" style="display:none" class="fade-in">
+        <div class="step-header">
+          <div class="step-number">Step 2 of 5 · Advocate Flow</div>
+          <h2>Notice Review & Defect Check</h2>
+          <p>Notice defects can be a defense. Document everything now. Defects do not automatically dismiss a case, but they may require the landlord to re-serve and restart the clock.</p>
+        </div>
+
+        <div class="alert alert-info">
+          <span class="alert-icon">📋</span>
+          <div><strong>From MCJC:</strong> Before most eviction cases may be filed, the landlord must give the tenant notice stating what the problem is and what can be done to fix it. If it is not remedied within the given time, the landlord may then file. <a href="https://justicecourts.maricopa.gov/case-types/evictions" target="_blank">Source: justicecourts.maricopa.gov →</a></div>
+        </div>
+
+        <div class="section-label">Service Method</div>
+        <div class="form-group">
+          <label class="form-label">How was the notice served on the tenant?</label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="service" value="personal"> <div><div class="radio-label">Personal delivery to tenant or adult household member</div><div class="radio-sub">Strongest service method. Notice period runs from date of delivery.</div></div></label>
+            <label class="radio-item"><input type="radio" name="service" value="post-mail"> <div><div class="radio-label">Posted on door AND mailed (first class)</div><div class="radio-sub">Adds 5 extra days to the notice period per Arizona law. Verify both actions occurred.</div></div></label>
+            <label class="radio-item"><input type="radio" name="service" value="mail-only"> <div><div class="radio-label">Mailed only (no posting)</div><div class="radio-sub">May be defective depending on lease terms and circumstances.</div></div></label>
+            <label class="radio-item"><input type="radio" name="service" value="unknown"> <div><div class="radio-label">Unknown / not clearly stated on notice</div></div></label>
+          </div>
+        </div>
+
+        <div class="section-label">Notice Content Validity — Check each item that IS correct on the notice</div>
+        <div class="checklist">
+          <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Tenant's full name is correctly stated</div></label>
+          <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Property address matches the lease exactly</div></label>
+          <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Correct dollar amount is stated (non-payment notices) — rent only, or with permitted late fees per lease</div></label>
+          <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Notice period is correct for the notice type (5-day, 10-day, 30-day)</div></label>
+          <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Date of service appears on the notice</div></label>
+          <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Landlord or authorized agent name and contact information appears</div></label>
+          <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Notice states the specific lease violation or non-compliance alleged (required for compliance notices)</div></label>
+          <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Tenant was given the opportunity to cure, if this is a curable notice type</div></label>
+        </div>
+
+        <div class="defect-section">
+          <h4>🔍 Defect Flags — Investigate Each</h4>
+          <div class="checklist">
+            <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">If served by post + mail: Did the landlord add 5 days to the notice period correctly?</div></label>
+            <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Did the landlord accept any rent payment after serving this notice? (May constitute waiver)</div></label>
+            <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Did tenant recently complain to landlord, code enforcement, or a health authority? (Retaliation — A.R.S. § 33-1381)</div></label>
+            <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Is this a second-breach situation? Was there a prior notice? (Affects whether cure is available)</div></label>
+            <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Does the tenant have domestic violence, sexual assault, or stalking protections? (A.R.S. § 33-1318)</div></label>
+            <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Is the property subsidized/Section 8? (Mobile home park rules under A.R.S. § 33-1401–1501 may apply instead)</div></label>
+            <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Does the claimed amount include fees or charges not authorized by the lease or statute?</div></label>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top:1.4rem">
+          <label class="form-label">Advocate Notes on Notice</label>
+          <textarea id="a-notice-notes" placeholder="Document defects, questions, or anything else about this notice…"></textarea>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-secondary" onclick="advStep(1)">← Back</button>
+          <button class="btn btn-primary" onclick="advStep(3)">Continue to Tenant Situation →</button>
+        </div>
+      </div>
+
+      
+<!-- A3 -->
+      <div id="a-step-3" style="display:none" class="fade-in">
+        <div class="step-header">
+          <div class="step-number">Step 3 of 5 · Advocate Flow</div>
+          <h2>Tenant Situation & Defenses</h2>
+          <p>Gather facts to identify potential defenses and urgency factors. Check all that apply.</p>
+        </div>
+
+        <div class="alert alert-warn">
+          <span class="alert-icon">⚠️</span>
+          <div><strong>Important — Arizona does not allow rent strikes.</strong> Under no circumstances should a tenant withhold rent because a landlord isn't making repairs. That is illegal in Arizona and a judge must, in nearly every case, evict a tenant who does this. There are other remedies — see the MCJC <a href="https://justicecourts.maricopa.gov/case-types/evictions/obligations-and-remedies" target="_blank">Obligations & Remedies page</a>.</div>
+        </div>
+
+        <div class="section-label">Tenancy & Lease Status</div>
+        <div class="inline-grid">
+          <div class="form-group">
+            <label class="form-label">Type of Tenancy</label>
+            <select id="a-tenancy">
+              <option value="">Select…</option>
+              <option>Written lease — fixed term</option>
+              <option>Month-to-month written agreement</option>
+              <option>Verbal / no written lease</option>
+              <option>Subsidized / Section 8 housing</option>
+              <option>Mobile home park lot rental (A.R.S. § 33-1401)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Length of Tenancy</label>
+            <select>
+              <option value="">Select…</option>
+              <option>Less than 6 months</option>
+              <option>6 months – 1 year</option>
+              <option>1–3 years</option>
+              <option>3+ years</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="section-label">Potential Defenses — Check all that may apply</div>
+        <div class="checkbox-group">
+          <label class="checkbox-item"><input type="checkbox" onchange="toggleCheck(this)">
+            <div><div class="radio-label">Habitability issues — unaddressed repair problems</div><div class="radio-sub">A.R.S. § 33-1324. Landlord duty to maintain. Does NOT allow rent withholding, but may support other remedies including repair-and-deduct or termination. See MCJC Obligations & Remedies.</div></div>
+          </label>
+          <label class="checkbox-item"><input type="checkbox" onchange="toggleCheck(this)">
+            <div><div class="radio-label">Landlord accepted rent after serving notice — possible waiver</div><div class="radio-sub">Document the date and amount. Acceptance of rent after notice may extinguish the notice.</div></div>
+          </label>
+          <label class="checkbox-item"><input type="checkbox" onchange="toggleCheck(this)">
+            <div><div class="radio-label">Possible retaliatory eviction — A.R.S. § 33-1381</div><div class="radio-sub">Tenant recently complained to landlord, filed a code enforcement complaint, contacted a health authority, or contacted fair housing.</div></div>
+          </label>
+          <label class="checkbox-item"><input type="checkbox" onchange="toggleCheck(this)">
+            <div><div class="radio-label">VAWA / Domestic violence protections — A.R.S. § 33-1318</div><div class="radio-sub">DV, sexual assault, or stalking victim. Document carefully — these are significant statutory protections.</div></div>
+          </label>
+          <label class="checkbox-item"><input type="checkbox" onchange="toggleCheck(this)">
+            <div><div class="radio-label">Tenant has documentation of payment</div><div class="radio-sub">Receipts, money orders, bank records, Venmo/Zelle screenshots, or ledger showing credits not applied.</div></div>
+          </label>
+          <label class="checkbox-item"><input type="checkbox" onchange="toggleCheck(this)">
+            <div><div class="radio-label">Rental assistance applied for or pending</div><div class="radio-sub">ERAP, county, city, nonprofit, or utility assistance application in progress. Get application confirmation number.</div></div>
+          </label>
+          <label class="checkbox-item"><input type="checkbox" onchange="toggleCheck(this)">
+            <div><div class="radio-label">Fair housing / discrimination issue</div><div class="radio-sub">A.R.S. § 33-1317 — landlords cannot discriminate based on familial status. Contact Arizona Fair Housing Center.</div></div>
+          </label>
+          <label class="checkbox-item"><input type="checkbox" onchange="toggleCheck(this)">
+            <div><div class="radio-label">Amount in notice appears incorrect — fees or credits not applied</div></div>
+          </label>
+          <label class="checkbox-item"><input type="checkbox" onchange="toggleCheck(this)">
+            <div><div class="radio-label">Tenant has a counterclaim — landlord may be in breach</div><div class="radio-sub">Counterclaim must be based on landlord breach of rental agreement or ARLTA. Filed with Answer. No fee to file Answer.</div></div>
+          </label>
+        </div>
+
+        <div class="section-label" style="margin-top:1.4rem">Urgency & Risk Flags</div>
+        <div class="checkbox-group">
+          <label class="checkbox-item"><input type="checkbox" onchange="toggleCheck(this)"><div><div class="radio-label">⚠️ Children in the household</div></div></label>
+          <label class="checkbox-item"><input type="checkbox" onchange="toggleCheck(this)"><div><div class="radio-label">⚠️ Elderly or disabled household members</div></div></label>
+          <label class="checkbox-item"><input type="checkbox" onchange="toggleCheck(this)"><div><div class="radio-label">⚠️ Hearing date within 5 business days</div></div></label>
+          <label class="checkbox-item"><input type="checkbox" onchange="toggleCheck(this)"><div><div class="radio-label">⚠️ Writ of Restitution issued or imminent — constable enforcement pending</div></div></label>
+          <label class="checkbox-item"><input type="checkbox" onchange="toggleCheck(this)"><div><div class="radio-label">⚠️ Tenant has no alternative housing identified</div></div></label>
+          <label class="checkbox-item"><input type="checkbox" onchange="toggleCheck(this)"><div><div class="radio-label">⚠️ 5-day appeal window is running (post-judgment only)</div></div></label>
+        </div>
+
+        <div class="form-group" style="margin-top:1.4rem">
+          <label class="form-label">Additional Notes</label>
+          <textarea id="a-situation-notes" placeholder="Document anything else relevant to this case…"></textarea>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-secondary" onclick="advStep(2)">← Back</button>
+          <button class="btn btn-primary" onclick="advStep(4)">Continue to Stage Analysis →</button>
+        </div>
+      </div>
+
+      
+<!-- A4 -->
+      <div id="a-step-4" style="display:none" class="fade-in">
+        <div class="step-header">
+          <div class="step-number">Step 4 of 5 · Advocate Flow</div>
+          <h2>Stage Analysis & Timeline</h2>
+          <p>Case stage based on information entered. Review carefully before generating the output package.</p>
+        </div>
+        <div id="a-stage-output"></div>
+        <div class="btn-row">
+          <button class="btn btn-secondary" onclick="advStep(3)">← Back</button>
+          <button class="btn btn-primary" onclick="advStep(5)">Generate Output Package →</button>
+        </div>
+      </div>
+
+      
+<!-- A5 -->
+      <div id="a-step-5" style="display:none" class="fade-in">
+        <div class="step-header">
+          <div class="step-number">Step 5 of 5 · Advocate Flow</div>
+          <h2>Advocate Output Package</h2>
+          <p>Complete the checklists, then print or save as PDF for the case file.</p>
+        </div>
+        <div id="a-full-output"></div>
+        <div class="btn-row">
+          <button class="btn btn-secondary" onclick="advStep(4)">← Back</button>
+          <button class="btn btn-print" onclick="window.print()">🖨 Print / Save PDF</button>
+          <button class="btn btn-slate" onclick="goHome()">Start New Case</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- TENANT FLOW -->
+<div id="screen-tenant" class="screen">
+  <div class="nav-layout">
+    <div class="nav-sidebar">
+      <div class="sidebar-mode mode-tenant">Tenant Guide</div>
+      <div class="sidebar-title">Your Housing Navigator</div>
+      <div class="progress-steps" id="tenant-progress">
+        <div class="progress-step active" data-step="t1"><div class="step-dot">1</div><div class="step-info"><div class="step-name">What Happened?</div><div class="step-desc">Tell us your situation</div></div></div>
+        <div class="progress-step" data-step="t2"><div class="step-dot">2</div><div class="step-info"><div class="step-name">What It Means</div><div class="step-desc">Plain-language explanation</div></div></div>
+        <div class="progress-step" data-step="t3"><div class="step-dot">3</div><div class="step-info"><div class="step-name">What To Do Now</div><div class="step-desc">Your next steps</div></div></div>
+        <div class="progress-step" data-step="t4"><div class="step-dot">4</div><div class="step-info"><div class="step-name">Your Summary</div><div class="step-desc">Checklist &amp; help near you</div></div></div>
+      </div>
+      <div class="sidebar-links">
+        <a class="sidebar-link" href="https://justicecourts.maricopa.gov/case-types/evictions" target="_blank">&#8599; Court Eviction Info</a>
+        <a class="sidebar-link" href="https://justicecourts.maricopa.gov/app/courtrecords/casesearch" target="_blank">&#8599; Look Up Your Case</a>
+        <a class="sidebar-link" href="https://www.azcourts.gov/eviction" target="_blank">&#8599; AZ Eviction Portal</a>
+        <a class="sidebar-link" href="https://www.azcourthelp.org" target="_blank">&#8599; AZ Court Help</a>
+        <button class="back-btn" onclick="goHome()">&#8592; Back to Home</button>
+      </div>
+    </div>
+    <div class="nav-main">
+<!-- T1 -->
+      <div id="t-step-1">
+        <div class="step-header">
+          <div class="step-number">Step 1 of 4</div>
+          <h2>What's happening with your housing?</h2>
+          <p>Answer a few questions. We'll explain your situation in plain language and show you exactly what to do next. Takes about 2 minutes.</p>
+        </div>
+
+        <div class="plain-box">
+          <p>You don't need to know legal words to use this. Just tell us what happened. <strong>This is not legal advice</strong> — it's a guide to help you understand where you are and what you can do. It's free.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">What is your situation right now? <span class="req">*</span></label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="t-situation" value="got-notice"> <div><div class="radio-label">I received a paper notice from my landlord</div><div class="radio-sub">A letter, paper taped to my door, or something in the mail saying I need to pay, move, or fix something</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-situation" value="got-court"> <div><div class="radio-label">I received court papers with a hearing date</div><div class="radio-sub">Something called a Summons and Complaint — it has a court date and possibly a case number on it</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-situation" value="had-hearing"> <div><div class="radio-label">I already had a court hearing</div><div class="radio-sub">A judge made a decision — I may have lost the case, didn't show up, or I'm not sure what happened</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-situation" value="writ"> <div><div class="radio-label">I was told I have to leave immediately — officers may come</div><div class="radio-sub">I received something called a Writ of Restitution, or a constable (court officer) has already come to my door</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-situation" value="worried"> <div><div class="radio-label">Nothing yet — but I'm worried I could be evicted</div><div class="radio-sub">I'm behind on rent, having problems with my landlord, or I think something is coming soon</div></div></label>
+          </div>
+        </div>
+
+        <!-- Notice details — shown when "got-notice" selected -->
+        <div id="t-notice-type-group" style="display:none" class="form-group">
+          <label class="form-label">What does the notice say you need to do? <span class="req">*</span></label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="t-notice" value="pay"> <div><div class="radio-label">Pay money — it says I owe back rent or fees</div><div class="radio-sub">Most common. Usually says "Pay or Quit" or "Pay rent within 5 days"</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-notice" value="fix"> <div><div class="radio-label">Fix something — they say I broke a rule or violated my lease</div><div class="radio-sub">Could be about a pet, guests, noise, trash, or damage</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-notice" value="move"> <div><div class="radio-label">Move out — end of lease or no specific reason given</div><div class="radio-sub">Usually a 30-day notice. Doesn't necessarily mean you did something wrong.</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-notice" value="immediate"> <div><div class="radio-label">Move out immediately — says I did something very serious</div><div class="radio-sub">No days to fix anything. Often involves alleged criminal activity.</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-notice" value="unsure"> <div><div class="radio-label">I'm not sure what it says</div></div></label>
+          </div>
+        </div>
+
+        <!-- Notice date — shown when "got-notice" with pay/fix selected -->
+        <div id="t-date-group" style="display:none">
+          <div class="inline-grid">
+            <div class="form-group">
+              <label class="form-label">Date on the notice (when it was given to you)</label>
+              <input type="date" id="t-notice-date">
+              <div class="form-hint">Check the notice paper — there should be a date on it.</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Amount the notice says you owe (if any)</label>
+              <input type="text" id="t-amount" placeholder="e.g. $850.00">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">How was the notice given to you?</label>
+            <div class="radio-group" style="gap:0.4rem">
+              <label class="radio-item"><input type="radio" name="t-service" value="personal"><div><div class="radio-label">Someone handed it to me directly</div></div></label>
+              <label class="radio-item"><input type="radio" name="t-service" value="posted-mailed"><div><div class="radio-label">It was taped/posted to my door AND I also got one in the mail</div></div></label>
+              <label class="radio-item"><input type="radio" name="t-service" value="posted-only"><div><div class="radio-label">It was only taped/posted to my door — I didn't get one in the mail</div></div></label>
+              <label class="radio-item"><input type="radio" name="t-service" value="mail-only"><div><div class="radio-label">I only got it in the mail</div></div></label>
+              <label class="radio-item"><input type="radio" name="t-service" value="unsure"><div><div class="radio-label">Not sure</div></div></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Court date — shown when "got-court" selected -->
+        <div id="t-court-date-group" style="display:none" class="form-group">
+          <label class="form-label">What is your hearing date? (from your court papers)</label>
+          <input type="date" id="t-hearing-date">
+          <div class="form-hint">Find this on your Summons. It may say "Return Date" or "Hearing Date." Write it down somewhere safe too.</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Which justice court is listed on your papers? (If you have papers)</label>
+          <select id="t-court">
+            <option value="">Not sure / no papers yet</option>
+            <optgroup label="620 W. Jackson St., Phoenix">
+              <option value="arcadia-biltmore">Arcadia Biltmore Justice Court</option>
+              <option value="el-centro">El Centro Justice Court (formerly Downtown)</option>
+              <option value="encanto">Encanto Justice Court</option>
+              <option value="south-mountain">South Mountain Justice Court</option>
+              <option value="west-mcdowell">West McDowell Justice Court</option>
+            </optgroup>
+            <optgroup label="18380 N. 40th St., Phoenix">
+              <option value="desert-ridge">Desert Ridge Justice Court</option>
+              <option value="dreamy-draw">Dreamy Draw Justice Court</option>
+              <option value="mcdowell-mountain">McDowell Mountain Justice Court</option>
+              <option value="moon-valley">Moon Valley Justice Court</option>
+            </optgroup>
+            <optgroup label="14264 W. Tierra Buena Ln., Surprise">
+              <option value="arrowhead">Arrowhead Justice Court</option>
+              <option value="hassayampa">Hassayampa Justice Court</option>
+              <option value="manistee">Manistee Justice Court</option>
+              <option value="north-valley">North Valley Justice Court</option>
+            </optgroup>
+            <optgroup label="201 E. Chicago St., Chandler">
+              <option value="kyrene">Kyrene Justice Court</option>
+              <option value="san-marcos">San Marcos Justice Court</option>
+              <option value="san-tan">San Tan Justice Court</option>
+              <option value="university-lakes">University Lakes Justice Court</option>
+            </optgroup>
+            <optgroup label="222 E. Javelina Ave., Mesa">
+              <option value="east-mesa">East Mesa Justice Court</option>
+              <option value="highland">Highland Justice Court</option>
+              <option value="north-mesa">North Mesa Justice Court</option>
+              <option value="west-mesa">West Mesa Justice Court</option>
+            </optgroup>
+            <optgroup label="10420 W. Van Buren St., Avondale">
+              <option value="agua-fria">Agua Fria Justice Court</option>
+              <option value="country-meadows">Country Meadows Justice Court</option>
+              <option value="maryvale">Maryvale Justice Court</option>
+              <option value="white-tank">White Tank Justice Court</option>
+            </optgroup>
+            <optgroup label="Standalone / Rural">
+              <option value="ironwood">Ironwood Justice Court — 209 E. Pima St., Gila Bend</option>
+            </optgroup>
+          </select>
+          <div class="form-hint">Not sure? <a href="https://maricopa.maps.arcgis.com/apps/webappviewer/index.html?id=e28b1463fcb84242ab5338b5a97d71b2" target="_blank">Use the Maricopa County address lookup map →</a></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Who lives in your home?</label>
+          <div class="radio-group" style="gap:0.4rem">
+            <label class="radio-item"><input type="radio" name="t-household" value="alone"><div><div class="radio-label">Just me</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-household" value="adults"><div><div class="radio-label">Me and other adults</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-household" value="children"><div><div class="radio-label">Me and children (under 18)</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-household" value="family"><div><div class="radio-label">Me, children, and other adults</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-household" value="elderly"><div><div class="radio-label">Elderly or disabled household members</div></div></label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Do any of these apply to your situation? (Check all that apply)</label>
+          <div class="checkbox-group" style="gap:0.4rem">
+            <label class="checkbox-item"><input type="checkbox" id="t-dv" onchange="toggleCheck(this)"><div><div class="radio-label">I am a victim of domestic violence, sexual assault, or stalking</div><div class="radio-sub">Special legal protections may apply to you</div></div></label>
+            <label class="checkbox-item"><input type="checkbox" id="t-repairs" onchange="toggleCheck(this)"><div><div class="radio-label">My landlord hasn't fixed serious problems in my unit</div><div class="radio-sub">No heat/AC, plumbing issues, mold, pest infestation, broken locks, etc.</div></div></label>
+            <label class="checkbox-item"><input type="checkbox" id="t-retaliation" onchange="toggleCheck(this)"><div><div class="radio-label">I complained to my landlord or the city recently, and now I'm being evicted</div><div class="radio-sub">You may have retaliation protections under Arizona law</div></div></label>
+            <label class="checkbox-item"><input type="checkbox" id="t-assistance" onchange="toggleCheck(this)"><div><div class="radio-label">I've applied for rental assistance or I'm trying to get it</div></div></label>
+            <label class="checkbox-item"><input type="checkbox" id="t-paid" onchange="toggleCheck(this)"><div><div class="radio-label">I have proof that I paid some or all of the rent they say I owe</div></div></label>
+            <label class="checkbox-item"><input type="checkbox" id="t-section8" onchange="toggleCheck(this)"><div><div class="radio-label">I have a housing voucher (Section 8 / HCV) or live in subsidized housing</div></div></label>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="tenStep(2)">Show Me What This Means →</button>
+        </div>
+      </div>
+
+      
+<!-- T2 -->
+      <div id="t-step-2" style="display:none" class="fade-in">
+        <div class="step-header">
+          <div class="step-number">Step 2 of 4</div>
+          <h2>Here's what's happening in your situation</h2>
+          <p>We'll explain this step by step, in plain language. Legal words are explained when they come up.</p>
+        </div>
+        <div id="t-stage-explanation"></div>
+        <div class="btn-row">
+          <button class="btn btn-secondary" onclick="tenStep(1)">← Go Back</button>
+          <button class="btn btn-primary" onclick="tenStep(3)">What Should I Do? →</button>
+        </div>
+      </div>
+
+      
+<!-- T3 -->
+      <div id="t-step-3" style="display:none" class="fade-in">
+        <div class="step-header">
+          <div class="step-number">Step 3 of 4</div>
+          <h2>What to do right now</h2>
+          <p>Start at the top. The steps marked in red are the most urgent.</p>
+        </div>
+        <div id="t-action-steps"></div>
+        <div class="btn-row">
+          <button class="btn btn-secondary" onclick="tenStep(2)">← Go Back</button>
+          <button class="btn btn-primary" onclick="tenStep(4)">See My Summary & Resources →</button>
+        </div>
+      </div>
+
+      
+<!-- T4 -->
+      <div id="t-step-4" style="display:none" class="fade-in">
+        <div class="step-header">
+          <div class="step-number">Step 4 of 4</div>
+          <h2>Your Summary</h2>
+          <p>Print or save this page. Bring it to your hearing or share it with an advocate.</p>
+        </div>
+        <div id="t-summary-output"></div>
+        <div class="btn-row">
+          <button class="btn btn-secondary" onclick="tenStep(3)">← Go Back</button>
+          <button class="btn btn-print" onclick="window.print()">🖨 Print This Page</button>
+          <button class="btn btn-slate" onclick="goHome()">Start Over</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// All 26 precincts — source: justicecourts.maricopa.gov/about-us/court-locations
+// All courts open Mon–Fri 8:00am–5:00pm, excluding holidays
+// 4 physical buildings house all 26 precincts
+const courts = {
+  // ── 620 W. Jackson St., Phoenix 85003 ──
+  'arcadia-biltmore': {
+    name: 'Arcadia Biltmore Justice Court',
+    address: '620 W. Jackson Street, Phoenix, AZ 85003',
+    phone: '(602) 372-6300',
+    judge: 'Leonore Driggs',
+    building: '620 W. Jackson St. (Downtown Justice Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Downtown Justice Center. Same building as El Centro, Encanto, South Mountain, West McDowell precincts. Court Navigators on-site.',
+    navigator: true
+  },
+  'el-centro': {
+    name: 'El Centro Justice Court (formerly Downtown)',
+    address: '620 W. Jackson Street, Phoenix, AZ 85003',
+    phone: '(602) 372-6300',
+    judge: 'Jennifer Hernandez Sama',
+    building: '620 W. Jackson St. (Downtown Justice Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Downtown Justice Center. Formerly named "Downtown." Same building as Arcadia Biltmore, Encanto, South Mountain, West McDowell. Court Navigators on-site.',
+    navigator: true
+  },
+  'encanto': {
+    name: 'Encanto Justice Court',
+    address: '620 W. Jackson Street, Phoenix, AZ 85003',
+    phone: '(602) 372-6300',
+    judge: 'Ken Cheuvront',
+    building: '620 W. Jackson St. (Downtown Justice Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Downtown Justice Center. Same building as Arcadia Biltmore, El Centro, South Mountain, West McDowell. Court Navigators on-site.',
+    navigator: true
+  },
+  'south-mountain': {
+    name: 'South Mountain Justice Court',
+    address: '620 W. Jackson Street, Phoenix, AZ 85003',
+    phone: '(602) 372-6300',
+    judge: 'Rebecca Rios',
+    building: '620 W. Jackson St. (Downtown Justice Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Downtown Justice Center. Same building as Arcadia Biltmore, El Centro, Encanto, West McDowell. Court Navigators on-site.',
+    navigator: true
+  },
+  'west-mcdowell': {
+    name: 'West McDowell Justice Court',
+    address: '620 W. Jackson Street, Phoenix, AZ 85003',
+    phone: '(602) 372-6300',
+    judge: 'Teresa Lopez',
+    building: '620 W. Jackson St. (Downtown Justice Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Downtown Justice Center. Same building as Arcadia Biltmore, El Centro, Encanto, South Mountain. Court Navigators on-site.',
+    navigator: true
+  },
+  // ── 18380 N. 40th St., Phoenix 85032 ──
+  'desert-ridge': {
+    name: 'Desert Ridge Justice Court',
+    address: '18380 N. 40th Street, Phoenix, AZ 85032',
+    phone: '(602) 372-7100',
+    judge: 'Cathy Riggs',
+    building: '18380 N. 40th St. (Northeast Regional Court Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Northeast Regional Court Center. Same building as Dreamy Draw, McDowell Mountain, Moon Valley. Court Navigators on-site.',
+    navigator: true
+  },
+  'dreamy-draw': {
+    name: 'Dreamy Draw Justice Court',
+    address: '18380 N. 40th Street, Phoenix, AZ 85032',
+    phone: '(602) 372-7000',
+    judge: 'Ashley Fitzwilliams',
+    building: '18380 N. 40th St. (Northeast Regional Court Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Northeast Regional Court Center. Same building as Desert Ridge, McDowell Mountain, Moon Valley. Court Navigators on-site.',
+    navigator: true
+  },
+  'mcdowell-mountain': {
+    name: 'McDowell Mountain Justice Court',
+    address: '18380 N. 40th Street, Phoenix, AZ 85032',
+    phone: '(602) 372-7000',
+    judge: 'Michele Reagan',
+    building: '18380 N. 40th St. (Northeast Regional Court Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Northeast Regional Court Center. Same building as Desert Ridge, Dreamy Draw, Moon Valley. Court Navigators on-site.',
+    navigator: true
+  },
+  'moon-valley': {
+    name: 'Moon Valley Justice Court',
+    address: '18380 N. 40th Street, Phoenix, AZ 85032',
+    phone: '(602) 372-7000',
+    judge: 'Mireya Arroyo',
+    building: '18380 N. 40th St. (Northeast Regional Court Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Northeast Regional Court Center. Same building as Desert Ridge, Dreamy Draw, McDowell Mountain. Court Navigators on-site.',
+    navigator: true
+  },
+  // ── 14264 W. Tierra Buena Ln., Surprise 85374 ──
+  'arrowhead': {
+    name: 'Arrowhead Justice Court',
+    address: '14264 W. Tierra Buena Lane, Surprise, AZ 85374',
+    phone: '(602) 372-2000',
+    judge: 'Craig Wismer',
+    building: '14264 W. Tierra Buena Ln. (Northwest Regional Court Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Northwest Regional Court Center. Same building as Hassayampa, Manistee, North Valley. Court Navigators on-site.',
+    navigator: true
+  },
+  'hassayampa': {
+    name: 'Hassayampa Justice Court',
+    address: '14264 W. Tierra Buena Lane, Surprise, AZ 85374',
+    phone: '(602) 372-2000',
+    judge: 'Chris Mueller',
+    building: '14264 W. Tierra Buena Ln. (Northwest Regional Court Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Northwest Regional Court Center. Same building as Arrowhead, Manistee, North Valley. Court Navigators on-site.',
+    navigator: true
+  },
+  'manistee': {
+    name: 'Manistee Justice Court',
+    address: '14264 W. Tierra Buena Lane, Surprise, AZ 85374',
+    phone: '(602) 372-2000',
+    judge: 'Donald Watts',
+    building: '14264 W. Tierra Buena Ln. (Northwest Regional Court Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Northwest Regional Court Center. Same building as Arrowhead, Hassayampa, North Valley. Court Navigators on-site.',
+    navigator: true
+  },
+  'north-valley': {
+    name: 'North Valley Justice Court',
+    address: '14264 W. Tierra Buena Lane, Surprise, AZ 85374',
+    phone: '(602) 372-2000',
+    judge: 'Gerald Williams',
+    building: '14264 W. Tierra Buena Ln. (Northwest Regional Court Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Northwest Regional Court Center. Same building as Arrowhead, Hassayampa, Manistee. Court Navigators on-site.',
+    navigator: true
+  },
+  // ── 201 E. Chicago St., Chandler 85225 ──
+  'kyrene': {
+    name: 'Kyrene Justice Court',
+    address: '201 E. Chicago Street, Chandler, AZ 85225',
+    phone: '(602) 372-3400',
+    judge: 'Sharron Sauls',
+    building: '201 E. Chicago St. (Ocotillo Regional Court Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Ocotillo Regional Court Center. Same building as San Marcos, San Tan, University Lakes. Court Navigators on-site.',
+    navigator: true
+  },
+  'san-marcos': {
+    name: 'San Marcos Justice Court',
+    address: '201 E. Chicago Street, Chandler, AZ 85225',
+    phone: '(602) 372-3400',
+    judge: 'Jennifer Jermaine',
+    building: '201 E. Chicago St. (Ocotillo Regional Court Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Ocotillo Regional Court Center. Same building as Kyrene, San Tan, University Lakes. Court Navigators on-site.',
+    navigator: true
+  },
+  'san-tan': {
+    name: 'San Tan Justice Court',
+    address: '201 E. Chicago Street, Chandler, AZ 85225',
+    phone: '(602) 372-3400',
+    judge: 'Blake King',
+    building: '201 E. Chicago St. (Ocotillo Regional Court Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Ocotillo Regional Court Center. Same building as Kyrene, San Marcos, University Lakes. Court Navigators on-site.',
+    navigator: true
+  },
+  'university-lakes': {
+    name: 'University Lakes Justice Court',
+    address: '201 E. Chicago Street, Chandler, AZ 85225',
+    phone: '(602) 372-3400',
+    judge: 'Tyler Kissell',
+    building: '201 E. Chicago St. (Ocotillo Regional Court Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Ocotillo Regional Court Center. Same building as Kyrene, San Marcos, San Tan. Court Navigators on-site.',
+    navigator: true
+  },
+  // ── 222 E. Javelina Ave., Mesa 85210 ──
+  'east-mesa': {
+    name: 'East Mesa Justice Court',
+    address: '222 E. Javelina Ave, Suite C, Mesa, AZ 85210',
+    phone: '(602) 506-8117',
+    judge: 'Fred Arnett',
+    building: '222 E. Javelina Ave. (Southeast Justice Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Southeast Justice Center. Same building as Highland, North Mesa, West Mesa. Court Navigators on-site.',
+    navigator: true
+  },
+  'highland': {
+    name: 'Highland Justice Court',
+    address: '222 E. Javelina Ave, Suite A, Mesa, AZ 85210',
+    phone: '(602) 372-8300',
+    judge: 'Jordan Ray',
+    building: '222 E. Javelina Ave. (Southeast Justice Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Southeast Justice Center. Same building as East Mesa, North Mesa, West Mesa. Court Navigators on-site.',
+    navigator: true
+  },
+  'north-mesa': {
+    name: 'North Mesa Justice Court',
+    address: '222 E. Javelina Ave, Suite B, Mesa, AZ 85210',
+    phone: '(602) 372-4900',
+    judge: 'Kyle Jones',
+    building: '222 E. Javelina Ave. (Southeast Justice Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Southeast Justice Center. Same building as East Mesa, Highland, West Mesa. Court Navigators on-site.',
+    navigator: true
+  },
+  'west-mesa': {
+    name: 'West Mesa Justice Court',
+    address: '222 E. Javelina Ave, Suite D, Mesa, AZ 85210',
+    phone: '(602) 506-8100',
+    judge: 'Elaissia Sears',
+    building: '222 E. Javelina Ave. (Southeast Justice Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the Southeast Justice Center. Same building as East Mesa, Highland, North Mesa. Court Navigators on-site.',
+    navigator: true
+  },
+  // ── 10420 W. Van Buren St., Avondale 85323 ──
+  'agua-fria': {
+    name: 'Agua Fria Justice Court',
+    address: '10420 W. Van Buren Street, Avondale, AZ 85323',
+    phone: '(602) 372-8001',
+    judge: 'Joe "Pep" Guzman',
+    building: '10420 W. Van Buren St. (West Valley Regional Court Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the West Valley Regional Court Center (Van Buren). Same building as Country Meadows, Maryvale, White Tank. Court Navigators on-site.',
+    navigator: true
+  },
+  'country-meadows': {
+    name: 'Country Meadows Justice Court',
+    address: '10420 W. Van Buren Street, Avondale, AZ 85323',
+    phone: '(602) 372-8000',
+    judge: 'Anna Huberman',
+    building: '10420 W. Van Buren St. (West Valley Regional Court Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the West Valley Regional Court Center (Van Buren). Serves Avondale and surrounding areas. Same building as Agua Fria, Maryvale, White Tank. Court Navigators on-site.',
+    navigator: true
+  },
+  'maryvale': {
+    name: 'Maryvale Justice Court',
+    address: '10420 W. Van Buren Street, Avondale, AZ 85323',
+    phone: '(602) 372-8002',
+    judge: 'Andrew Gastelum',
+    building: '10420 W. Van Buren St. (West Valley Regional Court Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the West Valley Regional Court Center (Van Buren). Same building as Agua Fria, Country Meadows, White Tank. Court Navigators on-site.',
+    navigator: true
+  },
+  'white-tank': {
+    name: 'White Tank Justice Court',
+    address: '10420 W. Van Buren Street, Avondale, AZ 85323',
+    phone: '(602) 372-8003',
+    judge: 'Heidi Owens',
+    building: '10420 W. Van Buren St. (West Valley Regional Court Center)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Located at the West Valley Regional Court Center (Van Buren). Serves Buckeye, Goodyear area. Same building as Agua Fria, Country Meadows, Maryvale. Court Navigators on-site.',
+    navigator: true
+  },
+  // ── Standalone / Rural ──
+  'ironwood': {
+    name: 'Ironwood Justice Court',
+    address: '209 E. Pima Street, Gila Bend, AZ 85337',
+    phone: '(928) 683-2651',
+    judge: 'Lori Burkhardt',
+    building: 'Gila Bend Courthouse (standalone)',
+    hours: 'Mon–Fri 8:00am–5:00pm (excluding holidays)',
+    url: 'https://justicecourts.maricopa.gov/about-us/court-locations',
+    notes: 'Standalone courthouse in Gila Bend. Serves the Ironwood precinct (rural southwest Maricopa County). Navigator availability — contact court directly.',
+    navigator: false
+  }
+};
+
+// ── NOTICE DATA (sourced from MCJC evictions pages and ARS) ──
+const noticeData = {
+  '5day-pay': {
+    label: '5-Day Notice — Non-Payment of Rent',
+    days: 5,
+    statute: 'A.R.S. § 33-1368(B)',
+    urgency: 'High',
+    color: 'warn',
+    summary: 'Most common eviction type in Maricopa County. Landlord must serve before filing. Tenant can stop eviction and prevent a court record by paying all rent, late fees, attorney fees, and court costs BEFORE a judgment is entered — even during the hearing itself.',
+    cure: true,
+    canPayAtHearing: true,
+    defenses: ['Full payment before judgment', 'Wrong amount stated', 'Credits/payments not applied', 'Waiver by acceptance of rent', 'Retaliation defense (A.R.S. § 33-1381)', 'Habitability offset (A.R.S. § 33-1364)']
+  },
+  '5day-health': {
+    label: '5-Day Notice — Health & Safety Breach',
+    days: 5,
+    statute: 'A.R.S. § 33-1368(A)',
+    urgency: 'High',
+    color: 'warn',
+    summary: 'Used for health and safety violations: broken glass, excess debris, waste, etc. Tenant has 5 days to correct the breach. If corrected, eviction cannot proceed. A second breach of the same type: landlord may serve a 10-day non-curable notice.',
+    cure: true,
+    canPayAtHearing: false,
+    defenses: ['Breach corrected within 5 days', 'Violation not a health/safety issue', 'Landlord also in breach', 'Retaliation']
+  },
+  '10day-material': {
+    label: '10-Day Notice — Material Non-Compliance',
+    days: 10,
+    statute: 'A.R.S. § 33-1368(A)',
+    urgency: 'Medium',
+    color: 'warn',
+    summary: 'Used for material non-compliance: unauthorized pets, guests, complex rule violations, etc. Notice must state the specific acts or omissions. Tenant has 10 days to remedy. If same breach occurs again, landlord can terminate with 10 days notice — no cure opportunity.',
+    cure: true,
+    canPayAtHearing: false,
+    defenses: ['Breach remedied in writing', 'Violation not material', 'Notice lacks specifics', 'Landlord waiver', 'Retaliation']
+  },
+  'immediate': {
+    label: 'Immediate Termination Notice',
+    days: 0,
+    statute: 'A.R.S. § 33-1368(A)(2)',
+    urgency: 'Critical',
+    color: 'danger',
+    summary: 'Used for criminal activity or material, irreparable breach. No cure period. Landlord may file the eviction action immediately. If a judgment is issued for irreparable breach, the Writ of Restitution will be carried out within 12–24 hours.',
+    cure: false,
+    canPayAtHearing: false,
+    defenses: ['Alleged conduct did not occur', 'Wrong person', 'VAWA protections (A.R.S. § 33-1318)', 'Notice procedural defects']
+  },
+  '30day': {
+    label: '30-Day Notice — No-Cause / Month-to-Month',
+    days: 30,
+    statute: 'A.R.S. § 33-1375',
+    urgency: 'Moderate',
+    color: 'ok',
+    summary: 'Ends a month-to-month tenancy. No specific cause needed. Tenant has 30 days from proper service to vacate. Not retaliatory (hopefully) — but check if tenant recently exercised any rights.',
+    cure: false,
+    canPayAtHearing: false,
+    defenses: ['Retaliation defense', 'Fixed-term lease still in effect', 'Discrimination (familial status, A.R.S. § 33-1317)', 'Service defect']
+  },
+  'complaint': {
+    label: 'Summons & Complaint Filed — Hearing Pending',
+    days: 0,
+    statute: 'A.R.S. § 33-1377 / ARPEA',
+    urgency: 'Critical',
+    color: 'danger',
+    summary: 'Eviction action filed in justice court. Tenant receives Summons with hearing date — trial may occur same day or court may reset for up to 3 business days. Tenant MUST appear. Continuances granted for no more than 3 business days. No fee to file an Answer.',
+    cure: false,
+    canPayAtHearing: true,
+    hearingNote: 'For non-payment cases only: tenant can still stop eviction and prevent a court record by paying ALL rent, late fees, attorney fees, and court costs before the judge rules — even at the hearing.',
+    defenses: ['File an Answer', 'Assert all defenses at hearing', 'Pay in full before judgment (non-payment only)', 'Request continuance (max 3 business days)', 'File counterclaim for landlord breach']
+  },
+  'judgment': {
+    label: 'Judgment Entered',
+    days: 0,
+    statute: 'A.R.S. § 33-1378',
+    urgency: 'Critical',
+    color: 'danger',
+    summary: 'Court has ruled. Landlord may apply for Writ of Restitution 5 days after judgment ($115 fee, served by constable). Appeal: 5 calendar days from judgment OR before writ issues — whichever is first. Supersedeas bond is the ONLY way to stop or stay the writ.',
+    cure: false,
+    canPayAtHearing: false,
+    defenses: ['Appeal within 5 calendar days to Superior Court', 'Motion to Set Aside if default judgment', 'Negotiate voluntary move-out agreement', 'Pay judgment to potentially negotiate with landlord']
+  },
+  'writ': {
+    label: 'Writ of Restitution Issued',
+    days: 0,
+    statute: 'A.R.S. § 33-1368(E)–33-1370',
+    urgency: 'Critical',
+    color: 'danger',
+    summary: 'Constable ordered to remove tenant and restore possession to landlord. Landlord can cut utilities at time of enforcement. Landlord CANNOT dispose of or sell tenant personal property for 21 days. Tenant can avoid writ by surrendering keys to landlord.',
+    cure: false,
+    canPayAtHearing: false,
+    defenses: ['Contact legal aid immediately', 'Supersedeas bond may stay enforcement if appeal filed', 'Negotiate voluntary move-out', 'Protect personal belongings — landlord must hold for 21 days']
+  }
+};
+
+// ── RESOURCES ──
+const resources = [
+  { icon: '⚖️', name: 'Community Legal Services (CLS)', desc: 'Free civil legal aid for low-income Arizonans. Handles evictions, landlord-tenant, fair housing.', contact: '(602) 258-3434 · <a href="https://clsaz.org" target="_blank">clsaz.org</a>', tag: 'Legal Aid' },
+  { icon: '⚖️', name: 'Arizona Legal Center', desc: 'Free and low-cost legal assistance including housing. Serves Maricopa County.', contact: '<a href="https://arizonalegalcenter.org" target="_blank">arizonalegalcenter.org</a>', tag: 'Legal Aid' },
+  { icon: '🏛', name: 'MCJC Courthouse Navigators', desc: 'Free. Former court clerks stationed at all 6 regional centers. Can explain process, direct to forms, answer procedural questions. Cannot give legal advice.', contact: 'On-site at all 6 regional court centers · <a href="https://justicecourts.maricopa.gov/about-us/navigators" target="_blank">justicecourts.maricopa.gov →</a>', tag: 'Court Help' },
+  { icon: '🏠', name: 'Maricopa County Housing & Community Development', desc: 'Rental assistance, eviction diversion, and housing stability funding.', contact: '(602) 506-2680 · <a href="https://maricopa.gov/housing" target="_blank">maricopa.gov/housing</a>', tag: 'Rental Assist' },
+  { icon: '💰', name: 'Arizona Department of Housing (ADOH)', desc: 'State-level rental assistance programs and housing resources.', contact: '<a href="https://housing.az.gov" target="_blank">housing.az.gov</a>', tag: 'Rental Assist' },
+  { icon: '⚖️', name: 'Arizona Fair Housing Center', desc: 'Fair housing enforcement and education. Discrimination complaints.', contact: '<a href="https://arizonafairhousing.org" target="_blank">arizonafairhousing.org</a>', tag: 'Fair Housing' },
+  { icon: '📖', name: 'AZ Court Help / AZ Courts Eviction Portal', desc: 'Official Arizona Supreme Court self-help resource. Forms, explanations, and the statewide eviction portal in English and Spanish.', contact: '<a href="https://www.azcourthelp.org" target="_blank">azcourthelp.org</a> · <a href="https://www.azcourts.gov/eviction" target="_blank">azcourts.gov/eviction</a>', tag: 'Court Self-Help' },
+  { icon: '☎️', name: 'Arizona 211', desc: 'Free statewide helpline connecting people to housing, food, health, and emergency resources.', contact: 'Dial 2-1-1 · <a href="https://az211.gov" target="_blank">az211.gov</a> · 24/7', tag: 'Referral Hotline' },
+  { icon: '🏛', name: 'City of Phoenix — Landlord-Tenant Workshops', desc: 'Free workshops on landlord and tenant rights hosted by the City of Phoenix Human Services Department.', contact: '<a href="https://www.phoenix.gov/humanservices/landlordandtenantinfo" target="_blank">phoenix.gov/humanservices →</a>', tag: 'Education' },
+  { icon: '📚', name: 'Maricopa County Superior Court Law Library', desc: 'Free legal clinics and self-help resources.', contact: '<a href="https://superiorcourt.maricopa.gov/llrc/law-library/" target="_blank">superiorcourt.maricopa.gov/llrc →</a>', tag: 'Legal Clinic' }
+];
+
+// ── NAVIGATION ──
+function goHome() {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-landing').classList.add('active');
+}
+
+function startFlow(mode) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + mode).classList.add('active');
+  if (mode === 'advocate') advStep(1, true);
+  if (mode === 'tenant') tenStep(1, true);
+  const t = document.getElementById('a-today-date');
+  if (t && !t.value) t.value = new Date().toISOString().split('T')[0];
+  window.scrollTo(0, 0);
+}
+
+
+
+// ── COURT INFO ──
+function showCourtInfo() {
+  const v = document.getElementById('a-court')?.value;
+  const box = document.getElementById('court-info-box');
+  if (!box) return;
+  if (v && courts[v]) {
+    const c = courts[v];
+    box.style.display = 'block';
+    box.innerHTML = `<h4>📍 ${c.name}${c.navigator ? ' <span style="font-size:0.72rem;background:var(--teal-bg);color:var(--teal);padding:2px 7px;border-radius:3px;font-weight:600">Navigator On-Site</span>' : ''}</h4>
+      <div class="court-detail">
+        <strong>Address:</strong> ${c.address}<br>
+        <strong>Phone:</strong> ${c.phone}<br>
+        <strong>Justice of the Peace:</strong> ${c.judge}<br>
+        <strong>Building:</strong> ${c.building}<br>
+        <strong>Hours:</strong> ${c.hours}<br>
+        <em>${c.notes}</em><br>
+        <a href="${c.url}" target="_blank">View on justicecourts.maricopa.gov →</a>
+      </div>`;
+  } else { box.style.display = 'none'; }
+}
+
+
+
+// ── RADIO/CHECKBOX INTERACTIONS ──
+document.addEventListener('change', function(e) {
+  if (e.target.type === 'radio') {
+    const grp = e.target.closest('.radio-group');
+    if (grp) grp.querySelectorAll('.radio-item').forEach(r => r.classList.toggle('selected', r.querySelector('input').checked));
+    if (e.target.name === 't-situation') {
+      const v = e.target.value;
+      document.getElementById('t-notice-type-group').style.display = v === 'got-notice' ? 'block' : 'none';
+      document.getElementById('t-date-group').style.display = 'none';
+      document.getElementById('t-court-date-group').style.display = v === 'got-court' ? 'block' : 'none';
+    }
+    if (e.target.name === 't-notice') {
+      const sit = document.querySelector('input[name="t-situation"]:checked')?.value;
+      document.getElementById('t-date-group').style.display =
+        (sit === 'got-notice' && ['pay','fix','move','immediate'].includes(e.target.value)) ? 'block' : 'none';
+    }
+  }
+});
+
+
+
+function toggleCheck(el) {
+  el.closest('.check-item, .checkbox-item')?.classList.toggle('checked', el.checked);
+}
+
+
+
+// ── ADVOCATE STEP NAV ──
+function advStep(n, init) {
+  if (!init) {
+    document.querySelectorAll('#advocate-progress .progress-step').forEach((el, i) => {
+      el.classList.remove('active', 'done');
+      if (i + 1 < n) { el.classList.add('done'); el.querySelector('.step-dot').textContent = '✓'; }
+      else if (i + 1 === n) el.classList.add('active');
+    });
+  }
+  for (let i = 1; i <= 5; i++) {
+    const el = document.getElementById('a-step-' + i);
+    if (el) el.style.display = i === n ? 'block' : 'none';
+  }
+  if (n === 4) buildStageAnalysis();
+  if (n === 5) buildAdvOutput();
+  window.scrollTo(0, 0);
+}
+
+// ── BUILD STAGE ANALYSIS ──
+function buildStageAnalysis() {
+  const noticeType = document.querySelector('input[name="notice"]:checked')?.value;
+  const courtVal = document.getElementById('a-court')?.value;
+  const noticeDate = document.getElementById('a-notice-date')?.value;
+  const todayDate = document.getElementById('a-today-date')?.value;
+  const amount = document.getElementById('a-amount')?.value;
+  const container = document.getElementById('a-stage-output');
+  if (!noticeType) { container.innerHTML = '<div class="alert alert-warn"><span class="alert-icon">⚠️</span><div>Go back and select a notice/case stage to generate the analysis.</div></div>'; return; }
+  const nd = noticeData[noticeType] || {};
+  const c = courtVal ? courts[courtVal] : null;
+  let daysRemaining = null, deadlineHTML = '';
+  if (noticeDate && todayDate && nd.days > 0) {
+    const served = new Date(noticeDate + 'T12:00:00');
+    const today = new Date(todayDate + 'T12:00:00');
+    const deadline = new Date(served);
+    deadline.setDate(deadline.getDate() + nd.days);
+    daysRemaining = Math.ceil((deadline - today) / 86400000);
+    const fmt = d => d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+    deadlineHTML = `<div class="alert alert-${daysRemaining > 2 ? 'warn' : 'danger'}" style="margin-bottom:1rem">
+      <span class="alert-icon">📅</span>
+      <div><strong>Deadline: ${fmt(deadline)}</strong><br>${daysRemaining > 0 ? `${daysRemaining} day${daysRemaining === 1 ? '' : 's'} remaining` : `⚠️ ${Math.abs(daysRemaining)} day${Math.abs(daysRemaining) === 1 ? '' : 's'} past deadline — complaint may have been or could be filed`}</div>
+    </div>`;
+  }
+  const stageMap = { '5day-pay': 1, '5day-health': 1, '10day-material': 1, 'immediate': 1, '30day': 1, 'complaint': 2, 'judgment': 4, 'writ': 5 };
+  const curStage = stageMap[noticeType] ?? 0;
+  const stages = ['Notice Served', 'Complaint Filed', 'Hearing', 'Judgment', 'Writ'];
+  let html = `<div class="stage-card">
+    <div class="stage-card-header">
+      <h3>${nd.label}</h3>
+      <span class="stage-badge">${nd.statute}</span>
+    </div>
+    <div class="stage-card-body">
+      <div class="alert alert-${nd.color}" style="margin-bottom:1rem">
+        <span class="alert-icon">${nd.urgency === 'Critical' ? '🚨' : nd.urgency === 'High' ? '⚠️' : 'ℹ️'}</span>
+        <div><strong>Urgency: ${nd.urgency}</strong> ${nd.summary}</div>
+      </div>
+      ${deadlineHTML}
+      ${nd.canPayAtHearing && nd.hearingNote ? `<div class="alert alert-ok"><span class="alert-icon">💡</span><div>${nd.hearingNote}</div></div>` : ''}
+      <div class="stage-timeline">
+        ${stages.map((s, i) => `<div class="timeline-step"><div class="t-dot ${i < curStage ? 'past' : i === curStage ? 'current' : 'future'}">${i < curStage ? '✓' : i + 1}</div><div class="t-label">${s}</div></div>`).join('')}
+      </div>`;
+  if (c) {
+    html += `<div class="court-info-box"><h4>📍 ${c.name}${c.navigator ? ' <span style="font-size:0.7rem;background:var(--teal-bg);color:var(--teal);padding:2px 7px;border-radius:3px;font-weight:600">Navigator On-Site</span>' : ''}</h4>
+      <div class="court-detail"><strong>${c.address}</strong> · ${c.phone}<br><strong>Justice of the Peace:</strong> ${c.judge} · <strong>Building:</strong> ${c.building}<br><em>${c.notes}</em><br><a href="${c.url}" target="_blank">View on justicecourts.maricopa.gov →</a></div></div>`;
+  }
+  if (nd.defenses?.length) {
+    html += `<div class="section-label">Defense Areas to Investigate</div><div style="display:flex;flex-wrap:wrap;gap:0.45rem">`;
+    nd.defenses.forEach(d => { html += `<span class="info-pill">⚑ ${d}</span>`; });
+    html += `</div>`;
+  }
+  html += `</div></div>`;
+  if (noticeType === 'judgment' || noticeType === 'writ') {
+    html += `<div class="alert alert-danger"><span class="alert-icon">🚨</span><div><strong>Time-Critical Action Required.</strong> ${noticeType === 'judgment' ? 'Appeal window: 5 calendar days from judgment OR before writ issues — whichever comes first. A supersedeas bond is the ONLY way to stay the writ. Contact legal aid TODAY.' : 'Constable is authorized to remove tenant and restore possession to landlord. Landlord must hold personal property 21 days before disposal (A.R.S. § 33-1368E–33-1370). Contact legal aid immediately.'}</div></div>`;
+  }
+  container.innerHTML = html;
+}
+
+// ── BUILD ADVOCATE OUTPUT ──
+function buildAdvOutput() {
+  const noticeType = document.querySelector('input[name="notice"]:checked')?.value;
+  const courtVal = document.getElementById('a-court')?.value;
+  const nd = noticeType ? noticeData[noticeType] || {} : {};
+  const c = courtVal ? courts[courtVal] : null;
+  const amount = document.getElementById('a-amount')?.value;
+
+  // CHECKLIST
+  let checkItems = [
+    { text: 'Original notice (or photo) — preserved exactly as received', p: 'urgent' },
+    { text: 'Lease or rental agreement — all pages', p: 'urgent' },
+    { text: 'Proof of all rent payments: receipts, bank records, money orders, Venmo/Zelle/Cash App screenshots', p: 'urgent' },
+    { text: 'All written communication with landlord (texts, emails, letters)', p: 'urgent' },
+    { text: 'Photos of unit condition — current and historic if available', p: 'important' },
+    { text: 'Maintenance requests — written or documented', p: 'important' },
+    { text: 'Any previous notices received from landlord', p: 'important' },
+    { text: 'Government ID for tenant and adult household members', p: 'important' },
+    { text: 'Rental assistance application confirmation number(s)', p: 'helpful' },
+    { text: 'Proof of income — pay stubs, benefits letter, bank statement', p: 'helpful' },
+    { text: 'Social Security cards or ITIN documentation', p: 'helpful' },
+    { text: 'Names and contact info for any witnesses', p: 'helpful' }
+  ];
+  if (noticeType === 'complaint' || noticeType === 'judgment' || noticeType === 'writ') {
+    checkItems.unshift({ text: 'Summons/complaint — court date and case number written down separately', p: 'urgent' });
+  }
+  if (noticeType === 'judgment' || noticeType === 'writ') {
+    checkItems.unshift({ text: '⏰ CHECK APPEAL DEADLINE — 5 calendar days from judgment. File today if within window.', p: 'urgent' });
+  }
+
+  let html = `<div class="output-card">
+    <div class="output-header"><h3>📋 Document & Preparation Checklist</h3><span class="info-pill">${nd.label || 'Case'}</span></div>
+    <div class="output-body"><div class="checklist">`;
+  checkItems.forEach(i => {
+    html += `<label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">${i.text}</div><span class="check-priority pri-${i.p}">${i.p}</span></label>`;
+  });
+  html += `</div></div></div>`;
+
+  // TALKING POINTS
+  const tps = buildTalkingPoints(noticeType, nd, amount);
+  html += `<div class="output-card">
+    <div class="output-header"><h3>🗣 Advocate Talking Points & Court Prep</h3></div>
+    <div class="output-body">
+      <div class="talking-intro">Frameworks, not scripts. Adapt to the specific facts. Not legal advice — these are navigation and preparation tools. Source: <a href="https://justicecourts.maricopa.gov/case-types/evictions" target="_blank">justicecourts.maricopa.gov/case-types/evictions</a></div>`;
+  tps.forEach(tp => {
+    html += `<div class="talking-point"><div class="tp-label">${tp.label}</div><div class="tp-text">${tp.text}</div>${tp.note ? `<div class="tp-note">${tp.note}</div>` : ''}</div>`;
+  });
+  html += `</div></div>`;
+
+  // RESOURCES
+  html += `<div class="output-card">
+    <div class="output-header"><h3>🤝 Maricopa County Resources</h3></div>
+    <div class="output-body"><div class="resource-grid">`;
+  resources.forEach(r => {
+    html += `<div class="resource-card"><div class="res-icon">${r.icon}</div>
+      <div class="res-info"><h4>${r.name}</h4><p>${r.desc}</p><div class="res-contact">${r.contact}</div></div>
+      <span class="res-tag">${r.tag}</span></div>`;
+  });
+  html += `</div></div></div>`;
+
+  // COURT
+  if (c) {
+    html += `<div class="output-card">
+      <div class="output-header"><h3>📍 Court Information</h3></div>
+      <div class="output-body">
+        <div class="court-info-box"><h4>${c.name}</h4>
+          <div class="court-detail">
+            <strong>Address:</strong> ${c.address}<br>
+            <strong>Phone:</strong> ${c.phone}<br>
+            <strong>Hours:</strong> ${c.hours}<br>
+            <strong>Navigators on-site:</strong> Yes — former court clerks who can explain process and direct to forms<br>
+            <a href="${c.url}" target="_blank">View on justicecourts.maricopa.gov →</a>
+          </div>
+        </div>
+        <div style="margin-top:1rem;padding:0.85rem 1rem;background:var(--teal-bg);border-radius:8px;font-size:0.83rem;color:#1a3a34">
+          <strong>Look Up This Case:</strong> <a href="https://justicecourts.maricopa.gov/app/courtrecords/casesearch" target="_blank">justicecourts.maricopa.gov/app/courtrecords/casesearch</a> — search by name or case number.<br>
+          <strong>Court Forms:</strong> <a href="https://justicecourts.maricopa.gov/find-a-form/court-forms" target="_blank">justicecourts.maricopa.gov/find-a-form/court-forms</a> — Answer, Counterclaim, Motion to Set Aside, Appeal forms.<br>
+          <strong>Fee Waivers:</strong> Court filing fees may be deferred or waived for financial hardship. Ask the clerk.
+        </div>
+      </div>
+    </div>`;
+  }
+  document.getElementById('a-full-output').innerHTML = html;
+}
+
+function buildTalkingPoints(noticeType, nd, amount) {
+  const base = [
+    { label: 'Opening Statement', text: 'State your role: "I am here as a community advocate supporting the tenant. I am not an attorney." State what the tenant is seeking. Lead with your strongest point. Be brief — justice courts hear hundreds of evictions daily and hearings are often 5–15 minutes.', note: 'Per MCJC: Only persons named in the case may speak, unless they are an attorney. Do not send a family member or friend not named on the case.' },
+    { label: 'On Documentation', text: 'Organize documents before the hearing. Announce each document before presenting it: "I have documentation I would like to present." State plainly what each document shows: "This shows rent was paid in full on [date]." Present one item at a time. Never argue — present.', note: '"The records show…" is stronger than "He\'s lying."' },
+    { label: 'On Notice Defects (if any found)', text: 'If defects exist, raise early: "Your Honor, before we proceed to the merits, we would like to note concerns about the validity of the notice, specifically [identified defect]." Let the judge determine whether to continue or dismiss.', note: 'Source: MCJC Obligations & Remedies page.' }
+  ];
+  if (noticeType === '5day-pay') {
+    base.push({ label: 'On Payment or Amount Dispute', text: 'If tenant paid or amount is disputed: "The tenant has documentation of payment on [date]. The notice amount appears to include [unauthorized fees/charges]. We are requesting an itemized accounting." For non-payment cases: if the tenant CAN pay in full including court costs before judgment, that stops the eviction and prevents a court record.', note: 'MCJC source: "Paying in full before the judge rules will stop the eviction and prevent the case from appearing on a tenant\'s record."' });
+  }
+  if (noticeType === 'complaint') {
+    base.push({ label: 'At the Hearing', text: 'Check in before the docket is called. If requesting a continuance, state a specific reason (rental assistance pending, critical document unavailable). Continuances are limited to 3 business days under Arizona Rules of Procedure for Eviction Actions. If rental assistance is pending, get a confirmation number and the agency\'s contact — present it to the judge.', note: 'MCJC: "Due to the extremely high volume of cases, you may have a wait (generally no more than one hour) until your case is called."' });
+    base.push({ label: 'Answer / Counterclaim', text: 'Tenant may file an Answer at no cost — the Answer form gives options to check and explain why the landlord should not prevail. If tenant believes landlord owes money due to landlord breach of the rental agreement or ARLTA, file a counterclaim at the same time as the Answer.', note: 'MCJC: "There is no fee required to file an Answer."' });
+  }
+  if (noticeType === 'judgment' || noticeType === 'writ') {
+    base.push({ label: 'POST-JUDGMENT — Immediate Options', text: 'If within 5 calendar days of judgment: File a Notice of Appeal to Superior Court. A supersedeas bond is the ONLY way to stop or stay the writ of restitution — without it, eviction proceeds regardless of appeal. If tenant was not present (default): Motion to Set Aside may be available — show good cause for non-appearance and a meritorious defense.', note: 'MCJC: "The court cannot extend the time for appeal." Act today.' });
+  }
+  base.push({ label: 'On Eviction Record Sealing', text: 'Arizona law (effective September 24, 2022) requires eviction records be sealed when: (1) case dismissed before judgment, (2) judgment for tenant, OR (3) landlord and tenant agree in writing to set aside and seal. A Motion to Set Aside and Seal must be filed. This happens automatically once conditions are met. Document any agreement carefully.', note: 'Source: MCJC Evictions page.' });
+  return base;
+}
+
+// ── TENANT STEPS ──
+function tenStep(n, init) {
+  if (!init) {
+    document.querySelectorAll('#tenant-progress .progress-step').forEach((el, i) => {
+      el.classList.remove('active', 'done');
+      if (i + 1 < n) { el.classList.add('done'); el.querySelector('.step-dot').textContent = '✓'; }
+      else if (i + 1 === n) el.classList.add('active');
+    });
+  }
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById('t-step-' + i);
+    if (el) el.style.display = i === n ? 'block' : 'none';
+  }
+  if (n === 2) buildTenantStage();
+  if (n === 3) buildTenantActions();
+  if (n === 4) buildTenantSummary();
+  window.scrollTo(0, 0);
+}
+
+
+// ── TENANT HELPER: collect all inputs ──
+function getTenantInputs() {
+  return {
+    sit: document.querySelector('input[name="t-situation"]:checked')?.value || '',
+    notice: document.querySelector('input[name="t-notice"]:checked')?.value || '',
+    service: document.querySelector('input[name="t-service"]:checked')?.value || '',
+    household: document.querySelector('input[name="t-household"]:checked')?.value || '',
+    noticeDate: document.getElementById('t-notice-date')?.value || '',
+    hearingDate: document.getElementById('t-hearing-date')?.value || '',
+    amount: document.getElementById('t-amount')?.value || '',
+    courtVal: document.getElementById('t-court')?.value || '',
+    dv: document.getElementById('t-dv')?.checked || false,
+    repairs: document.getElementById('t-repairs')?.checked || false,
+    retaliation: document.getElementById('t-retaliation')?.checked || false,
+    assistance: document.getElementById('t-assistance')?.checked || false,
+    paid: document.getElementById('t-paid')?.checked || false,
+    section8: document.getElementById('t-section8')?.checked || false,
+    hasVulnerable: ['children','family','elderly'].includes(document.querySelector('input[name="t-household"]:checked')?.value || ''),
+  };
+}
+
+// ── DEADLINE CALCULATOR ──
+function calcDeadline(noticeDateStr, serviceMeth, noticeType) {
+  if (!noticeDateStr) return null;
+  const dayMap = { pay: 5, fix: 10, move: 30, immediate: 0 };
+  let days = dayMap[noticeType] ?? 0;
+  if (days === 0) return null;
+  // posted+mailed adds 5 days per AZ law
+  if (serviceMeth === 'posted-mailed') days += 5;
+  const served = new Date(noticeDateStr + 'T12:00:00');
+  const deadline = new Date(served);
+  deadline.setDate(deadline.getDate() + days);
+  const today = new Date();
+  today.setHours(12, 0, 0, 0);
+  const remaining = Math.ceil((deadline - today) / 86400000);
+  return {
+    deadline,
+    remaining,
+    days,
+    extraDays: serviceMeth === 'posted-mailed' ? 5 : 0,
+    fmt: deadline.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
+  };
+}
+
+function buildTenantStage() {
+  const inp = getTenantInputs();
+  const { sit, notice, service, courtVal, noticeDate, hearingDate, amount, dv, repairs, retaliation, paid, assistance, section8, hasVulnerable } = inp;
+  const c = courtVal ? courts[courtVal] : null;
+  const dl = (sit === 'got-notice') ? calcDeadline(noticeDate, service, notice) : null;
+  let html = '';
+
+  // DEADLINE BANNER
+  if (dl) {
+    const cls = dl.remaining <= 0 ? 'danger' : dl.remaining <= 2 ? 'danger' : 'warn';
+    const icon = dl.remaining <= 2 ? '🚨' : '📅';
+    html += `<div class="alert alert-${cls}">
+      <span class="alert-icon">${icon}</span>
+      <div><strong>Deadline: ${dl.fmt}</strong><br>
+      ${dl.remaining > 0
+        ? `You have <strong>${dl.remaining} day${dl.remaining === 1 ? '' : 's'} remaining</strong>.${dl.extraDays ? ` (Includes 5 extra days because the notice was posted AND mailed to you.)` : ''}`
+        : `<strong>This deadline has passed.</strong> Your landlord may have already filed or may file in court soon. Act today.`}
+      </div>
+    </div>`;
+  }
+
+  if (hearingDate) {
+    const hd = new Date(hearingDate + 'T12:00:00');
+    const today = new Date(); today.setHours(12,0,0,0);
+    const dth = Math.ceil((hd - today) / 86400000);
+    const fmt = hd.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+    html += `<div class="alert alert-${dth <= 3 ? 'danger' : 'warn'}">
+      <span class="alert-icon">⚖️</span>
+      <div><strong>Your hearing: ${fmt}</strong><br>
+      ${dth > 0 ? `That is <strong>${dth} day${dth === 1 ? '' : 's'} away</strong>. Do NOT miss this.` : dth === 0 ? `<strong>Your hearing is TODAY.</strong>` : `<strong>This hearing date has passed.</strong> If you didn't appear, a default judgment may have been entered. Call legal aid immediately.`}
+      </div>
+    </div>`;
+  }
+
+  // NOTICE — PAY OR QUIT
+  if (sit === 'got-notice' && notice === 'pay') {
+    html += `
+    <div class="plain-box"><p>Your landlord gave you a <span class="term" title="A legal paper requiring you to pay what you owe or move out within 5 days">5-Day Pay or Quit Notice</span>. This is the <strong>most common type of eviction notice</strong> in Maricopa County — the courts filed over 84,000 eviction cases in 2025, and most started with this notice.</p></div>
+    <div class="section-label">What this means</div>
+    <div class="talking-point">
+      <div class="tp-label">In plain language</div>
+      <div class="tp-text">Your landlord says you owe money — usually back rent, possibly late fees. You have <strong>5 calendar days</strong> from when the notice was properly given to you to either pay everything owed, or move out. If you do neither, your landlord can file an eviction lawsuit in justice court.</div>
+    </div>
+    <div class="talking-point">
+      <div class="tp-label">The most important thing to know</div>
+      <div class="tp-text">Even if your landlord files in court — <strong>you can still stop the eviction and keep it off your rental record</strong> by paying everything in full (rent + late fees + court costs + attorney fees) before the judge makes a final ruling. This includes paying at the hearing itself, before the judge decides.</div>
+      <div class="tp-note">Source: Maricopa County Justice Courts — justicecourts.maricopa.gov</div>
+    </div>
+    ${service === 'posted-mailed' ? `<div class="alert alert-ok"><span class="alert-icon">💡</span><div><strong>You get 5 extra days.</strong> Because the notice was both posted on your door AND mailed, Arizona law extends your deadline by 5 days. Your total is 10 days from the service date, not 5.</div></div>` : ''}
+    ${service === 'posted-only' ? `<div class="alert alert-warn"><span class="alert-icon">⚠️</span><div><strong>The notice may have a defect.</strong> If it was only posted on your door without being mailed, it may not have been properly served under Arizona law. Write down exactly how you received it and tell an advocate or legal aid.</div></div>` : ''}
+    ${paid ? `<div class="alert alert-ok"><span class="alert-icon">✅</span><div><strong>You have proof of payment — this is significant.</strong> Gather every receipt, screenshot, money order stub, or bank record showing what you paid and when. If the amount on the notice is wrong, that is a defense. Bring everything organized to court.</div></div>` : ''}
+    ${amount ? `<div class="court-info-box"><h4>About the amount claimed: ${amount}</h4><div class="court-detail">Check your lease carefully. Does it allow the late fees they're charging? Were any payments not credited? Any reimbursements or credits they didn't apply? Write down every difference between what they claim and what you believe is accurate.</div></div>` : ''}`;
+
+  // NOTICE — FIX / COMPLY
+  } else if (sit === 'got-notice' && notice === 'fix') {
+    html += `
+    <div class="plain-box"><p>Your landlord says you violated your lease and you need to fix it — or move out. How much time you have depends on what they're claiming you did.</p></div>
+    <div class="section-label">What this means</div>
+    <div class="talking-point">
+      <div class="tp-label">5-Day Notice — health &amp; safety issues</div>
+      <div class="tp-text">If the notice claims a health or safety problem (broken glass, excess trash, waste, etc.) you have <strong>5 days</strong> to completely fix it. If you fix it before 5 days, the eviction process stops. If the same problem happens again, your landlord may be able to send a non-curable 10-day notice.</div>
+    </div>
+    <div class="talking-point">
+      <div class="tp-label">10-Day Notice — other lease violations</div>
+      <div class="tp-text">For material violations — unauthorized pets, guests, noise, rule violations — you typically get <strong>10 days</strong> to fix it. The notice must specifically state what you did wrong. If you fix it in writing before the deadline, the eviction stops.</div>
+      <div class="tp-note">If the same violation occurs again, your landlord can issue a 10-day termination notice with no right to cure.</div>
+    </div>
+    <div class="alert alert-info"><span class="alert-icon">💡</span><div><strong>Fix it in writing.</strong> Whatever the problem is, fix it as quickly as possible — then notify your landlord in writing (text or email). Keep a copy. Written documentation that you cured the issue is your protection if this ends up in court.</div></div>
+    ${repairs ? `<div class="alert alert-ok"><span class="alert-icon">🔧</span><div><strong>You mentioned your landlord hasn't fixed problems in your unit.</strong> You cannot withhold rent because of this in Arizona — but you may have other legal remedies. An advocate can help you understand the options, which may include repair-and-deduct for minor repairs under A.R.S. § 33-1363.</div></div>` : ''}
+    ${retaliation ? `<div class="alert alert-warn"><span class="alert-icon">⚠️</span><div><strong>You complained recently — this may be retaliation.</strong> If your landlord is evicting you because you reported a problem or exercised a legal right, that is called retaliation and it is illegal in Arizona (A.R.S. § 33-1381). Document the timeline carefully and contact an advocate.</div></div>` : ''}`;
+
+  // NOTICE — MOVE OUT / 30-DAY
+  } else if (sit === 'got-notice' && notice === 'move') {
+    html += `
+    <div class="plain-box"><p>Your landlord gave you a <strong>30-Day Notice to Move Out</strong>. This is used to end a <span class="term" title="A rental with no fixed end date — goes month to month with rent due each month">month-to-month tenancy</span>. It does <strong>not necessarily mean you did something wrong</strong> — in Arizona, landlords can end a month-to-month rental with 30 days notice for any legal reason.</p></div>
+    <div class="talking-point">
+      <div class="tp-label">What you need to know</div>
+      <div class="tp-text">You have 30 days from when the notice was properly served to vacate. If you're still there after 30 days, your landlord can file for eviction. Use this time to apply for rental assistance, look for a new place, and connect with community resources.</div>
+    </div>
+    ${retaliation ? `<div class="alert alert-warn"><span class="alert-icon">⚠️</span><div><strong>You complained before receiving this notice — this may be retaliation.</strong> Retaliatory eviction is illegal in Arizona (A.R.S. § 33-1381). Contact legal aid to understand whether this applies to your situation before you move.</div></div>` : ''}
+    <div class="alert alert-info"><span class="alert-icon">ℹ️</span><div>Arizona law prohibits discrimination based on familial status — a landlord cannot evict someone specifically because they have children. (A.R.S. § 33-1317) If you think that may be a factor, contact the Arizona Fair Housing Center.</div></div>`;
+
+  // NOTICE — IMMEDIATE
+  } else if (sit === 'got-notice' && notice === 'immediate') {
+    html += `
+    <div class="plain-box"><p>Your landlord gave you an <strong>Immediate Termination Notice</strong>. This is one of the most serious types. It's used for allegations of criminal activity or something the landlord claims is an irreparable danger to others. There is <strong>no time to fix anything.</strong></p></div>
+    <div class="alert alert-danger"><span class="alert-icon">🚨</span><div><strong>Your landlord can file in court the next day.</strong> If a judge issues an eviction for an irreparable breach, the Writ of Restitution — the order to remove you from your home — can be carried out within 12 to 24 hours of judgment.</div></div>
+    <div class="talking-point">
+      <div class="tp-label">What you should do right now</div>
+      <div class="tp-text">Call Community Legal Services: (602) 258-3434. Even with this notice, your landlord still must file in court and a judge must decide. You still have the right to appear and tell your side. If the allegation is wrong or involves someone else, that matters in court.</div>
+    </div>
+    ${dv ? `<div class="alert alert-ok"><span class="alert-icon">🛡️</span><div><strong>You indicated you are a domestic violence survivor.</strong> Arizona law (A.R.S. § 33-1318) provides significant housing protections for survivors of DV, sexual assault, or stalking. This may change your options significantly. Contact legal aid — tell them about your situation.</div></div>` : ''}`;
+
+  // NOTICE — UNSURE
+  } else if (sit === 'got-notice') {
+    html += `
+    <div class="plain-box"><p>You received a notice but aren't sure exactly what it says. <strong>The most important thing is to not ignore it.</strong> Every notice has a deadline — and missing it takes options away from you.</p></div>
+    <div class="alert alert-warn"><span class="alert-icon">⚠️</span><div><strong>Look at the notice for these things:</strong><br>
+    • A number of days: 5, 10, or 30<br>
+    • A dollar amount you owe<br>
+    • A description of something you need to stop, fix, or change<br><br>
+    Go back and pick the option that best matches what it says. If you're not sure, call Community Legal Services at (602) 258-3434 — they can help you identify the notice type for free.</div></div>`;
+
+  // GOT COURT PAPERS
+  } else if (sit === 'got-court') {
+    html += `
+    <div class="plain-box"><p>You received a <span class="term" title="Official court papers saying a lawsuit was filed and you must appear in court on the listed date">Summons and Complaint</span>. Your landlord formally filed an eviction lawsuit in Justice Court. Your case has a case number and a hearing date. <strong>You must appear at that hearing.</strong></p></div>
+    <div class="alert alert-danger"><span class="alert-icon">🚨</span><div><strong>Do NOT miss your hearing.</strong> If you don't show up, the judge will almost certainly rule against you automatically — that is called a <span class="term" title="A ruling entered because the defendant didn't appear">default judgment</span>. Once that happens, your landlord can request an order to remove you within days.</div></div>
+    <div class="section-label">What to know about your hearing</div>
+    <div class="talking-point">
+      <div class="tp-label">What happens at the courthouse</div>
+      <div class="tp-text">Justice courts hear hundreds of evictions every day. You may wait up to an hour before your case is called. When it is called, both you and your landlord get to speak. Bring everything — your lease, proof of rent payments, texts and emails with your landlord, photos of unit problems. The judge will hear both sides and decide that day, or reset for up to 3 business days.</div>
+      <div class="tp-note">Per MCJC: Only the people named in the case may speak. You cannot send a family member or friend to speak for you unless they are a licensed attorney.</div>
+    </div>
+    <div class="talking-point">
+      <div class="tp-label">For non-payment cases — you can still stop the eviction at the hearing</div>
+      <div class="tp-text">If this case is about unpaid rent, you can <strong>stop the eviction and keep it off your record</strong> by paying everything in full — rent + late fees + court costs + attorney fees — before the judge makes a final ruling. This includes paying at the hearing itself. Ask the clerk about the total amount due when you arrive.</div>
+    </div>
+    <div class="talking-point">
+      <div class="tp-label">Filing an Answer — free, and you can do it</div>
+      <div class="tp-text">You can file a written Answer with the court at no cost. The Answer form lets you explain your side and check all defenses that apply. The free Navigators at your justice court building can help you find and complete the form. You can file it before or at the hearing.</div>
+    </div>
+    ${assistance ? `<div class="alert alert-ok"><span class="alert-icon">💰</span><div><strong>You have rental assistance pending.</strong> Bring your application confirmation number and the agency's contact info to court. Ask the judge if the court can allow a brief continuance for the assistance to process. Per MCJC, continuances are limited to 3 business days — a specific documented reason gives you the best chance.</div></div>` : ''}
+    ${dv ? `<div class="alert alert-ok"><span class="alert-icon">🛡️</span><div><strong>Domestic violence protections may apply.</strong> Tell the judge or contact legal aid before the hearing. A.R.S. § 33-1318 provides significant housing protections for DV survivors. This is important to raise.</div></div>` : ''}`;
+
+  // HAD HEARING
+  } else if (sit === 'had-hearing') {
+    html += `
+    <div class="plain-box"><p>Your hearing already happened. The judge likely issued a <span class="term" title="The judge's official decision in the case">judgment</span>. If you weren't there or the decision went against you, there may still be options — but the window is very short.</p></div>
+    <div class="alert alert-danger"><span class="alert-icon">🚨</span><div><strong>You may only have 5 calendar days to appeal — from the date of judgment.</strong> The court cannot extend this deadline under any circumstances. Contact legal aid today: Community Legal Services (602) 258-3434.</div></div>
+    <div class="section-label">Your options right now</div>
+    <div class="talking-point">
+      <div class="tp-label">Option 1 — Appeal to Superior Court (5-day window)</div>
+      <div class="tp-text">Either party can appeal a justice court eviction judgment to Superior Court. You must file a Notice of Appeal within <strong>5 calendar days</strong> from the judgment date OR before the Writ of Restitution issues — whichever comes first. Filing an appeal alone does NOT stop the eviction. You must also post a <span class="term" title="A court-set amount of money you deposit to pause enforcement while you appeal">supersedeas bond</span> to stay (stop) the writ.</div>
+      <div class="tp-note">Source: Maricopa County Justice Courts · A.R.S. § 33-1378</div>
+    </div>
+    <div class="talking-point">
+      <div class="tp-label">Option 2 — Motion to Set Aside (if you didn't appear)</div>
+      <div class="tp-text">If the judgment was entered because you didn't show up (default judgment), you may be able to file a Motion to Set Aside. You must show: (1) a good reason why you didn't appear, and (2) that you have a real defense to the eviction. A judge decides whether to grant it — it is not automatic.</div>
+    </div>
+    <div class="talking-point">
+      <div class="tp-label">Option 3 — Negotiate a voluntary move-out</div>
+      <div class="tp-text">Even after a judgment, some landlords will agree to give you more time to leave in exchange for leaving the property in good condition. Any agreement should be in writing. This doesn't reverse the judgment but may give you breathing room to find housing.</div>
+    </div>
+    <div class="talking-point">
+      <div class="tp-label">About eviction record sealing</div>
+      <div class="tp-text">Arizona law (effective September 24, 2022) requires eviction records to be sealed when: the case is dismissed before judgment, the judgment is in the tenant's favor, or both parties agree in writing to set aside and seal the record. A Motion to Set Aside and Seal must be filed. Ask an advocate if you may be eligible.</div>
+    </div>`;
+
+  // WRIT
+  } else if (sit === 'writ') {
+    html += `
+    <div class="plain-box"><p>A <span class="term" title="A court order directing the constable to remove the tenant and return possession to the landlord">Writ of Restitution</span> has been issued. A constable — a law enforcement officer who serves the justice court — is authorized to come to your home and direct you to leave. The landlord can also cut utilities when the writ is executed.</p></div>
+    <div class="alert alert-danger"><span class="alert-icon">🚨</span><div><strong>Call legal aid immediately: (602) 258-3434.</strong> A supersedeas bond is the <em>only</em> legal way to stop the writ from being carried out. This requires filing an appeal AND posting the bond. The court cannot extend deadlines at this stage.</div></div>
+    <div class="section-label">What you need to know right now</div>
+    <div class="talking-point">
+      <div class="tp-label">Your belongings are protected for 21 days</div>
+      <div class="tp-text">After the constable executes the writ, your landlord <strong>cannot throw away, sell, or destroy your personal property for 21 days</strong>. (A.R.S. § 33-1368E–33-1370) You have the right to retrieve your belongings during this period. Make a plan for what you need first. Document what you leave behind with photos.</div>
+    </div>
+    <div class="talking-point">
+      <div class="tp-label">Surrendering your keys</div>
+      <div class="tp-text">You can voluntarily return your keys to your landlord, which ends your possession without requiring the constable to formally execute the writ. This can make the process more orderly and may allow you to negotiate a bit more time for your belongings.</div>
+    </div>
+    <div class="talking-point">
+      <div class="tp-label">Emergency housing</div>
+      <div class="tp-text">Call 2-1-1 now. Tell them you face an imminent eviction. Ask specifically about emergency shelter, rapid rehousing, and transitional housing programs. Some can move within 24–48 hours for families with children or vulnerable household members.</div>
+    </div>`;
+
+  // WORRIED — PRE-NOTICE
+  } else if (sit === 'worried') {
+    html += `
+    <div class="plain-box"><p>You haven't received a notice yet — and that's the best position to be in. <strong>The earlier you take action, the more options you have.</strong> Maricopa County sees over 7,000 eviction filings every month. Most of those tenants had warning signs before things escalated. You're taking the right step.</p></div>
+    <div class="alert alert-ok"><span class="alert-icon">✅</span><div><strong>Early action makes the biggest difference.</strong> Rental assistance, payment arrangements, and advocate support are all much more available before a notice is served than after.</div></div>
+    <div class="section-label">What to know before anything happens</div>
+    <div class="talking-point">
+      <div class="tp-label">Arizona does NOT allow rent strikes</div>
+      <div class="tp-text">You cannot withhold rent because your landlord isn't making repairs or providing services. That is called a "rent strike" and is illegal in Arizona — a judge must in nearly every case evict a tenant who does this. There are other legal remedies for habitability problems. Talk to an advocate about what those are.</div>
+      <div class="tp-note">Source: Maricopa County Justice Courts</div>
+    </div>
+    <div class="talking-point">
+      <div class="tp-label">Talk to your landlord first — in writing</div>
+      <div class="tp-text">If you're behind on rent, contact your landlord before they contact you. Ask about a payment arrangement. Get any agreement in writing (text or email is fine). Many landlords prefer payment over court — filing costs them time and money too.</div>
+    </div>
+    ${repairs ? `<div class="talking-point"><div class="tp-label">About your repair issues</div><div class="tp-text">Document all problems now — photos with timestamps, written requests by text or email. Keep copies. You cannot withhold rent, but you may have other remedies including repair-and-deduct for minor repairs (A.R.S. § 33-1363) or other relief under the Arizona Residential Landlord-Tenant Act. Talk to an advocate to understand what applies.</div></div>` : ''}
+    ${section8 ? `<div class="alert alert-info"><span class="alert-icon">🏠</span><div><strong>You have a housing voucher or subsidized housing.</strong> Subsidized housing and mobile home parks have specialized rules that differ from standard rentals. An advocate familiar with HCV/Section 8 or the Arizona Department of Housing can explain your specific protections.</div></div>` : ''}`;
+  }
+
+  // CROSS-SITUATIONAL FLAGS
+  if (dv && sit !== 'got-notice') {
+    html += `<div class="alert alert-ok" style="margin-top:1rem"><span class="alert-icon">🛡️</span><div><strong>Domestic violence protections (A.R.S. § 33-1318).</strong> Arizona provides significant housing protections for survivors of domestic violence, sexual assault, and stalking. Contact legal aid to understand how these apply to your case.</div></div>`;
+  }
+  if (section8 && sit !== 'worried') {
+    html += `<div class="alert alert-info" style="margin-top:0.75rem"><span class="alert-icon">ℹ️</span><div><strong>Subsidized housing / Section 8 note:</strong> The Arizona Residential Landlord-Tenant Act does not fully apply to subsidized housing, mobile home parks, or RV parks. These have more specialized rules. An advocate familiar with HCV/Section 8 can help.</div></div>`;
+  }
+
+  // COURT INFO
+  if (c) {
+    html += `<div class="court-info-box" style="margin-top:1.5rem">
+      <h4>📍 ${c.name} ${c.navigator ? '<span style="font-size:0.7rem;background:var(--teal-bg);color:var(--teal);padding:2px 7px;border-radius:3px;font-weight:600;margin-left:6px">Navigator On-Site</span>' : ''}</h4>
+      <div class="court-detail">
+        <strong>Address:</strong> ${c.address}<br>
+        <strong>Phone:</strong> ${c.phone} &nbsp;·&nbsp; <strong>Hours:</strong> ${c.hours}<br>
+        <strong>Justice of the Peace:</strong> ${c.judge}<br>
+        ${c.navigator ? '<strong>Free Navigators on-site</strong> — former court clerks who explain forms and process (not legal advice)<br>' : ''}
+        <a href="${c.url}" target="_blank">View court information on justicecourts.maricopa.gov →</a>
+      </div>
+    </div>`;
+  }
+
+  document.getElementById('t-stage-explanation').innerHTML = html;
+}
+
+function buildTenantActions() {
+  const inp = getTenantInputs();
+  const { sit, notice, dv, repairs, retaliation, paid, assistance, section8, hasVulnerable, hearingDate } = inp;
+  let steps = [];
+
+  if (sit === 'got-notice' && notice === 'pay') {
+    steps = [
+      { urgent: true, title: 'Gather every proof of payment — right now', body: 'Bank statements, money order stubs, Venmo/Cash App/Zelle screenshots, text messages confirming payment, receipts. This is your most important evidence. Get it together before you do anything else.', sub: "Can't find receipts? Call your bank and ask for transaction history for the past 3–6 months. Ask your landlord for a payment ledger." },
+      { urgent: true, title: 'Contact a rental assistance program today', body: 'Even if you genuinely owe the money, rental assistance may be able to pay it directly to your landlord and stop the eviction. Many programs can move quickly when a 5-day notice has been served.', sub: 'Call 2-1-1 (az211.gov). Ask for "emergency rental assistance" and say you have a 5-day notice. Also check: Maricopa County Housing (602-506-2680), your city\'s Human Services dept, and local nonprofits and churches.' },
+      { urgent: true, title: 'Contact your landlord in writing', body: 'Text or email your landlord before the deadline. Ask if they will accept a payment arrangement or wait for rental assistance. Keep every message. Some landlords will pause the process if you communicate and show good faith.', sub: 'Do not pay cash without a receipt. Any payment arrangement must be in writing.' },
+      { urgent: false, title: 'Check if the amount on the notice is correct', body: 'Does it include late fees your lease does not allow? A security deposit charged as rent? Payments you made that were not credited?', sub: paid ? 'You said you have proof of payment — compare your records to what they claim, line by line. Any difference may be a defense.' : 'Write down every difference between what the notice says and what you believe you actually owe.' },
+      { urgent: false, title: 'Check how the notice was given to you', body: 'If it was posted on your door AND mailed, you get 5 extra days. If it was only posted with no mailing, it may have a defect. Write down exactly how and when you got it.', sub: 'Notice delivery issues can matter in court — mention it to an advocate.' },
+      ...(assistance ? [{ urgent: true, title: 'Get your rental assistance confirmation number', body: 'If you\'ve already applied, get your confirmation or application number. If your case goes to court, showing the judge that assistance is pending can support a request for a short continuance.', sub: 'Contact the assistance agency and ask for a letter or email confirming your application is active.' }] : []),
+      { urgent: false, title: 'Contact legal aid or an advocate', body: 'Community Legal Services: (602) 258-3434 — free for qualifying households. Or visit the free Navigators at your justice court building — former court clerks who can point you to forms and explain the process.', sub: 'Also free: azcourthelp.org and azcourts.gov/eviction in English and Spanish.' }
+    ];
+  } else if (sit === 'got-notice' && notice === 'fix') {
+    steps = [
+      { urgent: true, title: 'Fix the problem immediately — and document that you did', body: 'Whatever the violation is, fix it as fast as possible. Then document it: take a photo or video with a timestamp showing it\'s resolved.', sub: 'Examples: unauthorized pet — rehome or document it\'s gone. Extra person — have them remove belongings and stay elsewhere. Trash — clean and photograph. Noise — write a message confirming the issue has stopped.' },
+      { urgent: true, title: 'Notify your landlord in writing that you fixed it', body: 'Send a text or email stating what you did and when. Keep a copy. Something like: "I am writing to confirm that [the issue] has been fully resolved as of [date]."', sub: 'A written record is your evidence if this goes to court. A verbal conversation is not enough.' },
+      { urgent: false, title: 'Review the notice — does it state exactly what you did wrong?', body: 'A compliance notice must specifically describe the violation. If it\'s vague or doesn\'t cite an actual lease term, that may be relevant. Write down what the notice says.', sub: retaliation ? '⚠️ You mentioned complaining recently before this notice. Document the timeline carefully: when you complained, what you said, what your landlord\'s response was, when this notice was served. Bring that to an advocate.' : '' },
+      { urgent: false, title: 'Read your lease carefully', body: 'Find the section the landlord is claiming you violated. Does your lease actually prohibit what they\'re saying? Is there a warning process they were supposed to follow first?' },
+      { urgent: false, title: 'Contact an advocate if you think the notice is wrong', body: 'Community Legal Services: (602) 258-3434. If you believe the violation didn\'t happen, isn\'t covered by your lease, or if this is retaliation — an advocate can help you understand your options before a court filing.', sub: 'You have more options right now, before any lawsuit is filed, than you will have after.' }
+    ];
+  } else if (sit === 'got-notice' && notice === 'move') {
+    steps = [
+      { urgent: true, title: 'Start looking for a new place and contact rental assistance now', body: '30 days is not a lot of time. Begin your housing search today. Call 2-1-1 and ask for rental assistance that can help with a deposit and first month\'s rent on a new place.', sub: 'Community organizations — CPLC, Native American Connections, Chicanos Por La Causa — may have transitional housing assistance.' },
+      { urgent: false, title: 'Confirm exactly when your 30 days ends', body: 'The clock starts from when the notice was properly served, not when you read it. If you\'re not sure of your exact deadline, call your justice court or legal aid to confirm.', sub: '' },
+      { urgent: false, title: retaliation ? 'Contact legal aid about possible retaliation' : 'Check if a fixed-term lease is still in effect', body: retaliation ? 'You mentioned complaining before receiving this notice. Retaliation is illegal in Arizona (A.R.S. § 33-1381). Contact legal aid before you move to understand whether this applies.' : 'If you have a written lease with an end date that hasn\'t passed, a 30-day notice may not be valid. Check your lease.', sub: '' },
+      { urgent: false, title: 'Document the unit thoroughly when you leave', body: 'Take photos or video of every room before moving out, noting all existing damage. Return keys and get written confirmation. This protects your security deposit.', sub: 'Under A.R.S. § 33-1321, landlords have 14 business days after move-out to return your deposit or provide an itemized deduction list.' }
+    ];
+  } else if (sit === 'got-notice' && notice === 'immediate') {
+    steps = [
+      { urgent: true, title: 'Call Community Legal Services TODAY: (602) 258-3434', body: 'This is the most serious type of notice. Your landlord can file in court the next day. You still have rights — but you need legal help now, not tomorrow.', sub: 'Also: azcourthelp.org and azcourts.gov/eviction for free self-help resources.' },
+      { urgent: true, title: 'Do not leave your home yet', body: 'Receiving a notice does not mean you must leave immediately. Your landlord still must file a lawsuit in justice court and get a judgment before any enforcement can happen. Stay until you receive court papers or legal advice says otherwise.', sub: dv ? 'If domestic violence is a factor, your safety comes first. Contact a DV advocate for guidance on your specific situation.' : '' },
+      { urgent: true, title: 'Write down exactly what the notice alleges — in detail', body: 'What specific acts or conduct does it claim? Who is it attributed to? When does it claim this happened? If any of it is wrong or involves someone else, that is important information for your defense.', sub: '' },
+      { urgent: false, title: 'Gather documents that could support your defense', body: 'Lease, payment records, communications with your landlord, police reports if relevant, anything showing the allegation is incorrect or misattributed.', sub: '' },
+      ...(dv ? [{ urgent: true, title: '🛡️ Domestic violence protections may apply to you', body: 'A.R.S. § 33-1318 provides significant protections for DV, sexual assault, and stalking survivors in housing situations. Contact legal aid and tell them — this may change your options significantly.', sub: 'National DV Hotline: 1-800-799-7233. AZ Coalition to End Sexual &amp; Domestic Violence: 1-800-782-6400.' }] : [])
+    ];
+  } else if (sit === 'got-court') {
+    steps = [
+      { urgent: true, title: 'Write your hearing date somewhere you will not lose it', body: 'Find the date and time on your Summons. Write it in your phone calendar, on a sticky note on your mirror, and tell someone you trust. Missing court means an automatic loss.', sub: hearingDate ? `Your hearing: ${new Date(hearingDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}` : 'Look for "Return Date" or "Hearing Date" on your Summons.' },
+      { urgent: true, title: 'Call Community Legal Services: (602) 258-3434', body: 'Tell them you have an eviction hearing. They provide free civil legal aid to qualifying households. The sooner you call, the better your chances of getting help before the hearing.', sub: 'Also: visit the free Navigators at your justice court building — former court clerks who help with forms and explain the process (not legal advice).' },
+      { urgent: true, title: 'Gather and organize all your documents before the hearing', body: 'Bring: your lease (all pages), proof of all rent payments, all texts/emails with your landlord, photos of unit problems, maintenance requests, your government ID.', sub: 'Organize them in order — most important first. Courts move fast — knowing where your documents are matters.' },
+      { urgent: false, title: 'File a written Answer — it is free', body: 'There is no fee to file an Answer. The form lets you explain your defenses and check all reasons the landlord should not win. You can file it before the hearing or bring it the day of.', sub: 'Download the Answer form from justicecourts.maricopa.gov/find-a-form/court-forms or ask the Navigators at your court building for help finding and completing it.' },
+      ...(assistance ? [{ urgent: false, title: 'Bring your rental assistance confirmation to court', body: 'If assistance is pending, bring your application confirmation number and the agency\'s contact information. Ask the judge if the court can allow a brief continuance (delay) for the assistance to process.', sub: 'Per MCJC: continuances are limited to 3 business days. A specific documented reason — like pending rental assistance — gives you the best chance of getting one.' }] : []),
+      { urgent: false, title: 'Know what to say when your case is called', body: 'State your name, say you are the tenant, and that you want to respond to the complaint. Be calm and factual. Present documents one at a time. Let the judge ask questions.', sub: 'If you don\'t understand something the judge says, it is okay to say "I\'m not sure I understand — can you explain?" Judges expect this from people who represent themselves.' }
+    ];
+  } else if (sit === 'had-hearing') {
+    steps = [
+      { urgent: true, title: 'Call legal aid TODAY: (602) 258-3434', body: 'The appeal window is 5 calendar days from the date of judgment. The court cannot extend this for any reason. If you\'re within that window, you may be able to appeal.', sub: 'Also: azcourthelp.org has information on appealing a justice court eviction judgment.' },
+      { urgent: true, title: 'Find out exactly when the judgment was entered', body: 'Look at your court papers for the date the judgment was signed. The 5-day window starts from that date. If you\'re not sure, call your justice court or look up your case at justicecourts.maricopa.gov/app/courtrecords/casesearch.', sub: '' },
+      { urgent: true, title: 'Start planning for housing immediately', body: 'Even while pursuing legal options, begin your housing plan. Call 2-1-1 for emergency shelter and transitional housing resources.', sub: hasVulnerable ? 'Tell every resource you contact that you have children or vulnerable household members — some programs prioritize families in immediate need.' : '' },
+      { urgent: false, title: 'Your belongings are protected for 21 days after the writ', body: 'After a Writ of Restitution is carried out, your landlord cannot dispose of, sell, or destroy your personal property for 21 days (A.R.S. § 33-1368E–33-1370). Document what you leave behind with photos.', sub: '' },
+      { urgent: false, title: 'Ask about eviction record sealing', body: 'If you win an appeal or both parties agree, your eviction record can be sealed under Arizona law (effective Sept. 24, 2022). An attorney or advocate can help you file a Motion to Set Aside and Seal if eligible.', sub: 'An eviction record — even just a filing — can make finding future housing much harder. This is worth pursuing if eligible.' }
+    ];
+  } else if (sit === 'writ') {
+    steps = [
+      { urgent: true, title: '🚨 Call legal aid immediately: (602) 258-3434', body: 'A supersedeas bond is the only legal way to stop the writ from being carried out. This requires both filing an appeal AND posting the bond set by the court.', sub: 'If you have already filed an appeal without posting a supersedeas bond, the eviction can still proceed — the bond is required to stop enforcement.' },
+      { urgent: true, title: 'Call 2-1-1 for emergency housing — now', body: 'You need a plan for tonight and the next few nights. Call 2-1-1 or visit az211.gov. Say you are facing an imminent eviction. Ask about emergency shelter, transitional housing, and rapid rehousing programs.', sub: hasVulnerable ? 'Tell them you have children/elderly/disabled household members — this may qualify you for priority placement.' : '' },
+      { urgent: true, title: 'Protect your belongings — landlord must wait 21 days', body: 'After the constable executes the writ, your landlord CANNOT dispose of, sell, or destroy your personal property for 21 days. (A.R.S. § 33-1368E–33-1370) You have the right to retrieve your belongings.', sub: 'Take important documents first: ID, birth certificates, Social Security cards, lease, medications. Document what remains with photos.' },
+      { urgent: false, title: 'Consider surrendering your keys voluntarily', body: 'Voluntarily returning your keys to your landlord ends your possession without a formal constable execution. This may allow for a more orderly move-out and could open the door to negotiating a bit more time.', sub: 'Any agreement should be in writing.' },
+      { urgent: false, title: 'Keep all your court documents', body: 'Keep every paper from your case. You will need them for any appeal, future housing applications, and if you pursue eviction record sealing later.', sub: '' }
+    ];
+  } else if (sit === 'worried') {
+    steps = [
+      { urgent: false, title: 'Contact your landlord before they contact you', body: 'If you\'re behind on rent or anticipate problems, reach out to your landlord in writing now. Ask about a payment arrangement. Many landlords prefer this over court.', sub: 'Text or email so you have a record: "I want to let you know I\'m having a temporary hardship with rent. I\'m working on [rental assistance/new job/etc.] and I\'m committed to catching up. Can we discuss an arrangement?"' },
+      { urgent: false, title: 'Apply for rental assistance before you need it urgently', body: 'Prevention programs are much easier to access before a notice is served. Call 2-1-1 or visit az211.gov. Ask specifically about prevention — not just emergency — programs.', sub: 'Also check with your city: Phoenix (602-262-6251), Mesa, Chandler, Tempe, Scottsdale, and Peoria all have local housing assistance programs.' },
+      { urgent: false, title: 'Document any problems with your unit — now', body: 'If your landlord hasn\'t fixed serious problems, send a written repair request by text or email and keep a copy. Take photos with timestamps. You cannot withhold rent, but documentation protects you.', sub: repairs ? 'You mentioned repair issues. Document them thoroughly. You may have remedies including repair-and-deduct for minor repairs under A.R.S. § 33-1363 (up to half a month\'s rent). Talk to an advocate.' : 'Documented, dated written requests are your evidence if things escalate.' },
+      { urgent: false, title: 'Know your lease and your rights', body: 'Read your lease all the way through. Know when rent is due, what the late fee policy is, and what both sides are required to do. Your lease cannot take away rights state law gives you.', sub: 'The Arizona Residential Landlord-Tenant Act (A.R.S. § 33-1301 to 33-1377) sets minimum standards. Free download from the AZ Department of Housing: housing.az.gov' },
+      { urgent: false, title: 'Connect with an advocate before you need one urgently', body: 'You don\'t have to wait for a crisis. Community Legal Services: (602) 258-3434. Connecting now means you have resources in place if things escalate.', sub: 'The free Navigators at all 6 Maricopa County justice court buildings can answer questions about the court process at any time — no appointment needed.' }
+    ];
+  } else {
+    steps = [
+      { urgent: true, title: 'Don\'t ignore any paper from your landlord or the court', body: 'Every housing paper has a deadline. Ignoring it makes things worse and removes options from you.' },
+      { urgent: true, title: 'Call Community Legal Services: (602) 258-3434', body: 'Free legal aid. They can explain what your papers mean and what your options are.' },
+      { urgent: false, title: 'Gather your documents', body: 'Lease, rent receipts, any texts or emails with your landlord, photos of your unit.' }
+    ];
+  }
+
+  let html = '';
+  steps.forEach((s, i) => {
+    html += `<div style="display:flex;gap:1rem;align-items:flex-start;padding:1.1rem 0;border-bottom:1px solid var(--border)">
+      <div style="width:36px;height:36px;border-radius:50%;background:${s.urgent ? 'var(--danger)' : 'var(--slate)'};display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-weight:700;font-size:1rem;color:#fff;flex-shrink:0;margin-top:2px">${i + 1}</div>
+      <div style="flex:1">
+        <div style="font-size:0.95rem;font-weight:700;color:var(--ink);margin-bottom:0.25rem;line-height:1.3">${s.urgent ? '<span style="color:var(--danger);margin-right:4px">●</span>' : ''}${s.title}</div>
+        <div style="font-size:0.88rem;color:#374151;line-height:1.68;margin-bottom:${s.sub ? '0.5rem' : '0'}">${s.body}</div>
+        ${s.sub ? `<div style="font-size:0.82rem;color:var(--muted);line-height:1.55;padding:0.5rem 0.75rem;background:var(--cream);border-radius:6px;border-left:3px solid var(--border)">${s.sub}</div>` : ''}
+      </div>
+    </div>`;
+  });
+  document.getElementById('t-action-steps').innerHTML = html;
+}
+
+function buildTenantSummary() {
+  const inp = getTenantInputs();
+  const { sit, notice, courtVal, amount, noticeDate, hearingDate, service, dv, repairs, retaliation, paid, assistance, section8, hasVulnerable, household } = inp;
+  const c = courtVal ? courts[courtVal] : null;
+  const dl = (sit === 'got-notice') ? calcDeadline(noticeDate, service, notice) : null;
+  const householdLabel = { alone: 'Individual', adults: 'Adults only', children: 'With children', family: 'Family with children', elderly: 'With elderly/disabled member' };
+  const situationLabel = { 'got-notice': 'Received a Notice', 'got-court': 'Received Court Papers', 'had-hearing': 'Post-Hearing Situation', 'writ': 'Writ of Restitution Issued', 'worried': 'Early Prevention / Pre-Notice' };
+  const noticeLabel = { pay: 'Pay or Quit (rent owed)', fix: 'Comply or Quit (lease violation)', move: '30-Day No-Cause', immediate: 'Immediate Termination', unsure: 'Notice type unclear' };
+
+  let html = `
+  <div class="output-card">
+    <div class="output-header"><h3>📄 Your Summary</h3><span class="info-pill">${situationLabel[sit] || 'Housing Situation'}</span></div>
+    <div class="output-body">
+      <div class="alert alert-info"><span class="alert-icon">ℹ️</span>
+        <div><strong>Not legal advice.</strong> Share this with an advocate or attorney. Official court info: <a href="https://justicecourts.maricopa.gov/case-types/evictions" target="_blank">justicecourts.maricopa.gov</a>. Self-help: <a href="https://www.azcourthelp.org" target="_blank">azcourthelp.org</a> · <a href="https://www.azcourts.gov/eviction" target="_blank">azcourts.gov/eviction</a> · En español: <a href="https://www.azcourts.gov/desalojo" target="_blank">azcourts.gov/desalojo</a></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.65rem;margin-bottom:0.9rem">
+        ${sit ? `<div style="background:var(--cream);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:2px">Situation</div><div style="font-size:0.85rem;font-weight:600;color:var(--ink)">${situationLabel[sit]}</div></div>` : ''}
+        ${notice ? `<div style="background:var(--cream);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:2px">Notice Type</div><div style="font-size:0.85rem;font-weight:600;color:var(--ink)">${noticeLabel[notice]}</div></div>` : ''}
+        ${dl ? `<div style="background:${dl.remaining <= 0 ? 'var(--danger-bg)' : dl.remaining <= 3 ? 'var(--warn-bg)' : 'var(--cream)'};border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:2px">Deadline</div><div style="font-size:0.85rem;font-weight:600;color:${dl.remaining <= 0 ? 'var(--danger)' : 'var(--warn)'}">${dl.fmt}${dl.remaining > 0 ? ` · ${dl.remaining} days remaining` : ' · PASSED'}</div></div>` : ''}
+        ${hearingDate ? `<div style="background:var(--warn-bg);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:2px">Hearing Date</div><div style="font-size:0.85rem;font-weight:600;color:var(--warn)">${new Date(hearingDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'long', day: 'numeric', year: 'numeric' })}</div></div>` : ''}
+        ${amount ? `<div style="background:var(--cream);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:2px">Amount Claimed</div><div style="font-size:0.85rem;font-weight:600;color:var(--ink)">${amount}</div></div>` : ''}
+        ${household ? `<div style="background:var(--cream);border-radius:7px;padding:0.6rem 0.85rem"><div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:2px">Household</div><div style="font-size:0.85rem;font-weight:600;color:var(--ink)">${householdLabel[household]}</div></div>` : ''}
+      </div>
+      ${c ? `<div class="court-info-box"><h4>📍 ${c.name}</h4><div class="court-detail"><strong>${c.address}</strong> · ${c.phone}<br><strong>J.P.:</strong> ${c.judge} · <strong>Hours:</strong> ${c.hours}<br>${c.navigator ? '<strong>Free Navigators on-site</strong> — former court clerks who help with forms and process<br>' : ''}<a href="${c.url}" target="_blank">justicecourts.maricopa.gov →</a></div></div>` : ''}
+    </div>
+  </div>
+
+  <div class="output-card">
+    <div class="output-header"><h3>📋 What to Gather</h3></div>
+    <div class="output-body">
+      ${sit === 'got-court' ? `<div class="alert alert-warn"><span class="alert-icon">⚖️</span><div><strong>Bring ALL of this to your hearing.</strong> Organize it before you go. Courts move fast.</div></div>` : ''}
+      <div class="checklist">
+        <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">The notice or court papers — all pages, exactly as received</div><span class="check-priority pri-urgent">urgent</span></label>
+        <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Your lease or rental agreement — all pages</div><span class="check-priority pri-urgent">urgent</span></label>
+        <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Proof of all rent payments: receipts, bank records, screenshots</div><span class="check-priority pri-urgent">urgent</span></label>
+        <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">All texts and emails between you and your landlord</div><span class="check-priority pri-urgent">urgent</span></label>
+        ${assistance ? '<label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Rental assistance application confirmation number and agency contact info</div><span class="check-priority pri-urgent">urgent</span></label>' : ''}
+        <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Photos of your apartment — especially any problems</div><span class="check-priority pri-important">important</span></label>
+        <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Your government ID</div><span class="check-priority pri-important">important</span></label>
+        ${dv ? '<label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Documentation of DV situation — police reports, protective order, victim advocate letter</div><span class="check-priority pri-important">important</span></label>' : ''}
+        ${section8 ? '<label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Housing voucher or subsidy documentation</div><span class="check-priority pri-important">important</span></label>' : ''}
+        ${hasVulnerable ? '<label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Children\'s birth certificates or school records (for assistance programs)</div><span class="check-priority pri-helpful">helpful</span></label>' : ''}
+        <label class="check-item"><input type="checkbox" onchange="toggleCheck(this)"><div class="check-text">Proof of income — pay stub, benefits letter, or bank statement</div><span class="check-priority pri-helpful">helpful</span></label>
+      </div>
+    </div>
+  </div>
+
+  <div class="output-card">
+    <div class="output-header"><h3>⚖️ Your Rights — Key Reminders</h3></div>
+    <div class="output-body"><div style="display:flex;flex-direction:column;gap:0.65rem">
+      <div style="display:flex;gap:0.75rem;padding:0.85rem;background:var(--ok-bg);border-radius:8px;border:1px solid #a0dbb8;font-size:0.87rem;color:#1a3a34"><span style="flex-shrink:0;font-size:1rem">✅</span><div><strong>You have the right to appear in court</strong> and tell your side. You do not need a lawyer. Free legal aid may be available.</div></div>
+      <div style="display:flex;gap:0.75rem;padding:0.85rem;background:var(--ok-bg);border-radius:8px;border:1px solid #a0dbb8;font-size:0.87rem;color:#1a3a34"><span style="flex-shrink:0;font-size:1rem">✅</span><div><strong>There is no fee to file an Answer.</strong> If you can't afford filing fees for other documents, apply for a fee waiver or deferral at the court clerk's window.</div></div>
+      ${(sit === 'got-notice' && notice === 'pay') || sit === 'got-court' ? `<div style="display:flex;gap:0.75rem;padding:0.85rem;background:var(--ok-bg);border-radius:8px;border:1px solid #a0dbb8;font-size:0.87rem;color:#1a3a34"><span style="flex-shrink:0;font-size:1rem">✅</span><div><strong>Paying in full before judgment stops the eviction</strong> and keeps it off your record — even at the hearing itself. (Non-payment cases only)</div></div>` : ''}
+      <div style="display:flex;gap:0.75rem;padding:0.85rem;background:var(--danger-bg);border-radius:8px;border:1px solid #f5c0c0;font-size:0.87rem;color:#7a1f1f"><span style="flex-shrink:0;font-size:1rem">❌</span><div><strong>You cannot withhold rent in Arizona</strong> — even if your landlord isn't making repairs. There are other legal remedies. Talk to an advocate.</div></div>
+      ${retaliation ? `<div style="display:flex;gap:0.75rem;padding:0.85rem;background:var(--ok-bg);border-radius:8px;border:1px solid #a0dbb8;font-size:0.87rem;color:#1a3a34"><span style="flex-shrink:0;font-size:1rem">✅</span><div><strong>Retaliation is illegal.</strong> If your landlord is evicting you because you complained to them, the city, or a health authority, that may be a legal defense. (A.R.S. § 33-1381)</div></div>` : ''}
+      ${dv ? `<div style="display:flex;gap:0.75rem;padding:0.85rem;background:var(--ok-bg);border-radius:8px;border:1px solid #a0dbb8;font-size:0.87rem;color:#1a3a34"><span style="flex-shrink:0;font-size:1rem">🛡️</span><div><strong>DV survivor protections exist (A.R.S. § 33-1318).</strong> Arizona provides housing protections for victims of domestic violence, sexual assault, and stalking. Contact legal aid.</div></div>` : ''}
+      <div style="display:flex;gap:0.75rem;padding:0.85rem;background:var(--ok-bg);border-radius:8px;border:1px solid #a0dbb8;font-size:0.87rem;color:#1a3a34"><span style="flex-shrink:0;font-size:1rem">✅</span><div><strong>Eviction records can be sealed</strong> when the case is dismissed, you win, or both parties agree in writing. (AZ law, effective Sept. 24, 2022)</div></div>
+    </div></div>
+  </div>
+
+  <div class="output-card">
+    <div class="output-header"><h3>📞 Help Near You</h3></div>
+    <div class="output-body"><div class="resource-grid">
+      <div class="resource-card"><div class="res-icon">⚖️</div><div class="res-info"><h4>Community Legal Services (CLS)</h4><p>Free civil legal aid for low-income Arizonans. Handles evictions, landlord-tenant, fair housing.</p><div class="res-contact">(602) 258-3434 · <a href="https://clsaz.org" target="_blank">clsaz.org</a></div></div><span class="res-tag">Legal Aid</span></div>
+      <div class="resource-card"><div class="res-icon">🏛</div><div class="res-info"><h4>MCJC Courthouse Navigators</h4><p>Free. Former court clerks at all 6 court buildings. Explain forms and process — not legal advice.</p><div class="res-contact"><a href="https://justicecourts.maricopa.gov/about-us/navigators" target="_blank">justicecourts.maricopa.gov/navigators →</a></div></div><span class="res-tag">Court Help</span></div>
+      <div class="resource-card"><div class="res-icon">☎️</div><div class="res-info"><h4>Arizona 211</h4><p>Free, 24/7 helpline. Emergency rental assistance, shelter, food, and more — in English and Spanish.</p><div class="res-contact">Dial <strong>2-1-1</strong> · <a href="https://az211.gov" target="_blank">az211.gov</a></div></div><span class="res-tag">Referral</span></div>
+      <div class="resource-card"><div class="res-icon">💰</div><div class="res-info"><h4>Maricopa County Housing Assistance</h4><p>Rental assistance and eviction prevention programs.</p><div class="res-contact">(602) 506-2680 · <a href="https://maricopa.gov/housing" target="_blank">maricopa.gov/housing</a></div></div><span class="res-tag">Rental Assist</span></div>
+      <div class="resource-card"><div class="res-icon">📖</div><div class="res-info"><h4>AZ Court Help / Eviction Portal</h4><p>Official self-help from the AZ Supreme Court. Forms and explanations in English and Spanish.</p><div class="res-contact"><a href="https://www.azcourthelp.org" target="_blank">azcourthelp.org</a> · <a href="https://www.azcourts.gov/eviction" target="_blank">azcourts.gov/eviction</a></div></div><span class="res-tag">Self-Help</span></div>
+      <div class="resource-card"><div class="res-icon">🏘️</div><div class="res-info"><h4>City of Phoenix Human Services</h4><p>Landlord-tenant workshops and emergency housing resources.</p><div class="res-contact">(602) 262-6251 · <a href="https://www.phoenix.gov/humanservices/landlordandtenantinfo" target="_blank">phoenix.gov/humanservices →</a></div></div><span class="res-tag">City Resource</span></div>
+      ${dv ? `<div class="resource-card"><div class="res-icon">🛡️</div><div class="res-info"><h4>AZ Coalition to End Sexual &amp; Domestic Violence</h4><p>Statewide hotline and referrals for DV survivors. Housing advocacy available.</p><div class="res-contact">1-800-782-6400 · <a href="https://www.acesdv.org" target="_blank">acesdv.org</a></div></div><span class="res-tag">DV Support</span></div>` : ''}
+      ${section8 ? `<div class="resource-card"><div class="res-icon">🏠</div><div class="res-info"><h4>AZ Department of Housing</h4><p>Subsidized housing programs, Section 8/HCV resources, and tenant rights.</p><div class="res-contact"><a href="https://housing.az.gov" target="_blank">housing.az.gov</a></div></div><span class="res-tag">Subsidized</span></div>` : ''}
+    </div>
+    <div style="margin-top:1rem;padding:0.9rem 1rem;background:var(--teal-bg);border-radius:8px;font-size:0.87rem;color:#1a3a34;line-height:1.6">
+      <strong>📞 Dial 2-1-1</strong> — Free · 24/7 · English &amp; Spanish. Emergency housing, rental assistance, food, and more. Or visit <a href="https://az211.gov" target="_blank">az211.gov</a>.
+    </div>
+    <div style="margin-top:0.65rem;padding:0.85rem 1rem;background:var(--cream);border-radius:8px;font-size:0.8rem;color:var(--muted);line-height:1.7">
+      <strong>Look up your case:</strong> <a href="https://justicecourts.maricopa.gov/app/courtrecords/casesearch" target="_blank">justicecourts.maricopa.gov/app/courtrecords/casesearch</a><br>
+      <strong>Court forms:</strong> <a href="https://justicecourts.maricopa.gov/find-a-form/court-forms" target="_blank">justicecourts.maricopa.gov/find-a-form/court-forms</a><br>
+      <strong>En español:</strong> <a href="https://www.azcourts.gov/desalojo" target="_blank">azcourts.gov/desalojo</a>
+    </div>
+    </div>
+  </div>`;
+
+  document.getElementById('t-summary-output').innerHTML = html;
+}
+
+// init
+window.addEventListener('DOMContentLoaded', function() {
+  var t = document.getElementById('a-today-date');
+  if (t) t.value = new Date().toISOString().split('T')[0];
+});
+</script>
+</body>
+</html>
