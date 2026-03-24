@@ -27,6 +27,10 @@ header{background:var(--slate);padding:0.85rem 2rem;display:flex;align-items:cen
 .header-badge{font-family:'Courier New',monospace;font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.65);padding:4px 10px;border-radius:3px;border:1px solid rgba(255,255,255,0.15);}
 .header-link{font-size:0.72rem;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;}
 .header-link:hover{color:rgba(255,255,255,0.85);}
+.lang-toggle{display:flex;align-items:center;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);border-radius:20px;overflow:hidden;flex-shrink:0;}
+.lang-btn{padding:4px 12px;font-size:0.72rem;font-weight:700;letter-spacing:0.08em;cursor:pointer;border:none;background:transparent;color:rgba(255,255,255,0.5);transition:all 0.18s;font-family:inherit;}
+.lang-btn.active{background:var(--teal);color:#fff;}
+.lang-btn:hover:not(.active){color:#fff;}
 .disclaimer-bar{background:#fff3cd;border-bottom:2px solid #f0c040;padding:0.5rem 2rem;text-align:center;font-size:0.8rem;color:#7a5000;font-weight:500;line-height:1.4;}
 .disclaimer-bar a{color:#7a5000;}
 
@@ -287,50 +291,54 @@ footer{background:var(--ink);padding:2rem 2rem 1.5rem;margin-top:0;}
   <div class="header-right">
     <a href="https://justicecourts.maricopa.gov/case-types/evictions" target="_blank" class="header-link">&#8599; MCJC Evictions</a>
     <a href="https://justicecourts.maricopa.gov/app/courtrecords/casesearch" target="_blank" class="header-link">&#8599; Case Lookup</a>
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btn-es" onclick="setLang('es')">ES</button>
+    </div>
     <span class="header-badge">JustUS Systems &middot; An HRG Subsidiary</span>
   </div>
 </header>
 
 <div class="disclaimer-bar">
-  <strong>Not Legal Advice.</strong> This navigator provides information and guidance only. It does not create an attorney-client relationship. For legal advice, contact <a href="https://clsaz.org" target="_blank">Community Legal Services</a> or visit <a href="https://www.azcourthelp.org" target="_blank">azcourthelp.org</a>.
+  <strong data-i18n="disclaimer_strong">Not Legal Advice.</strong> <span data-i18n="disclaimer_text">This navigator provides information and guidance only. It does not create an attorney-client relationship. For legal advice, contact <a href="https://clsaz.org" target="_blank">Community Legal Services</a> or visit <a href="https://www.azcourthelp.org" target="_blank">azcourthelp.org</a>.</span>
 </div>
 
 <!-- LANDING -->
 <div id="screen-landing" class="screen active">
   <div class="landing">
-    <div class="landing-eyebrow">Maricopa County &middot; Arizona Justice Court</div>
-    <h1>Navigate the eviction process with <em>clarity</em> and dignity.</h1>
-    <p class="lead">Step-by-step guidance through Arizona&apos;s eviction process &mdash; built for advocates and tenants in Maricopa County&apos;s 26 Justice Court precincts.</p>
+    <div class="landing-eyebrow" data-i18n="landing_eyebrow">Maricopa County &middot; Arizona Justice Court</div>
+    <h1 data-i18n="landing_h1">Navigate the eviction process with <em>clarity</em> and dignity.</h1>
+    <p class="lead" data-i18n="landing_lead">Step-by-step guidance through Arizona&apos;s eviction process &mdash; built for advocates and tenants in Maricopa County&apos;s 26 Justice Court precincts.</p>
     <div class="stat-strip">
-      <div class="stat-item"><div class="stat-num">84,833</div><div class="stat-label">Cases Filed 2025</div></div>
-      <div class="stat-item"><div class="stat-num">7,123</div><div class="stat-label">Filed Dec 2025</div></div>
-      <div class="stat-item"><div class="stat-num">$3,229</div><div class="stat-label">Avg Judgment 2025</div></div>
-      <div class="stat-item"><div class="stat-num">26</div><div class="stat-label">Justice Court Precincts</div></div>
+      <div class="stat-item"><div class="stat-num">84,833</div><div class="stat-label" data-i18n="stat1">Cases Filed 2025</div></div>
+      <div class="stat-item"><div class="stat-num">7,123</div><div class="stat-label" data-i18n="stat2">Filed Dec 2025</div></div>
+      <div class="stat-item"><div class="stat-num">$3,229</div><div class="stat-label" data-i18n="stat3">Avg Judgment 2025</div></div>
+      <div class="stat-item"><div class="stat-num">26</div><div class="stat-label" data-i18n="stat4">Justice Court Precincts</div></div>
     </div>
     <div class="flow-cards" style="max-width:1060px;">
       <div class="flow-card advocate-card">
         <div class="flow-icon">&#9878;&#65039;</div>
-        <h2>Advocate Navigator</h2>
-        <p>Structured intake, notice defect analysis, stage assessment, and a full output package for case prep.</p>
-        <div class="flow-for">Designed for</div>
-        <div class="flow-for-list">Tenant advocates &middot; Court navigators &middot; Nonprofits &middot; Eviction diversion programs</div>
-        <button class="flow-start-btn" onclick="startFlow('advocate')">Start Advocate Flow &rarr;</button>
+        <h2 data-i18n="card_adv_title">Advocate Navigator</h2>
+        <p data-i18n="card_adv_desc">Structured intake, notice defect analysis, stage assessment, and a full output package for case prep.</p>
+        <div class="flow-for" data-i18n="designed_for">Designed for</div>
+        <div class="flow-for-list" data-i18n="card_adv_for">Tenant advocates &middot; Court navigators &middot; Nonprofits &middot; Eviction diversion programs</div>
+        <button class="flow-start-btn" onclick="startFlow('advocate')" data-i18n="card_adv_btn">Start Advocate Flow &rarr;</button>
       </div>
       <div class="flow-card tenant-card">
         <div class="flow-icon">&#127968;</div>
-        <h2>Tenant Navigator</h2>
-        <p>Plain-language guidance. Understand where you are in the process and what to do next.</p>
-        <div class="flow-for">Designed for</div>
-        <div class="flow-for-list">Tenants who received a notice &middot; Anyone facing eviction &middot; Families navigating housing court</div>
-        <button class="flow-start-btn" onclick="startFlow('tenant')">Start Tenant Flow &rarr;</button>
+        <h2 data-i18n="card_ten_title">Tenant Navigator</h2>
+        <p data-i18n="card_ten_desc">Plain-language guidance. Understand where you are in the process and what to do next.</p>
+        <div class="flow-for" data-i18n="designed_for">Designed for</div>
+        <div class="flow-for-list" data-i18n="card_ten_for">Tenants who received a notice &middot; Anyone facing eviction &middot; Families navigating housing court</div>
+        <button class="flow-start-btn" onclick="startFlow('tenant')" data-i18n="card_ten_btn">Start Tenant Flow &rarr;</button>
       </div>
       <div class="flow-card" style="border-color:var(--gold);">
         <div class="flow-icon" style="color:var(--gold);">&#9782;</div>
-        <h2>Find an Advocate</h2>
-        <p>Locate a Certified Community Legal Advocate (CCLA) serving Maricopa County near you.</p>
-        <div class="flow-for">Designed for</div>
-        <div class="flow-for-list">Tenants seeking a trained advocate &middot; Partners &amp; referral sources &middot; Community organizations</div>
-        <button class="flow-start-btn" style="background:var(--gold);color:#fff;" onclick="startFlow('directory')">Find an Advocate &rarr;</button>
+        <h2 data-i18n="card_dir_title">Find an Advocate</h2>
+        <p data-i18n="card_dir_desc">Locate a Certified Community Legal Advocate (CCLA) serving Maricopa County near you.</p>
+        <div class="flow-for" data-i18n="designed_for">Designed for</div>
+        <div class="flow-for-list" data-i18n="card_dir_for">Tenants seeking a trained advocate &middot; Partners &amp; referral sources &middot; Community organizations</div>
+        <button class="flow-start-btn" style="background:var(--gold);color:#fff;" onclick="startFlow('directory')" data-i18n="card_dir_btn">Find an Advocate &rarr;</button>
       </div>
     </div>
   </div>
@@ -340,21 +348,21 @@ footer{background:var(--ink);padding:2rem 2rem 1.5rem;margin-top:0;}
 <div id="screen-advocate" class="screen">
   <div class="nav-layout">
     <div class="nav-sidebar">
-      <div class="sidebar-mode mode-advocate">Advocate Mode</div>
-      <div class="sidebar-title">AZ Eviction Navigator</div>
+      <div class="sidebar-mode mode-advocate" data-i18n="adv_mode">Advocate Mode</div>
+      <div class="sidebar-title" data-i18n="adv_sidebar_title">AZ Eviction Navigator</div>
       <div class="progress-steps" id="advocate-progress">
-        <div class="progress-step active" data-step="a1"><div class="step-dot">1</div><div class="step-info"><div class="step-name">Case Basics</div><div class="step-desc">Precinct, notice type, dates</div></div></div>
-        <div class="progress-step" data-step="a2"><div class="step-dot">2</div><div class="step-info"><div class="step-name">Notice Review</div><div class="step-desc">Validity &amp; defect check</div></div></div>
-        <div class="progress-step" data-step="a3"><div class="step-dot">3</div><div class="step-info"><div class="step-name">Tenant Situation</div><div class="step-desc">Defenses &amp; risk flags</div></div></div>
-        <div class="progress-step" data-step="a4"><div class="step-dot">4</div><div class="step-info"><div class="step-name">Stage Analysis</div><div class="step-desc">Timeline &amp; urgency</div></div></div>
-        <div class="progress-step" data-step="a5"><div class="step-dot">5</div><div class="step-info"><div class="step-name">Output Package</div><div class="step-desc">Checklist, prep, resources</div></div></div>
+        <div class="progress-step active" data-step="a1"><div class="step-dot">1</div><div class="step-info"><div class="step-name" data-i18n="adv_s1_name">Case Basics</div><div class="step-desc" data-i18n="adv_s1_desc">Precinct, notice type, dates</div></div></div>
+        <div class="progress-step" data-step="a2"><div class="step-dot">2</div><div class="step-info"><div class="step-name" data-i18n="adv_s2_name">Notice Review</div><div class="step-desc" data-i18n="adv_s2_desc">Validity &amp; defect check</div></div></div>
+        <div class="progress-step" data-step="a3"><div class="step-dot">3</div><div class="step-info"><div class="step-name" data-i18n="adv_s3_name">Tenant Situation</div><div class="step-desc" data-i18n="adv_s3_desc">Defenses &amp; risk flags</div></div></div>
+        <div class="progress-step" data-step="a4"><div class="step-dot">4</div><div class="step-info"><div class="step-name" data-i18n="adv_s4_name">Stage Analysis</div><div class="step-desc" data-i18n="adv_s4_desc">Timeline &amp; urgency</div></div></div>
+        <div class="progress-step" data-step="a5"><div class="step-dot">5</div><div class="step-info"><div class="step-name" data-i18n="adv_s5_name">Output Package</div><div class="step-desc" data-i18n="adv_s5_desc">Checklist, prep, resources</div></div></div>
       </div>
       <div class="sidebar-links">
         <a class="sidebar-link" href="https://justicecourts.maricopa.gov/case-types/evictions" target="_blank">&#8599; MCJC Evictions Page</a>
         <a class="sidebar-link" href="https://justicecourts.maricopa.gov/app/courtrecords/casesearch" target="_blank">&#8599; Case Search</a>
         <a class="sidebar-link" href="https://justicecourts.maricopa.gov/about-us/court-locations" target="_blank">&#8599; All Court Locations</a>
         <a class="sidebar-link" href="https://justicecourts.maricopa.gov/find-a-form/court-forms" target="_blank">&#8599; Court Forms</a>
-        <button class="back-btn" onclick="goHome()">&#8592; Back to Home</button>
+        <button class="back-btn" onclick="goHome()" data-i18n="back_home">&#8592; Back to Home</button>
       </div>
     </div>
     <div class="nav-main">
@@ -640,92 +648,89 @@ footer{background:var(--ink);padding:2rem 2rem 1.5rem;margin-top:0;}
 <div id="screen-tenant" class="screen">
   <div class="nav-layout">
     <div class="nav-sidebar">
-      <div class="sidebar-mode mode-tenant">Tenant Guide</div>
-      <div class="sidebar-title">Your Housing Navigator</div>
+      <div class="sidebar-mode mode-tenant" data-i18n="ten_mode">Tenant Guide</div>
+      <div class="sidebar-title" data-i18n="ten_sidebar_title">Your Housing Navigator</div>
       <div class="progress-steps" id="tenant-progress">
-        <div class="progress-step active" data-step="t1"><div class="step-dot">1</div><div class="step-info"><div class="step-name">What Happened?</div><div class="step-desc">Tell us your situation</div></div></div>
-        <div class="progress-step" data-step="t2"><div class="step-dot">2</div><div class="step-info"><div class="step-name">What It Means</div><div class="step-desc">Plain-language explanation</div></div></div>
-        <div class="progress-step" data-step="t3"><div class="step-dot">3</div><div class="step-info"><div class="step-name">What To Do Now</div><div class="step-desc">Your next steps</div></div></div>
-        <div class="progress-step" data-step="t4"><div class="step-dot">4</div><div class="step-info"><div class="step-name">Your Summary</div><div class="step-desc">Checklist &amp; help near you</div></div></div>
+        <div class="progress-step active" data-step="t1"><div class="step-dot">1</div><div class="step-info"><div class="step-name" data-i18n="ten_s1_name">What Happened?</div><div class="step-desc" data-i18n="ten_s1_desc">Tell us your situation</div></div></div>
+        <div class="progress-step" data-step="t2"><div class="step-dot">2</div><div class="step-info"><div class="step-name" data-i18n="ten_s2_name">What It Means</div><div class="step-desc" data-i18n="ten_s2_desc">Plain-language explanation</div></div></div>
+        <div class="progress-step" data-step="t3"><div class="step-dot">3</div><div class="step-info"><div class="step-name" data-i18n="ten_s3_name">What To Do Now</div><div class="step-desc" data-i18n="ten_s3_desc">Your next steps</div></div></div>
+        <div class="progress-step" data-step="t4"><div class="step-dot">4</div><div class="step-info"><div class="step-name" data-i18n="ten_s4_name">Your Summary</div><div class="step-desc" data-i18n="ten_s4_desc">Checklist &amp; help near you</div></div></div>
       </div>
       <div class="sidebar-links">
         <a class="sidebar-link" href="https://justicecourts.maricopa.gov/case-types/evictions" target="_blank">&#8599; Court Eviction Info</a>
         <a class="sidebar-link" href="https://justicecourts.maricopa.gov/app/courtrecords/casesearch" target="_blank">&#8599; Look Up Your Case</a>
         <a class="sidebar-link" href="https://www.azcourts.gov/eviction" target="_blank">&#8599; AZ Eviction Portal</a>
         <a class="sidebar-link" href="https://www.azcourthelp.org" target="_blank">&#8599; AZ Court Help</a>
-        <button class="back-btn" onclick="goHome()">&#8592; Back to Home</button>
+        <button class="back-btn" onclick="goHome()" data-i18n="back_home">&#8592; Back to Home</button>
       </div>
     </div>
     <div class="nav-main">
 <!-- T1 -->
       <div id="t-step-1">
         <div class="step-header">
-          <div class="step-number">Step 1 of 4</div>
-          <h2>What's happening with your housing?</h2>
-          <p>Answer a few questions. We'll explain your situation in plain language and show you exactly what to do next. Takes about 2 minutes.</p>
+          <div class="step-number" data-i18n="ten_step1_num">Step 1 of 4</div>
+          <h2 data-i18n="ten_step1_h2">What's happening with your housing?</h2>
+          <p data-i18n="ten_step1_p">Answer a few questions. We'll explain your situation in plain language and show you exactly what to do next. Takes about 2 minutes.</p>
         </div>
 
         <div class="plain-box">
-          <p>You don't need to know legal words to use this. Just tell us what happened. <strong>This is not legal advice</strong> — it's a guide to help you understand where you are and what you can do. It's free.</p>
+          <p data-i18n="ten_plain_box">You don't need to know legal words to use this. Just tell us what happened. <strong>This is not legal advice</strong> &mdash; it's a guide to help you understand where you are and what you can do. It's free.</p>
         </div>
 
         <div class="form-group">
-          <label class="form-label">What is your situation right now? <span class="req">*</span></label>
+          <label class="form-label" data-i18n="ten_sit_label">What is your situation right now? <span class="req">*</span></label>
           <div class="radio-group">
-            <label class="radio-item"><input type="radio" name="t-situation" value="got-notice"> <div><div class="radio-label">I received a paper notice from my landlord</div><div class="radio-sub">A letter, paper taped to my door, or something in the mail saying I need to pay, move, or fix something</div></div></label>
-            <label class="radio-item"><input type="radio" name="t-situation" value="got-court"> <div><div class="radio-label">I received court papers with a hearing date</div><div class="radio-sub">Something called a Summons and Complaint — it has a court date and possibly a case number on it</div></div></label>
-            <label class="radio-item"><input type="radio" name="t-situation" value="had-hearing"> <div><div class="radio-label">I already had a court hearing</div><div class="radio-sub">A judge made a decision — I may have lost the case, didn't show up, or I'm not sure what happened</div></div></label>
-            <label class="radio-item"><input type="radio" name="t-situation" value="writ"> <div><div class="radio-label">I was told I have to leave immediately — officers may come</div><div class="radio-sub">I received something called a Writ of Restitution, or a constable (court officer) has already come to my door</div></div></label>
-            <label class="radio-item"><input type="radio" name="t-situation" value="worried"> <div><div class="radio-label">Nothing yet — but I'm worried I could be evicted</div><div class="radio-sub">I'm behind on rent, having problems with my landlord, or I think something is coming soon</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-situation" value="got-notice"> <div><div class="radio-label" data-i18n="ten_sit_1_label">I received a paper notice from my landlord</div><div class="radio-sub" data-i18n="ten_sit_1_sub">A letter, paper taped to my door, or something in the mail saying I need to pay, move, or fix something</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-situation" value="got-court"> <div><div class="radio-label" data-i18n="ten_sit_2_label">I received court papers with a hearing date</div><div class="radio-sub" data-i18n="ten_sit_2_sub">Something called a Summons and Complaint &mdash; it has a court date and possibly a case number on it</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-situation" value="had-hearing"> <div><div class="radio-label" data-i18n="ten_sit_3_label">I already had a court hearing</div><div class="radio-sub" data-i18n="ten_sit_3_sub">A judge made a decision &mdash; I may have lost the case, didn't show up, or I'm not sure what happened</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-situation" value="writ"> <div><div class="radio-label" data-i18n="ten_sit_4_label">I was told I have to leave immediately &mdash; officers may come</div><div class="radio-sub" data-i18n="ten_sit_4_sub">I received something called a Writ of Restitution, or a constable has already come to my door</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-situation" value="worried"> <div><div class="radio-label" data-i18n="ten_sit_5_label">Nothing yet &mdash; but I'm worried I could be evicted</div><div class="radio-sub" data-i18n="ten_sit_5_sub">I'm behind on rent, having problems with my landlord, or I think something is coming soon</div></div></label>
           </div>
         </div>
 
-        <!-- Notice details — shown when "got-notice" selected -->
         <div id="t-notice-type-group" style="display:none" class="form-group">
-          <label class="form-label">What does the notice say you need to do? <span class="req">*</span></label>
+          <label class="form-label" data-i18n="ten_notice_label">What does the notice say you need to do? <span class="req">*</span></label>
           <div class="radio-group">
-            <label class="radio-item"><input type="radio" name="t-notice" value="pay"> <div><div class="radio-label">Pay money — it says I owe back rent or fees</div><div class="radio-sub">Most common. Usually says "Pay or Quit" or "Pay rent within 5 days"</div></div></label>
-            <label class="radio-item"><input type="radio" name="t-notice" value="fix"> <div><div class="radio-label">Fix something — they say I broke a rule or violated my lease</div><div class="radio-sub">Could be about a pet, guests, noise, trash, or damage</div></div></label>
-            <label class="radio-item"><input type="radio" name="t-notice" value="move"> <div><div class="radio-label">Move out — end of lease or no specific reason given</div><div class="radio-sub">Usually a 30-day notice. Doesn't necessarily mean you did something wrong.</div></div></label>
-            <label class="radio-item"><input type="radio" name="t-notice" value="immediate"> <div><div class="radio-label">Move out immediately — says I did something very serious</div><div class="radio-sub">No days to fix anything. Often involves alleged criminal activity.</div></div></label>
-            <label class="radio-item"><input type="radio" name="t-notice" value="unsure"> <div><div class="radio-label">I'm not sure what it says</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-notice" value="pay"> <div><div class="radio-label" data-i18n="ten_notice_1">Pay money &mdash; it says I owe back rent or fees</div><div class="radio-sub" data-i18n="ten_notice_1_sub">Most common. Usually says "Pay or Quit" or "Pay rent within 5 days"</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-notice" value="fix"> <div><div class="radio-label" data-i18n="ten_notice_2">Fix something &mdash; they say I broke a rule or violated my lease</div><div class="radio-sub" data-i18n="ten_notice_2_sub">Could be about a pet, guests, noise, trash, or damage</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-notice" value="move"> <div><div class="radio-label" data-i18n="ten_notice_3">Move out &mdash; end of lease or no specific reason given</div><div class="radio-sub" data-i18n="ten_notice_3_sub">Usually a 30-day notice. Doesn't necessarily mean you did something wrong.</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-notice" value="immediate"> <div><div class="radio-label" data-i18n="ten_notice_4">Move out immediately &mdash; says I did something very serious</div><div class="radio-sub" data-i18n="ten_notice_4_sub">No days to fix anything. Often involves alleged criminal activity.</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-notice" value="unsure"> <div><div class="radio-label" data-i18n="ten_notice_5">I'm not sure what it says</div></div></label>
           </div>
         </div>
 
-        <!-- Notice date — shown when "got-notice" with pay/fix selected -->
         <div id="t-date-group" style="display:none">
           <div class="inline-grid">
             <div class="form-group">
-              <label class="form-label">Date on the notice (when it was given to you)</label>
+              <label class="form-label" data-i18n="ten_date_label">Date on the notice (when it was given to you)</label>
               <input type="date" id="t-notice-date">
-              <div class="form-hint">Check the notice paper — there should be a date on it.</div>
+              <div class="form-hint" data-i18n="ten_date_hint">Check the notice paper &mdash; there should be a date on it.</div>
             </div>
             <div class="form-group">
-              <label class="form-label">Amount the notice says you owe (if any)</label>
+              <label class="form-label" data-i18n="ten_amount_label">Amount the notice says you owe (if any)</label>
               <input type="text" id="t-amount" placeholder="e.g. $850.00">
             </div>
           </div>
           <div class="form-group">
-            <label class="form-label">How was the notice given to you?</label>
+            <label class="form-label" data-i18n="ten_service_label">How was the notice given to you?</label>
             <div class="radio-group" style="gap:0.4rem">
-              <label class="radio-item"><input type="radio" name="t-service" value="personal"><div><div class="radio-label">Someone handed it to me directly</div></div></label>
-              <label class="radio-item"><input type="radio" name="t-service" value="posted-mailed"><div><div class="radio-label">It was taped/posted to my door AND I also got one in the mail</div></div></label>
-              <label class="radio-item"><input type="radio" name="t-service" value="posted-only"><div><div class="radio-label">It was only taped/posted to my door — I didn't get one in the mail</div></div></label>
-              <label class="radio-item"><input type="radio" name="t-service" value="mail-only"><div><div class="radio-label">I only got it in the mail</div></div></label>
-              <label class="radio-item"><input type="radio" name="t-service" value="unsure"><div><div class="radio-label">Not sure</div></div></label>
+              <label class="radio-item"><input type="radio" name="t-service" value="personal"><div><div class="radio-label" data-i18n="ten_service_1">Someone handed it to me directly</div></div></label>
+              <label class="radio-item"><input type="radio" name="t-service" value="posted-mailed"><div><div class="radio-label" data-i18n="ten_service_2">It was taped/posted to my door AND I also got one in the mail</div></div></label>
+              <label class="radio-item"><input type="radio" name="t-service" value="posted-only"><div><div class="radio-label" data-i18n="ten_service_3">It was only taped/posted to my door &mdash; I didn't get one in the mail</div></div></label>
+              <label class="radio-item"><input type="radio" name="t-service" value="mail-only"><div><div class="radio-label" data-i18n="ten_service_4">I only got it in the mail</div></div></label>
+              <label class="radio-item"><input type="radio" name="t-service" value="unsure"><div><div class="radio-label" data-i18n="ten_service_5">Not sure</div></div></label>
             </div>
           </div>
         </div>
 
-        <!-- Court date — shown when "got-court" selected -->
         <div id="t-court-date-group" style="display:none" class="form-group">
-          <label class="form-label">What is your hearing date? (from your court papers)</label>
+          <label class="form-label" data-i18n="ten_hearing_label">What is your hearing date? (from your court papers)</label>
           <input type="date" id="t-hearing-date">
-          <div class="form-hint">Find this on your Summons. It may say "Return Date" or "Hearing Date." Write it down somewhere safe too.</div>
+          <div class="form-hint" data-i18n="ten_hearing_hint">Find this on your Summons. It may say "Return Date" or "Hearing Date."</div>
         </div>
 
         <div class="form-group">
-          <label class="form-label">Which justice court is listed on your papers? (If you have papers)</label>
+          <label class="form-label" data-i18n="ten_court_label">Which justice court is listed on your papers? (If you have papers)</label>
           <select id="t-court">
             <option value="">Not sure / no papers yet</option>
             <optgroup label="620 W. Jackson St., Phoenix">
@@ -766,83 +771,80 @@ footer{background:var(--ink);padding:2rem 2rem 1.5rem;margin-top:0;}
               <option value="white-tank">White Tank Justice Court</option>
             </optgroup>
             <optgroup label="Standalone / Rural">
-              <option value="ironwood">Ironwood Justice Court — 209 E. Pima St., Gila Bend</option>
+              <option value="ironwood">Ironwood Justice Court &mdash; 209 E. Pima St., Gila Bend</option>
             </optgroup>
           </select>
-          <div class="form-hint">Not sure? <a href="https://maricopa.maps.arcgis.com/apps/webappviewer/index.html?id=e28b1463fcb84242ab5338b5a97d71b2" target="_blank">Use the Maricopa County address lookup map →</a></div>
+          <div class="form-hint" data-i18n="ten_court_hint">Not sure? <a href="https://maricopa.maps.arcgis.com/apps/webappviewer/index.html?id=e28b1463fcb84242ab5338b5a97d71b2" target="_blank">Use the Maricopa County address lookup map &rarr;</a></div>
         </div>
 
         <div class="form-group">
-          <label class="form-label">Who lives in your home?</label>
+          <label class="form-label" data-i18n="ten_household_label">Who lives in your home?</label>
           <div class="radio-group" style="gap:0.4rem">
-            <label class="radio-item"><input type="radio" name="t-household" value="alone"><div><div class="radio-label">Just me</div></div></label>
-            <label class="radio-item"><input type="radio" name="t-household" value="adults"><div><div class="radio-label">Me and other adults</div></div></label>
-            <label class="radio-item"><input type="radio" name="t-household" value="children"><div><div class="radio-label">Me and children (under 18)</div></div></label>
-            <label class="radio-item"><input type="radio" name="t-household" value="family"><div><div class="radio-label">Me, children, and other adults</div></div></label>
-            <label class="radio-item"><input type="radio" name="t-household" value="elderly"><div><div class="radio-label">Elderly or disabled household members</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-household" value="alone"><div><div class="radio-label" data-i18n="ten_hh_1">Just me</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-household" value="adults"><div><div class="radio-label" data-i18n="ten_hh_2">Me and other adults</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-household" value="children"><div><div class="radio-label" data-i18n="ten_hh_3">Me and children (under 18)</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-household" value="family"><div><div class="radio-label" data-i18n="ten_hh_4">Me, children, and other adults</div></div></label>
+            <label class="radio-item"><input type="radio" name="t-household" value="elderly"><div><div class="radio-label" data-i18n="ten_hh_5">Elderly or disabled household members</div></div></label>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="form-label">Do any of these apply to your situation? (Check all that apply)</label>
+          <label class="form-label" data-i18n="ten_flags_label">Do any of these apply to your situation? (Check all that apply)</label>
           <div class="checkbox-group" style="gap:0.4rem">
-            <label class="checkbox-item"><input type="checkbox" id="t-dv" onchange="toggleCheck(this)"><div><div class="radio-label">I am a victim of domestic violence, sexual assault, or stalking</div><div class="radio-sub">Special legal protections may apply to you</div></div></label>
-            <label class="checkbox-item"><input type="checkbox" id="t-repairs" onchange="toggleCheck(this)"><div><div class="radio-label">My landlord hasn't fixed serious problems in my unit</div><div class="radio-sub">No heat/AC, plumbing issues, mold, pest infestation, broken locks, etc.</div></div></label>
-            <label class="checkbox-item"><input type="checkbox" id="t-retaliation" onchange="toggleCheck(this)"><div><div class="radio-label">I complained to my landlord or the city recently, and now I'm being evicted</div><div class="radio-sub">You may have retaliation protections under Arizona law</div></div></label>
-            <label class="checkbox-item"><input type="checkbox" id="t-assistance" onchange="toggleCheck(this)"><div><div class="radio-label">I've applied for rental assistance or I'm trying to get it</div></div></label>
-            <label class="checkbox-item"><input type="checkbox" id="t-paid" onchange="toggleCheck(this)"><div><div class="radio-label">I have proof that I paid some or all of the rent they say I owe</div></div></label>
-            <label class="checkbox-item"><input type="checkbox" id="t-section8" onchange="toggleCheck(this)"><div><div class="radio-label">I have a housing voucher (Section 8 / HCV) or live in subsidized housing</div></div></label>
+            <label class="checkbox-item"><input type="checkbox" id="t-dv" onchange="toggleCheck(this)"><div><div class="radio-label" data-i18n="ten_flag_dv">I am a victim of domestic violence, sexual assault, or stalking</div><div class="radio-sub" data-i18n="ten_flag_dv_sub">Special legal protections may apply to you</div></div></label>
+            <label class="checkbox-item"><input type="checkbox" id="t-repairs" onchange="toggleCheck(this)"><div><div class="radio-label" data-i18n="ten_flag_repairs">My landlord hasn't fixed serious problems in my unit</div><div class="radio-sub" data-i18n="ten_flag_repairs_sub">No heat/AC, plumbing issues, mold, pest infestation, broken locks, etc.</div></div></label>
+            <label class="checkbox-item"><input type="checkbox" id="t-retaliation" onchange="toggleCheck(this)"><div><div class="radio-label" data-i18n="ten_flag_retaliation">I complained to my landlord or the city recently, and now I'm being evicted</div><div class="radio-sub" data-i18n="ten_flag_retaliation_sub">You may have retaliation protections under Arizona law</div></div></label>
+            <label class="checkbox-item"><input type="checkbox" id="t-assistance" onchange="toggleCheck(this)"><div><div class="radio-label" data-i18n="ten_flag_assistance">I've applied for rental assistance or I'm trying to get it</div></div></label>
+            <label class="checkbox-item"><input type="checkbox" id="t-paid" onchange="toggleCheck(this)"><div><div class="radio-label" data-i18n="ten_flag_paid">I have proof that I paid some or all of the rent they say I owe</div></div></label>
+            <label class="checkbox-item"><input type="checkbox" id="t-section8" onchange="toggleCheck(this)"><div><div class="radio-label" data-i18n="ten_flag_section8">I have a housing voucher (Section 8 / HCV) or live in subsidized housing</div></div></label>
           </div>
         </div>
 
         <div class="btn-row">
-          <button class="btn btn-primary" onclick="tenStep(2)">Show Me What This Means →</button>
+          <button class="btn btn-primary" onclick="tenStep(2)" data-i18n="ten_step1_btn">Show Me What This Means &rarr;</button>
         </div>
       </div>
 
-      
 <!-- T2 -->
       <div id="t-step-2" style="display:none" class="fade-in">
         <div class="step-header">
-          <div class="step-number">Step 2 of 4</div>
-          <h2>Here's what's happening in your situation</h2>
-          <p>We'll explain this step by step, in plain language. Legal words are explained when they come up.</p>
+          <div class="step-number" data-i18n="ten_step2_num">Step 2 of 4</div>
+          <h2 data-i18n="ten_step2_h2">Here's what's happening in your situation</h2>
+          <p data-i18n="ten_step2_p">We'll explain this step by step, in plain language. Legal words are explained when they come up.</p>
         </div>
         <div id="t-stage-explanation"></div>
         <div class="btn-row">
-          <button class="btn btn-secondary" onclick="tenStep(1)">← Go Back</button>
-          <button class="btn btn-primary" onclick="tenStep(3)">What Should I Do? →</button>
+          <button class="btn btn-secondary" onclick="tenStep(1)" data-i18n="btn_back">&#8592; Go Back</button>
+          <button class="btn btn-primary" onclick="tenStep(3)" data-i18n="btn_next_meaning">What Should I Do? &rarr;</button>
         </div>
       </div>
 
-      
 <!-- T3 -->
       <div id="t-step-3" style="display:none" class="fade-in">
         <div class="step-header">
-          <div class="step-number">Step 3 of 4</div>
-          <h2>What to do right now</h2>
-          <p>Start at the top. The steps marked in red are the most urgent.</p>
+          <div class="step-number" data-i18n="ten_step3_num">Step 3 of 4</div>
+          <h2 data-i18n="ten_step3_h2">What to do right now</h2>
+          <p data-i18n="ten_step3_p">Start at the top. The steps marked in red are the most urgent.</p>
         </div>
         <div id="t-action-steps"></div>
         <div class="btn-row">
-          <button class="btn btn-secondary" onclick="tenStep(2)">← Go Back</button>
-          <button class="btn btn-primary" onclick="tenStep(4)">See My Summary & Resources →</button>
+          <button class="btn btn-secondary" onclick="tenStep(2)" data-i18n="btn_back">&#8592; Go Back</button>
+          <button class="btn btn-primary" onclick="tenStep(4)" data-i18n="btn_next_summary">See My Summary &amp; Resources &rarr;</button>
         </div>
       </div>
 
-      
 <!-- T4 -->
       <div id="t-step-4" style="display:none" class="fade-in">
         <div class="step-header">
-          <div class="step-number">Step 4 of 4</div>
-          <h2>Your Summary</h2>
-          <p>Print or save this page. Bring it to your hearing or share it with an advocate.</p>
+          <div class="step-number" data-i18n="ten_step4_num">Step 4 of 4</div>
+          <h2 data-i18n="ten_step4_h2">Your Summary</h2>
+          <p data-i18n="ten_step4_p">Print or save this page. Bring it to your hearing or share it with an advocate.</p>
         </div>
         <div id="t-summary-output"></div>
         <div class="btn-row">
-          <button class="btn btn-secondary" onclick="tenStep(3)">← Go Back</button>
-          <button class="btn btn-print" onclick="window.print()">🖨 Print This Page</button>
-          <button class="btn btn-slate" onclick="goHome()">Start Over</button>
+          <button class="btn btn-secondary" onclick="tenStep(3)" data-i18n="btn_back">&#8592; Go Back</button>
+          <button class="btn btn-print" onclick="window.print()" data-i18n="btn_print">Print This Page</button>
+          <button class="btn btn-slate" onclick="goHome()" data-i18n="btn_start_over">Start Over</button>
         </div>
       </div>
 
@@ -854,44 +856,44 @@ footer{background:var(--ink);padding:2rem 2rem 1.5rem;margin-top:0;}
 <div id="screen-directory" class="screen">
   <div class="dir-wrapper">
     <div class="dir-hero">
-      <h1>Find a Housing Stability Legal Advocate</h1>
-      <p>A trusted directory of Certified Community Legal Advocates (CCLAs) serving Maricopa County. These advocates are trained to help tenants understand their rights, navigate the eviction process, and connect to resources.</p>
-      <button class="back-btn" style="display:inline-block;width:auto;margin-bottom:1rem;" onclick="goHome()">&#8592; Back to Home</button>
+      <h1 data-i18n="dir_h1">Find a Housing Stability Legal Advocate</h1>
+      <p data-i18n="dir_lead">A trusted directory of Certified Community Legal Advocates (CCLAs) serving Maricopa County. These advocates are trained to help tenants understand their rights, navigate the eviction process, and connect to resources.</p>
+      <button class="back-btn" style="display:inline-block;width:auto;margin-bottom:1rem;" onclick="goHome()" data-i18n="back_home">&#8592; Back to Home</button>
     </div>
 
     <div class="dir-filters" id="dir-filter-row">
-      <button class="dir-filter-btn active" onclick="filterDir('all', this)">All Advocates</button>
-      <button class="dir-filter-btn" onclick="filterDir('phoenix', this)">Phoenix</button>
-      <button class="dir-filter-btn" onclick="filterDir('east-valley', this)">East Valley</button>
-      <button class="dir-filter-btn" onclick="filterDir('west-valley', this)">West Valley</button>
-      <button class="dir-filter-btn" onclick="filterDir('statewide', this)">Statewide</button>
-      <button class="dir-filter-btn" onclick="filterDir('manufactured', this)">Manufactured Housing</button>
+      <button class="dir-filter-btn active" onclick="filterDir('all', this)" data-i18n="filter_all">All Advocates</button>
+      <button class="dir-filter-btn" onclick="filterDir('phoenix', this)" data-i18n="filter_phoenix">Phoenix</button>
+      <button class="dir-filter-btn" onclick="filterDir('east-valley', this)" data-i18n="filter_east">East Valley</button>
+      <button class="dir-filter-btn" onclick="filterDir('west-valley', this)" data-i18n="filter_west">West Valley</button>
+      <button class="dir-filter-btn" onclick="filterDir('statewide', this)" data-i18n="filter_state">Statewide</button>
+      <button class="dir-filter-btn" onclick="filterDir('manufactured', this)" data-i18n="filter_mfg">Manufactured Housing</button>
     </div>
 
     <div class="dir-search">
-      <input type="text" id="dir-search-input" placeholder="Search by organization, advocate name, or service..." oninput="searchDir()">
+      <input type="text" id="dir-search-input" data-i18n-placeholder="dir_search_placeholder" placeholder="Search by organization, advocate name, or service..." oninput="searchDir()">
     </div>
 
     <div class="dir-grid" id="dir-grid"></div>
 
     <div class="dir-info-section">
-      <h2>What a Housing Stability Legal Advocate Can Help With</h2>
+      <h2 data-i18n="dir_info_h2">What a Housing Stability Legal Advocate Can Help With</h2>
       <div class="dir-info-grid">
-        <div class="dir-info-item">Understanding eviction notices and timelines</div>
-        <div class="dir-info-item">Preparing for court or mediation</div>
-        <div class="dir-info-item">Communicating with landlords</div>
-        <div class="dir-info-item">Requesting repairs or addressing habitability issues</div>
-        <div class="dir-info-item">Navigating rental assistance programs</div>
-        <div class="dir-info-item">Supporting manufactured home residents</div>
-        <div class="dir-info-item">Safety planning and crisis navigation</div>
-        <div class="dir-info-item">Connecting to community resources</div>
+        <div class="dir-info-item" data-i18n="dir_info_1">Understanding eviction notices and timelines</div>
+        <div class="dir-info-item" data-i18n="dir_info_2">Preparing for court or mediation</div>
+        <div class="dir-info-item" data-i18n="dir_info_3">Communicating with landlords</div>
+        <div class="dir-info-item" data-i18n="dir_info_4">Requesting repairs or addressing habitability issues</div>
+        <div class="dir-info-item" data-i18n="dir_info_5">Navigating rental assistance programs</div>
+        <div class="dir-info-item" data-i18n="dir_info_6">Supporting manufactured home residents</div>
+        <div class="dir-info-item" data-i18n="dir_info_7">Safety planning and crisis navigation</div>
+        <div class="dir-info-item" data-i18n="dir_info_8">Connecting to community resources</div>
       </div>
     </div>
 
     <div class="dir-cta">
-      <h3>Not sure which advocate is right for you?</h3>
-      <p>Use the JustUS Navigator intake tool to get matched based on your city, housing situation, timeline, and language needs.</p>
-      <button class="btn btn-primary" onclick="startFlow('tenant')">Start the Tenant Navigator &rarr;</button>
+      <h3 data-i18n="dir_cta_h3">Not sure which advocate is right for you?</h3>
+      <p data-i18n="dir_cta_p">Use the JustUS Navigator intake tool to get matched based on your city, housing situation, timeline, and language needs.</p>
+      <button class="btn btn-primary" onclick="startFlow('tenant')" data-i18n="dir_cta_btn">Start the Tenant Navigator &rarr;</button>
     </div>
   </div>
 </div>
@@ -914,7 +916,7 @@ footer{background:var(--ink);padding:2rem 2rem 1.5rem;margin-top:0;}
         <a href="https://clsaz.org" target="_blank" class="footer-link">Community Legal Services</a>
       </div>
     </div>
-    <div class="footer-bottom">
+    <div class="footer-bottom" data-i18n="footer_bottom">
       This platform provides navigation and information only. It does not constitute legal advice and does not create an attorney-client relationship. For legal advice, contact a licensed Arizona attorney or <a href="https://clsaz.org" target="_blank">Community Legal Services</a>. &copy; 2025 JustUS Systems, a subsidiary of Hayes Resource Group, LLC. All rights reserved.
     </div>
   </div>
@@ -1479,7 +1481,7 @@ function renderDirectory(filter, search) {
   });
 
   if (filtered.length === 0) {
-    grid.innerHTML = '<div class="no-results">No advocates found matching your search. Try a different filter or search term.</div>';
+    grid.innerHTML = `<div class="no-results">${i18n[currentLang].dir_no_results}</div>`;
     return;
   }
 
@@ -1490,16 +1492,17 @@ function renderDirectory(filter, search) {
           <div class="ac-org">${a.org}</div>
           <div class="ac-city">${a.city}</div>
         </div>
-        <span class="ac-badge">CCLA Certified</span>
+        <span class="ac-badge">${i18n[currentLang].dir_certified}</span>
       </div>
       <div class="ac-services">
         ${a.services.map(s => `<span class="ac-service-tag">${s}</span>`).join('')}
       </div>
-      ${a.cclas.length > 0 ? `
       <div class="ac-advocates">
-        <div class="ac-advocates-label">Certified Advocates</div>
-        ${a.cclas.map(c => `<div class="ac-advocate-item"><span>${c.name}</span><span class="ac-id">${c.id}</span></div>`).join('')}
-      </div>` : `<div class="ac-advocates"><div class="ac-advocates-label">Certified Advocates</div><div class="ac-advocate-item" style="color:var(--muted);font-style:italic;">Contact organization for current advocate list</div></div>`}
+        <div class="ac-advocates-label">${i18n[currentLang].dir_certified_advocates}</div>
+        ${a.cclas.length > 0
+          ? a.cclas.map(c => `<div class="ac-advocate-item"><span>${c.name}</span><span class="ac-id">${c.id}</span></div>`).join('')
+          : `<div class="ac-advocate-item" style="color:var(--muted);font-style:italic;">${i18n[currentLang].dir_no_ccla}</div>`}
+      </div>
       <div class="ac-area">${a.area}</div>
       <div class="ac-footer">
         <div class="ac-ideal">${a.ideal}</div>
@@ -2209,6 +2212,299 @@ function buildTenantSummary() {
   </div>`;
 
   document.getElementById('t-summary-output').innerHTML = html;
+}
+
+// ── LANGUAGE / i18n ──
+var currentLang = 'en';
+
+const i18n = {
+  en: {
+    // Disclaimer
+    disclaimer_strong: 'Not Legal Advice.',
+    disclaimer_text: 'This navigator provides information and guidance only. It does not create an attorney-client relationship. For legal advice, contact <a href="https://clsaz.org" target="_blank">Community Legal Services</a> or visit <a href="https://www.azcourthelp.org" target="_blank">azcourthelp.org</a>.',
+    // Landing
+    landing_eyebrow: 'Maricopa County &middot; Arizona Justice Court',
+    landing_h1: 'Navigate the eviction process with <em>clarity</em> and dignity.',
+    landing_lead: 'Step-by-step guidance through Arizona\'s eviction process &mdash; built for advocates and tenants in Maricopa County\'s 26 Justice Court precincts.',
+    stat1: 'Cases Filed 2025', stat2: 'Filed Dec 2025', stat3: 'Avg Judgment 2025', stat4: 'Justice Court Precincts',
+    designed_for: 'Designed for',
+    card_adv_title: 'Advocate Navigator',
+    card_adv_desc: 'Structured intake, notice defect analysis, stage assessment, and a full output package for case prep.',
+    card_adv_for: 'Tenant advocates &middot; Court navigators &middot; Nonprofits &middot; Eviction diversion programs',
+    card_adv_btn: 'Start Advocate Flow &rarr;',
+    card_ten_title: 'Tenant Navigator',
+    card_ten_desc: 'Plain-language guidance. Understand where you are in the process and what to do next.',
+    card_ten_for: 'Tenants who received a notice &middot; Anyone facing eviction &middot; Families navigating housing court',
+    card_ten_btn: 'Start Tenant Flow &rarr;',
+    card_dir_title: 'Find an Advocate',
+    card_dir_desc: 'Locate a Certified Community Legal Advocate (CCLA) serving Maricopa County near you.',
+    card_dir_for: 'Tenants seeking a trained advocate &middot; Partners &amp; referral sources &middot; Community organizations',
+    card_dir_btn: 'Find an Advocate &rarr;',
+    // Advocate sidebar
+    adv_mode: 'Advocate Mode',
+    adv_sidebar_title: 'AZ Eviction Navigator',
+    adv_s1_name: 'Case Basics', adv_s1_desc: 'Precinct, notice type, dates',
+    adv_s2_name: 'Notice Review', adv_s2_desc: 'Validity &amp; defect check',
+    adv_s3_name: 'Tenant Situation', adv_s3_desc: 'Defenses &amp; risk flags',
+    adv_s4_name: 'Stage Analysis', adv_s4_desc: 'Timeline &amp; urgency',
+    adv_s5_name: 'Output Package', adv_s5_desc: 'Checklist, prep, resources',
+    back_home: '&#8592; Back to Home',
+    // Tenant sidebar
+    ten_mode: 'Tenant Guide',
+    ten_sidebar_title: 'Your Housing Navigator',
+    ten_s1_name: 'What Happened?', ten_s1_desc: 'Tell us your situation',
+    ten_s2_name: 'What It Means', ten_s2_desc: 'Plain-language explanation',
+    ten_s3_name: 'What To Do Now', ten_s3_desc: 'Your next steps',
+    ten_s4_name: 'Your Summary', ten_s4_desc: 'Checklist &amp; help near you',
+    // Tenant step 1
+    ten_step1_num: 'Step 1 of 4',
+    ten_step1_h2: "What's happening with your housing?",
+    ten_step1_p: 'Answer a few questions. We\'ll explain your situation in plain language and show you exactly what to do next. Takes about 2 minutes.',
+    ten_plain_box: "You don't need to know legal words to use this. Just tell us what happened. <strong>This is not legal advice</strong> &mdash; it's a guide to help you understand where you are and what you can do. It's free.",
+    ten_sit_label: 'What is your situation right now?',
+    ten_sit_1_label: 'I received a paper notice from my landlord',
+    ten_sit_1_sub: 'A letter, paper taped to my door, or something in the mail saying I need to pay, move, or fix something',
+    ten_sit_2_label: 'I received court papers with a hearing date',
+    ten_sit_2_sub: 'Something called a Summons and Complaint &mdash; it has a court date and possibly a case number on it',
+    ten_sit_3_label: 'I already had a court hearing',
+    ten_sit_3_sub: 'A judge made a decision &mdash; I may have lost the case, didn\'t show up, or I\'m not sure what happened',
+    ten_sit_4_label: 'I was told I have to leave immediately &mdash; officers may come',
+    ten_sit_4_sub: 'I received something called a Writ of Restitution, or a constable has already come to my door',
+    ten_sit_5_label: 'Nothing yet &mdash; but I\'m worried I could be evicted',
+    ten_sit_5_sub: 'I\'m behind on rent, having problems with my landlord, or I think something is coming soon',
+    ten_notice_label: 'What does the notice say you need to do?',
+    ten_notice_1: 'Pay money &mdash; it says I owe back rent or fees',
+    ten_notice_1_sub: 'Most common. Usually says "Pay or Quit" or "Pay rent within 5 days"',
+    ten_notice_2: 'Fix something &mdash; they say I broke a rule or violated my lease',
+    ten_notice_2_sub: 'Could be about a pet, guests, noise, trash, or damage',
+    ten_notice_3: 'Move out &mdash; end of lease or no specific reason given',
+    ten_notice_3_sub: 'Usually a 30-day notice. Doesn\'t necessarily mean you did something wrong.',
+    ten_notice_4: 'Move out immediately &mdash; says I did something very serious',
+    ten_notice_4_sub: 'No days to fix anything. Often involves alleged criminal activity.',
+    ten_notice_5: "I'm not sure what it says",
+    ten_date_label: 'Date on the notice (when it was given to you)',
+    ten_date_hint: 'Check the notice paper &mdash; there should be a date on it.',
+    ten_amount_label: 'Amount the notice says you owe (if any)',
+    ten_service_label: 'How was the notice given to you?',
+    ten_service_1: 'Someone handed it to me directly',
+    ten_service_2: 'It was taped/posted to my door AND I also got one in the mail',
+    ten_service_3: 'It was only taped/posted to my door &mdash; I didn\'t get one in the mail',
+    ten_service_4: 'I only got it in the mail',
+    ten_service_5: 'Not sure',
+    ten_hearing_label: 'What is your hearing date? (from your court papers)',
+    ten_hearing_hint: 'Find this on your Summons. It may say "Return Date" or "Hearing Date."',
+    ten_court_label: 'Which justice court is listed on your papers? (If you have papers)',
+    ten_court_hint: 'Not sure? <a href="https://maricopa.maps.arcgis.com/apps/webappviewer/index.html?id=e28b1463fcb84242ab5338b5a97d71b2" target="_blank">Use the Maricopa County address lookup map &rarr;</a>',
+    ten_household_label: 'Who lives in your home?',
+    ten_hh_1: 'Just me', ten_hh_2: 'Me and other adults', ten_hh_3: 'Me and children (under 18)',
+    ten_hh_4: 'Me, children, and other adults', ten_hh_5: 'Elderly or disabled household members',
+    ten_flags_label: 'Do any of these apply to your situation? (Check all that apply)',
+    ten_flag_dv: 'I am a victim of domestic violence, sexual assault, or stalking',
+    ten_flag_dv_sub: 'Special legal protections may apply to you',
+    ten_flag_repairs: 'My landlord hasn\'t fixed serious problems in my unit',
+    ten_flag_repairs_sub: 'No heat/AC, plumbing issues, mold, pest infestation, broken locks, etc.',
+    ten_flag_retaliation: 'I complained to my landlord or the city recently, and now I\'m being evicted',
+    ten_flag_retaliation_sub: 'You may have retaliation protections under Arizona law',
+    ten_flag_assistance: 'I\'ve applied for rental assistance or I\'m trying to get it',
+    ten_flag_paid: 'I have proof that I paid some or all of the rent they say I owe',
+    ten_flag_section8: 'I have a housing voucher (Section 8 / HCV) or live in subsidized housing',
+    ten_step1_btn: 'Show Me What This Means &rarr;',
+    // Tenant steps 2-4 headers
+    ten_step2_num: 'Step 2 of 4', ten_step2_h2: "Here's what's happening in your situation", ten_step2_p: "We'll explain this step by step, in plain language. Legal words are explained when they come up.",
+    ten_step3_num: 'Step 3 of 4', ten_step3_h2: 'What to do right now', ten_step3_p: 'Start at the top. The steps marked in red are the most urgent.',
+    ten_step4_num: 'Step 4 of 4', ten_step4_h2: 'Your Summary', ten_step4_p: 'Print or save this page. Bring it to your hearing or share it with an advocate.',
+    btn_back: '&#8592; Go Back', btn_next_meaning: 'What Should I Do? &rarr;', btn_next_summary: 'See My Summary &amp; Resources &rarr;',
+    btn_print: 'Print This Page', btn_start_over: 'Start Over', btn_new_case: 'Start New Case',
+    // Directory
+    dir_h1: 'Find a Housing Stability Legal Advocate',
+    dir_lead: 'A trusted directory of Certified Community Legal Advocates (CCLAs) serving Maricopa County. These advocates are trained to help tenants understand their rights, navigate the eviction process, and connect to resources.',
+    filter_all: 'All Advocates', filter_phoenix: 'Phoenix', filter_east: 'East Valley', filter_west: 'West Valley', filter_state: 'Statewide', filter_mfg: 'Manufactured Housing',
+    dir_search_placeholder: 'Search by organization, advocate name, or service...',
+    dir_info_h2: 'What a Housing Stability Legal Advocate Can Help With',
+    dir_info_1: 'Understanding eviction notices and timelines', dir_info_2: 'Preparing for court or mediation',
+    dir_info_3: 'Communicating with landlords', dir_info_4: 'Requesting repairs or addressing habitability issues',
+    dir_info_5: 'Navigating rental assistance programs', dir_info_6: 'Supporting manufactured home residents',
+    dir_info_7: 'Safety planning and crisis navigation', dir_info_8: 'Connecting to community resources',
+    dir_cta_h3: 'Not sure which advocate is right for you?',
+    dir_cta_p: 'Use the JustUS Navigator intake tool to get matched based on your city, housing situation, timeline, and language needs.',
+    dir_cta_btn: 'Start the Tenant Navigator &rarr;',
+    dir_certified: 'CCLA Certified', dir_certified_advocates: 'Certified Advocates',
+    dir_no_ccla: 'Contact organization for current advocate list',
+    dir_no_results: 'No advocates found matching your search. Try a different filter or search term.',
+    // Advocate step headers
+    adv_step1_num: 'Step 1 of 5 &middot; Advocate Flow', adv_step1_h2: 'Case Basics',
+    adv_step1_p: 'Identify the precinct, notice type, and key dates. Eviction cases must be filed in the precinct where the tenant lives.',
+    adv_step2_num: 'Step 2 of 5 &middot; Advocate Flow', adv_step2_h2: 'Notice Review &amp; Defect Check',
+    adv_step2_p: 'Check the notice for validity issues. Notice defects can be a critical defense.',
+    adv_step3_num: 'Step 3 of 5 &middot; Advocate Flow', adv_step3_h2: 'Tenant Situation &amp; Defenses',
+    adv_step3_p: 'Gather facts to identify potential defenses and urgency factors.',
+    adv_step4_num: 'Step 4 of 5 &middot; Advocate Flow', adv_step4_h2: 'Stage Analysis &amp; Timeline',
+    adv_step4_p: 'Case stage based on information entered.',
+    adv_step5_num: 'Step 5 of 5 &middot; Advocate Flow', adv_step5_h2: 'Advocate Output Package',
+    adv_step5_p: 'Complete the checklists, then print or save as PDF for the case file.',
+    adv_continue_2: 'Continue to Notice Review &rarr;', adv_continue_3: 'Continue to Tenant Situation &rarr;',
+    adv_continue_4: 'Continue to Stage Analysis &rarr;', adv_generate: 'Generate Output Package &rarr;',
+    adv_print: 'Print / Save PDF',
+    // Footer
+    footer_bottom: 'This platform provides navigation and information only. It does not constitute legal advice and does not create an attorney-client relationship. For legal advice, contact a licensed Arizona attorney or <a href="https://clsaz.org" target="_blank">Community Legal Services</a>. &copy; 2025 JustUS Systems, a subsidiary of Hayes Resource Group, LLC. All rights reserved.'
+  },
+  es: {
+    // Disclaimer
+    disclaimer_strong: 'Esto no es asesoramiento legal.',
+    disclaimer_text: 'Esta herramienta proporciona informaci&oacute;n y orientaci&oacute;n &uacute;nicamente. No crea una relaci&oacute;n abogado-cliente. Para asesoramiento legal, contacte a <a href="https://clsaz.org" target="_blank">Community Legal Services</a> o visite <a href="https://www.azcourthelp.org" target="_blank">azcourthelp.org</a>.',
+    // Landing
+    landing_eyebrow: 'Condado de Maricopa &middot; Tribunal de Justicia de Arizona',
+    landing_h1: 'Navegue el proceso de desalojo con <em>claridad</em> y dignidad.',
+    landing_lead: 'Orientaci&oacute;n paso a paso a trav&eacute;s del proceso de desalojo de Arizona &mdash; dise&ntilde;ada para defensores e inquilinos en los 26 Tribunales de Justicia del Condado de Maricopa.',
+    stat1: 'Casos presentados 2025', stat2: 'Presentados Dic 2025', stat3: 'Sentencia prom. 2025', stat4: 'Tribunales de Justicia',
+    designed_for: 'Dise&ntilde;ado para',
+    card_adv_title: 'Navegador para Defensores',
+    card_adv_desc: 'Admisi&oacute;n estructurada, an&aacute;lisis de defectos en avisos, evaluaci&oacute;n del caso, y un paquete completo de preparaci&oacute;n.',
+    card_adv_for: 'Defensores de inquilinos &middot; Navegadores judiciales &middot; Organizaciones sin fines de lucro &middot; Programas de prevenci&oacute;n de desalojo',
+    card_adv_btn: 'Iniciar flujo para defensores &rarr;',
+    card_ten_title: 'Navegador para Inquilinos',
+    card_ten_desc: 'Orientaci&oacute;n en lenguaje sencillo. Entienda en qu&eacute; parte del proceso est&aacute; y qu&eacute; hacer a continuaci&oacute;n.',
+    card_ten_for: 'Inquilinos que recibieron un aviso &middot; Cualquier persona que enfrente un desalojo &middot; Familias navegando el tribunal de vivienda',
+    card_ten_btn: 'Iniciar flujo para inquilinos &rarr;',
+    card_dir_title: 'Encontrar un Defensor',
+    card_dir_desc: 'Localice un Defensor Legal Comunitario Certificado (CCLA) que sirve al Condado de Maricopa cerca de usted.',
+    card_dir_for: 'Inquilinos que buscan un defensor capacitado &middot; Socios y fuentes de referencia &middot; Organizaciones comunitarias',
+    card_dir_btn: 'Encontrar un Defensor &rarr;',
+    // Advocate sidebar
+    adv_mode: 'Modo Defensor',
+    adv_sidebar_title: 'Navegador de Desalojo AZ',
+    adv_s1_name: 'Datos b&aacute;sicos', adv_s1_desc: 'Tribunal, tipo de aviso, fechas',
+    adv_s2_name: 'Revisi&oacute;n del aviso', adv_s2_desc: 'Validez y defectos',
+    adv_s3_name: 'Situaci&oacute;n del inquilino', adv_s3_desc: 'Defensas y factores de riesgo',
+    adv_s4_name: 'An&aacute;lisis de etapa', adv_s4_desc: 'Cronolog&iacute;a y urgencia',
+    adv_s5_name: 'Paquete de resultados', adv_s5_desc: 'Lista de verificaci&oacute;n, preparaci&oacute;n, recursos',
+    back_home: '&#8592; Volver al inicio',
+    // Tenant sidebar
+    ten_mode: 'Gu&iacute;a para Inquilinos',
+    ten_sidebar_title: 'Su Navegador de Vivienda',
+    ten_s1_name: '&iquest;Qu&eacute; ocurri&oacute;?', ten_s1_desc: 'Cu&eacute;ntenos su situaci&oacute;n',
+    ten_s2_name: 'Qu&eacute; significa', ten_s2_desc: 'Explicaci&oacute;n en lenguaje sencillo',
+    ten_s3_name: 'Qu&eacute; hacer ahora', ten_s3_desc: 'Sus pr&oacute;ximos pasos',
+    ten_s4_name: 'Su resumen', ten_s4_desc: 'Lista de documentos y ayuda cercana',
+    // Tenant step 1
+    ten_step1_num: 'Paso 1 de 4',
+    ten_step1_h2: '&iquest;Qu&eacute; est&aacute; pasando con su vivienda?',
+    ten_step1_p: 'Responda algunas preguntas. Le explicaremos su situaci&oacute;n en lenguaje sencillo y le mostraremos exactamente qu&eacute; hacer. Toma unos 2 minutos.',
+    ten_plain_box: 'No necesita conocer t&eacute;rminos legales para usar esto. Solo cu&eacute;ntenos qu&eacute; ocurri&oacute;. <strong>Esto no es asesoramiento legal</strong> &mdash; es una gu&iacute;a para ayudarle a entender d&oacute;nde est&aacute; y qu&eacute; puede hacer. Es gratis.',
+    ten_sit_label: '&iquest;Cu&aacute;l es su situaci&oacute;n ahora mismo?',
+    ten_sit_1_label: 'Recib&iacute; un aviso escrito de mi arrendador',
+    ten_sit_1_sub: 'Una carta, papel pegado a mi puerta, o algo por correo que dice que necesito pagar, mudarme o arreglar algo',
+    ten_sit_2_label: 'Recib&iacute; papeles del tribunal con una fecha de audiencia',
+    ten_sit_2_sub: 'Algo llamado Citaci&oacute;n y Demanda &mdash; tiene una fecha de tribunal y posiblemente un n&uacute;mero de caso',
+    ten_sit_3_label: 'Ya tuve una audiencia judicial',
+    ten_sit_3_sub: 'Un juez tom&oacute; una decisi&oacute;n &mdash; pude haber perdido el caso, no aparec&iacute;, o no estoy seguro de lo que pas&oacute;',
+    ten_sit_4_label: 'Me dijeron que debo irme inmediatamente &mdash; pueden venir oficiales',
+    ten_sit_4_sub: 'Recib&iacute; algo llamado Orden de Restituci&oacute;n, o un alguacil ya vino a mi puerta',
+    ten_sit_5_label: 'Todav&iacute;a nada &mdash; pero me preocupa que puedan desalojarme',
+    ten_sit_5_sub: 'Estoy atrasado en la renta, tengo problemas con mi arrendador, o creo que algo puede pasar pronto',
+    ten_notice_label: '&iquest;Qu&eacute; dice el aviso que usted debe hacer?',
+    ten_notice_1: 'Pagar dinero &mdash; dice que debo renta atrasada o cargos',
+    ten_notice_1_sub: 'El m&aacute;s com&uacute;n. Generalmente dice "Pague o desaloje" o "Pague la renta en 5 d&iacute;as"',
+    ten_notice_2: 'Arreglar algo &mdash; dicen que infringi&oacute; una regla o su contrato de arrendamiento',
+    ten_notice_2_sub: 'Puede ser sobre una mascota, hu&eacute;spedes, ruido, basura o da&ntilde;os',
+    ten_notice_3: 'Mudarse &mdash; fin del contrato o sin raz&oacute;n espec&iacute;fica',
+    ten_notice_3_sub: 'Generalmente un aviso de 30 d&iacute;as. No necesariamente significa que hizo algo malo.',
+    ten_notice_4: 'Mudarse inmediatamente &mdash; dice que hice algo muy grave',
+    ten_notice_4_sub: 'No hay d&iacute;as para arreglar nada. A menudo involucra presunta actividad criminal.',
+    ten_notice_5: 'No estoy seguro de lo que dice',
+    ten_date_label: 'Fecha en el aviso (cu&aacute;ndo se lo entregaron)',
+    ten_date_hint: 'Revise el papel del aviso &mdash; debe haber una fecha.',
+    ten_amount_label: 'Cantidad que el aviso dice que usted debe (si aplica)',
+    ten_service_label: '&iquest;C&oacute;mo le entregaron el aviso?',
+    ten_service_1: 'Alguien me lo entreg&oacute; directamente en persona',
+    ten_service_2: 'Lo pegaron/colocaron en mi puerta Y tambi&eacute;n lo recib&iacute; por correo',
+    ten_service_3: 'Solo lo pegaron/colocaron en mi puerta &mdash; no lo recib&iacute; por correo',
+    ten_service_4: 'Solo lo recib&iacute; por correo',
+    ten_service_5: 'No estoy seguro',
+    ten_hearing_label: '&iquest;Cu&aacute;l es su fecha de audiencia? (de sus papeles del tribunal)',
+    ten_hearing_hint: 'Enc&uacute;entrela en su Citaci&oacute;n. Puede decir "Fecha de regreso" o "Fecha de audiencia."',
+    ten_court_label: '&iquest;Cu&aacute;l tribunal de justicia aparece en sus papeles? (Si tiene papeles)',
+    ten_court_hint: '&iquest;No est&aacute; seguro? <a href="https://maricopa.maps.arcgis.com/apps/webappviewer/index.html?id=e28b1463fcb84242ab5338b5a97d71b2" target="_blank">Use el mapa de b&uacute;squeda de direcci&oacute;n del Condado de Maricopa &rarr;</a>',
+    ten_household_label: '&iquest;Qui&eacute;n vive en su hogar?',
+    ten_hh_1: 'Solo yo', ten_hh_2: 'Yo y otros adultos', ten_hh_3: 'Yo y ni&ntilde;os (menores de 18)',
+    ten_hh_4: 'Yo, ni&ntilde;os y otros adultos', ten_hh_5: 'Miembros del hogar mayores o con discapacidad',
+    ten_flags_label: '&iquest;Alguna de estas situaciones aplica a usted? (Marque todas las que apliquen)',
+    ten_flag_dv: 'Soy v&iacute;ctima de violencia dom&eacute;stica, agresi&oacute;n sexual o acoso',
+    ten_flag_dv_sub: 'Es posible que le apliquen protecciones legales especiales',
+    ten_flag_repairs: 'Mi arrendador no ha arreglado problemas graves en mi unidad',
+    ten_flag_repairs_sub: 'Sin calefacci&oacute;n/aire acondicionado, problemas de plomer&iacute;a, moho, plagas, cerraduras rotas, etc.',
+    ten_flag_retaliation: 'Me quej&eacute; con mi arrendador o la ciudad recientemente, y ahora me est&aacute;n desalojando',
+    ten_flag_retaliation_sub: 'Es posible que tenga protecciones contra represalias bajo la ley de Arizona',
+    ten_flag_assistance: 'Solicit&eacute; asistencia de renta o estoy tratando de obtenerla',
+    ten_flag_paid: 'Tengo prueba de que pagu&eacute; parte o toda la renta que dicen que debo',
+    ten_flag_section8: 'Tengo un cup&oacute;n de vivienda (Secci&oacute;n 8 / HCV) o vivo en vivienda subsidiada',
+    ten_step1_btn: 'Mu&eacute;strame qu&eacute; significa esto &rarr;',
+    // Tenant steps 2-4 headers
+    ten_step2_num: 'Paso 2 de 4', ten_step2_h2: 'Esto es lo que est&aacute; pasando en su situaci&oacute;n', ten_step2_p: 'Le explicaremos paso a paso, en lenguaje sencillo. Los t&eacute;rminos legales se explican cuando aparecen.',
+    ten_step3_num: 'Paso 3 de 4', ten_step3_h2: 'Qu&eacute; hacer ahora mismo', ten_step3_p: 'Comience desde arriba. Los pasos marcados en rojo son los m&aacute;s urgentes.',
+    ten_step4_num: 'Paso 4 de 4', ten_step4_h2: 'Su Resumen', ten_step4_p: 'Imprima o guarde esta p&aacute;gina. Ll&eacute;vela a su audiencia o comp&aacute;rtala con un defensor.',
+    btn_back: '&#8592; Volver', btn_next_meaning: '&iquest;Qu&eacute; debo hacer? &rarr;', btn_next_summary: 'Ver mi resumen y recursos &rarr;',
+    btn_print: 'Imprimir esta p&aacute;gina', btn_start_over: 'Empezar de nuevo', btn_new_case: 'Iniciar nuevo caso',
+    // Directory
+    dir_h1: 'Encontrar un Defensor de Estabilidad de Vivienda',
+    dir_lead: 'Un directorio de confianza de Defensores Legales Comunitarios Certificados (CCLA) que sirven al Condado de Maricopa. Estos defensores est&aacute;n capacitados para ayudar a los inquilinos a entender sus derechos, navegar el proceso de desalojo y conectarse con recursos.',
+    filter_all: 'Todos los defensores', filter_phoenix: 'Phoenix', filter_east: 'Valle Este', filter_west: 'Valle Oeste', filter_state: 'Estatal', filter_mfg: 'Casas manufacturadas',
+    dir_search_placeholder: 'Buscar por organizaci&oacute;n, nombre del defensor o servicio...',
+    dir_info_h2: 'En qu&eacute; puede ayudar un Defensor de Estabilidad de Vivienda',
+    dir_info_1: 'Entender avisos de desalojo y plazos', dir_info_2: 'Prepararse para el tribunal o mediaci&oacute;n',
+    dir_info_3: 'Comunicarse con arrendadores', dir_info_4: 'Solicitar reparaciones o atender problemas de habitabilidad',
+    dir_info_5: 'Navegar programas de asistencia de renta', dir_info_6: 'Apoyar a residentes de casas manufacturadas',
+    dir_info_7: 'Planificaci&oacute;n de seguridad y navegaci&oacute;n en crisis', dir_info_8: 'Conectarse con recursos comunitarios',
+    dir_cta_h3: '&iquest;No sabe qu&eacute; defensor es el adecuado para usted?',
+    dir_cta_p: 'Use la herramienta de admisi&oacute;n de JustUS Navigator para ser emparejado seg&uacute;n su ciudad, situaci&oacute;n de vivienda, plazo y necesidades de idioma.',
+    dir_cta_btn: 'Iniciar el Navegador para Inquilinos &rarr;',
+    dir_certified: 'Certificado CCLA', dir_certified_advocates: 'Defensores Certificados',
+    dir_no_ccla: 'Contacte a la organizaci&oacute;n para la lista actual de defensores',
+    dir_no_results: 'No se encontraron defensores que coincidan con su b&uacute;squeda. Intente con un filtro o t&eacute;rmino diferente.',
+    // Advocate step headers (same as EN — advocate flow is EN only)
+    adv_step1_num: 'Step 1 of 5 &middot; Advocate Flow', adv_step1_h2: 'Case Basics',
+    adv_step1_p: 'Identify the precinct, notice type, and key dates.',
+    adv_step2_num: 'Step 2 of 5 &middot; Advocate Flow', adv_step2_h2: 'Notice Review &amp; Defect Check',
+    adv_step2_p: 'Check the notice for validity issues.',
+    adv_step3_num: 'Step 3 of 5 &middot; Advocate Flow', adv_step3_h2: 'Tenant Situation &amp; Defenses',
+    adv_step3_p: 'Gather facts to identify potential defenses and urgency factors.',
+    adv_step4_num: 'Step 4 of 5 &middot; Advocate Flow', adv_step4_h2: 'Stage Analysis &amp; Timeline',
+    adv_step4_p: 'Case stage based on information entered.',
+    adv_step5_num: 'Step 5 of 5 &middot; Advocate Flow', adv_step5_h2: 'Advocate Output Package',
+    adv_step5_p: 'Complete the checklists, then print or save as PDF.',
+    adv_continue_2: 'Continue to Notice Review &rarr;', adv_continue_3: 'Continue to Tenant Situation &rarr;',
+    adv_continue_4: 'Continue to Stage Analysis &rarr;', adv_generate: 'Generate Output Package &rarr;',
+    adv_print: 'Print / Save PDF',
+    // Footer
+    footer_bottom: 'Esta plataforma proporciona navegaci&oacute;n e informaci&oacute;n &uacute;nicamente. No constituye asesoramiento legal. Para asesoramiento legal, contacte a <a href="https://clsaz.org" target="_blank">Community Legal Services</a>. &copy; 2025 JustUS Systems, una subsidiaria de Hayes Resource Group, LLC. Todos los derechos reservados.'
+  }
+};
+
+function setLang(lang) {
+  currentLang = lang;
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+  const t = i18n[lang];
+
+  // Update all data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+
+  // Update placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    // decode HTML entities for placeholder
+    const tmp = document.createElement('div');
+    tmp.innerHTML = t[key] || '';
+    el.placeholder = tmp.textContent;
+  });
+
+  // Re-render directory in new language if on that screen
+  if (document.getElementById('screen-directory').classList.contains('active')) {
+    renderDirectory();
+  }
 }
 
 // init
